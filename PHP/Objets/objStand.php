@@ -1,15 +1,14 @@
 <?php
-class Utilisateur
+class Stand
 {
 	//Membres privés
-	private $ID_Avatar;
-	private $Nom_Avatar;
-	private $MDP_Utilisateur;
+	private $ID_Stand;
+	private $Libelle_Stand;
 
 
 	//Fonctions membres
 	//Le hydrate (Ou le constructeur)
-	public function hydrate(array $donnees)		//ATTENTION A BIEN HACHER LE MDP
+	public function hydrate(array $donnees)
 	{
 		foreach($donnees as $key => $value)
 		{
@@ -35,40 +34,30 @@ class Utilisateur
 	//Les getters
 	public function getId()
 	{
-		return $this->ID_Avatar;
+		return $this->ID_Stand;
 	}
 
-	public function getNom()
+	public function getLibelle()
 	{
-		return $this->Nom_Avatar;
-	}
-
-	public function getMDP()
-	{
-		return $this->MDP_Utilisateur;
+		return $this->Libelle_Stand;
 	}
 
 	//Les setters
 	public function setId($num)
 	{
-		$this->ID_Avatar = $num;
+		$this->ID_Stand = $num;
 	}
 
-	public function setNom($name)
+	public function setLibelle($str)
 	{
-		$this->Nom_Avatar = $name;
-	}
-
-	public function setMDP($MDP)
-	{
-		$this->MDP_Utilisateur = $MDP;
+		$this->Libelle_Stand = $str;
 	}
 
 
 	//Autres
 	public function __toString()
 	{
-		return "Utilisateur : ID_Avatar=".$this->getId().", Nom_Avatar=".$this->getNom();
+		return "Utilisateur : ID_Stand=".$this->getId().", Libelle_Stand=".$this->getLibelle();
 	}
 }
 ?>

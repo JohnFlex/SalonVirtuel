@@ -82,14 +82,14 @@ class managerUtilisateur
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			return NULL;
+			return "";
 		}
 	}
 
 	public function selectUtilisateurByName($name)
 	//BUT : Récupérer un utilisateur grâce à son pseudo
 	//ENTREE : Le nom de l'utilisateur
-	//SORTIE : La table contenant les informations de l'utilisateur
+	//SORTIE : Un objet utilisateur contenant les informations de l'utilisateur
 	{
 		$req = "SELECT * FROM Utilisateur WHERE Nom_Avatar = :NOM";
 
@@ -102,7 +102,17 @@ class managerUtilisateur
 
 			$stmt->execute();
 
-			return $stmt;
+			$U = new Utilisateur;
+
+			$tab = array(
+				"Id" => $stmt['ID_Avatar'];
+				"Nom" => $stmt['Nom_Avatar'];
+				"MDP" => $stmt['MDP_Avatar'];
+				);
+
+			$U->hydrate($tab);
+
+			return $U;
 		}
 		catch(PDOException $error)
 		{
@@ -114,7 +124,7 @@ class managerUtilisateur
 	public function selectUtilisateurById($id)
 	//BUT : Récupérer un utilisateur grâce à son id
 	//ENTREE : L'id de l'utilisateur
-	//SORTIE : La table contenant les informations de l'utilisateur
+	//SORTIE : Un objet utilisateur contenant les informations de l'utilisateur
 	{
 		$req = "SELECT * FROM Utilisateur WHERE ID_Avatar = :ID";
 
@@ -127,7 +137,17 @@ class managerUtilisateur
 
 			$stmt->execute();
 
-			return $stmt;
+			$U = new Utilisateur;
+
+			$tab = array(
+				"Id" => $stmt['ID_Avatar'];
+				"Nom" => $stmt['Nom_Avatar'];
+				"MDP" => $stmt['MDP_Avatar'];
+				);
+
+			$U->hydrate($tab);
+
+			return $U;
 		}
 		catch(PDOException $error)
 		{
