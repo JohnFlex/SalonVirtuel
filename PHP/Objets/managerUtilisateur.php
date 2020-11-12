@@ -107,7 +107,7 @@ class managerUtilisateur
 			$tab = array(
 				"Id" => $stmt['ID_Avatar'];
 				"Nom" => $stmt['Nom_Avatar'];
-				"MDP" => $stmt['MDP_Avatar'];
+				"MDP" => $stmt['MDP_Utilisateur'];
 				);
 
 			$U->hydrate($tab);
@@ -142,7 +142,7 @@ class managerUtilisateur
 			$tab = array(
 				"Id" => $stmt['ID_Avatar'];
 				"Nom" => $stmt['Nom_Avatar'];
-				"MDP" => $stmt['MDP_Avatar'];
+				"MDP" => $stmt['MDP_Utilisateur'];
 				);
 
 			$U->hydrate($tab);
