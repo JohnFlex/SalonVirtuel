@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS Presentateur
 	CONSTRAINT PK_Presentateur PRIMARY KEY (ID_Avatar), /*Création de la clef primaire.*/
 	CONSTRAINT FK_Presentateur_Avatar FOREIGN KEY (ID_Avatar) REFERENCES Avatar (ID_Avatar),
 	CONSTRAINT FK_Presentateur_Stand FOREIGN KEY (ID_Stand) REFERENCES Stand (ID_Stand),
+	CONSTRAINT FK_Presentateur_Activite FOREIGN KEY (ID_Activite) REFERENCES Activite (ID_Activite),
 	CONSTRAINT UK_Presentateur UNIQUE (Nom_Avatar)
 )ENGINE=InnoDB;
 
@@ -118,3 +119,13 @@ CREATE TABLE IF NOT EXISTS Administrateur
 	MDP_Administrateur varchar(100),
 	CONSTRAINT PK_Administratrice PRIMARY KEY (ID_Administrateur) /*Création de la clef primaire.*/
 )ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Contenir;
+CREATE TABLE IF NOT EXISTS Contenir
+(
+	ID_Ressource INT,
+	ID_Stand INT,
+	CONSTRAINT PK_Contenir PRIMARY KEY (ID_Ressource, ID_Stand), /*Création de la clef primaire.*/
+	CONSTRAINT FK_Contenir_Ressource FOREIGN KEY (ID_Ressource) REFERENCES Ressource (ID_Ressource),
+	CONSTRAINT FK_Contenir_Stand FOREIGN KEY (ID_Stand) REFERENCES Stand (ID_Stand)
+) ENGINE=InnoDB;
