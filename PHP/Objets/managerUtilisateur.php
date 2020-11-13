@@ -44,14 +44,13 @@ class managerUtilisateur
 	//ENTREE : Un objet utilisateur
 	//SORTIE : /
 	{
-		$req = "INSERT INTO Utilisateur(ID_Avatar, Nom_Avatar, MDP_Avatar) VALUES (:ID, :NOM, :MDP)";
+		$req = "INSERT INTO Avatar() VALUES(); INSERT INTO Utilisateur(ID_Avatar, Nom_Avatar, MDP_Avatar) VALUES ((Select MAX(ID_Avatar) FROM Avatar), :NOM, :MDP);";
 
 		//Envoie de la requête à la base
 		try
 		{
 			$stmt = $this->db->prepare($req);
 
-			$stmt->bindValue(":ID", $U->getId(), PDO::PARAM_INT);
 			$stmt->bindValue(":NOM", $U->getNom(), PDO::PARAM_STR);
 			$stmt->bindValue(":MDP", $U->getMDP(), PDO::PARAM_STR);
 
@@ -60,6 +59,7 @@ class managerUtilisateur
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
 		}
 	}
 
@@ -82,7 +82,7 @@ class managerUtilisateur
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			return "";
+			exit();
 		}
 	}
 
@@ -117,7 +117,7 @@ class managerUtilisateur
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			return "";
+			exit();
 		}
 	}
 
@@ -152,7 +152,7 @@ class managerUtilisateur
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			return "";
+			exit();
 		}
 	}
 

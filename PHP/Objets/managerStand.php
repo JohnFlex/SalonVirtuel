@@ -59,6 +59,7 @@ class managerStand
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
 		}
 	}
 
@@ -81,7 +82,7 @@ class managerStand
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			return "";
+			exit();
 		}
 	}
 
@@ -115,7 +116,7 @@ class managerStand
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			return "";
+			exit();
 		}
 	}
 

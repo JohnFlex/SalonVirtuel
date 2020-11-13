@@ -44,14 +44,13 @@ class managerPresentateur
 	//ENTREE : Un objet Presentateur
 	//SORTIE : /
 	{
-		$req = "INSERT INTO Presentateur(ID_Avatar, Nom_Avatar, MDP_Avatar, ID_Activite, ID_Stand) VALUES (:ID, :NOM, :MDP, :ACTIVITE, :STAND)";
+		$req = "INSERT INTO Avatar() VALUES(); INSERT INTO Presentateur(ID_Avatar, Nom_Avatar, MDP_Avatar, ID_Activite, ID_Stand) VALUES ((Select MAX(ID_Avatar) FROM Avatar), :NOM, :MDP, :ACTIVITE, :STAND)";
 
 		//Envoie de la requête à la base
 		try
 		{
 			$stmt = $this->db->prepare($req);
 
-			$stmt->bindValue(":ID", $P->getIdAvatar(), PDO::PARAM_INT);
 			$stmt->bindValue(":NOM", $P->getNom(), PDO::PARAM_STR);
 			$stmt->bindValue(":MDP", $P->getMDP(), PDO::PARAM_STR);
 			$stmt->bindValue(":ACTIVITE", $P->getIdActivite(), PDO::PARAM_INT);
@@ -84,7 +83,7 @@ class managerPresentateur
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			return "";
+			exit();
 		}
 	}
 
@@ -121,7 +120,7 @@ class managerPresentateur
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			return "";
+			exit();
 		}
 	}
 
@@ -158,7 +157,7 @@ class managerPresentateur
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			return "";
+			exit();
 		}
 	}
 
@@ -183,7 +182,7 @@ class managerPresentateur
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			return "";
+			exit();
 		}
 	}
 
