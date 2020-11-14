@@ -1,5 +1,5 @@
 <?php
-define('BASE','db_SalonVirtuel');
+define('BASE','db_Salon');
 define('SERVER','localhost');
 define('USER','root');
 define('PASSWD','');

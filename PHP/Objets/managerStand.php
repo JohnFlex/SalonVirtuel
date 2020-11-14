@@ -44,17 +44,20 @@ class managerStand
 	//ENTREE : Un objet stand
 	//SORTIE : /
 	{
-		$req = "INSERT INTO Stand(ID_Stand, Libelle_Stand) VALUES (:ID, :LIBELLE)";
+		$req = "INSERT INTO Stand(ID_Stand, Libelle_Stand) VALUES (NULL, :LIBELLE)";
 
 		//Envoie de la requête à la base
 		try
 		{
 			$stmt = $this->db->prepare($req);
 
-			$stmt->bindValue(":ID", $S->getId(), PDO::PARAM_INT);
+			//$stmt->bindValue(":ID", $S->getId(), PDO::PARAM_INT);
 			$stmt->bindValue(":LIBELLE", $S->getLibelle(), PDO::PARAM_STR);
 
 			$stmt->execute();
+
+			$lastId = $this->db->lastInsertId();
+			return $lastId;
 		}
 		catch(PDOException $error)
 		{
@@ -105,8 +108,8 @@ class managerStand
 			$S = new Utilisateur;
 
 			$tab = array(
-				"Id" => $stmt['ID_Stand'];
-				"Libelle" => $stmt['Libelle_Stand'];
+				"Id" => $stmt['ID_Stand'],
+				"Libelle" => $stmt['Libelle_Stand']
 				);
 
 			$S->hydrate($tab);

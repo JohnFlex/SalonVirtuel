@@ -44,17 +44,20 @@ class managerRessource
 	//ENTREE : Un objet Ressource
 	//SORTIE : /
 	{
-		$req = "INSERT INTO Stand(Libelle_Ressource, Lien_Ressource) VALUES (:LIBELLE, LIEN)";
+		$req = "INSERT INTO Ressource (ID_Ressource,Libelle_Ressource, Lien_Ressource) VALUES (NULL, :LIBELLE, :LIEN)";
 
 		//Envoie de la requête à la base
 		try
 		{
 			$stmt = $this->db->prepare($req);
 
-			$stmt->bindValue(":LIBELLE", $S->getLibelle(), PDO::PARAM_STR);
-			$stmt->bindValue(":LIEN", $S->getLien(), PDO::PARAM_STR);
+			$stmt->bindValue(":LIBELLE", $R->getLibelle(), PDO::PARAM_STR);
+			$stmt->bindValue(":LIEN", $R->getLien(), PDO::PARAM_STR);
 
 			$stmt->execute();
+
+			$lastId = $this->db->lastInsertId();
+			return $lastId;
 		}
 		catch(PDOException $error)
 		{
@@ -68,7 +71,7 @@ class managerRessource
 	//ENTREE : /
 	//SORTIE : La liste des ressources
 	{
-		$req = "SELECT * FROM Ressource"
+		$req = "SELECT * FROM Ressource";
 
 		//Envoie de la requête à la base
 		try
@@ -105,9 +108,9 @@ class managerRessource
 			$R = new Ressource;
 
 			$tab = array(
-				"Id" => $stmt['ID_Ressource'];
-				"Libelle" => $stmt['Libelle_Ressource'];
-				"Lien" => $stmt['Lien_Ressource'];
+				"Id" => $stmt['ID_Ressource'],
+				"Libelle" => $stmt['Libelle_Ressource'],
+				"Lien" => $stmt['Lien_Ressource']
 				);
 
 			$R->hydrate($tab);
@@ -140,9 +143,9 @@ class managerRessource
 			$R = new Ressource;
 
 			$tab = array(
-				"Id" => $stmt['ID_Ressource'];
-				"Libelle" => $stmt['Libelle_Ressource'];
-				"Lien" => $stmt['Lien_Ressource'];
+				"Id" => $stmt['ID_Ressource'],
+				"Libelle" => $stmt['Libelle_Ressource'],
+				"Lien" => $stmt['Lien_Ressource']
 				);
 
 			$R->hydrate($tab);
@@ -157,5 +160,23 @@ class managerRessource
 	}
 
 	/*End*/
+
+	public function insertContenir($id_stand,$id_res) 
+    {
+        $req = "INSERT INTO Contenir VALUES (:ID_Stand,:ID_Ressource)";
+        try 
+        {
+            $stmt = $this->db->prepare($req);
+
+            $stmt->bindValue(":ID_Stand",$id_stand,PDO::PARAM_INT);
+            $stmt->bindValue(":ID_Ressource",$id_res,PDO::PARAM_INT);
+
+            $stmt->execute();
+        }
+        catch(PDOException $error)
+        {
+            echo "<script>console.log('".$error->getMessage()."')</script>";
+        }
+    }
 }
 ?>
