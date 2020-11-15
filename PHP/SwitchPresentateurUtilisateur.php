@@ -47,6 +47,16 @@
 		echo "success";
 	}
 
+	if(isset($_POST["SELECTUTILISATEUR"])){
+		$sql="insert into presentateur(ID_Avatar,Nom_Avatar,MDP_Presentateur,ID_Activite,ID_Stand) SELECT ID_Avatar, Nom_Avatar, MDP_Utilisateur,".$_POST["SELECTSTATUE"].",NULL FROM utilisateur WHERE ID_Avatar=".$_POST["SELECTUTILISATEUR"].";";
+		$stmt=$conn->prepare($sql);
+		$stmt->execute();
+		$sql="DELETE FROM utilisateur WHERE ID_Avatar=".$_POST["SELECTUTILISATEUR"].";";
+		$stmt=$conn->prepare($sql);
+		$stmt->execute();
+		echo "success";
+	}
+
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +82,31 @@
 		
 		<input type="submit" value="Valider" id="BOUTONPTU" name="BoutonPTU" />
 
-	</form>
+	</form><br>
+
+	<h1>Changer un utilisateur en présentateur</h1>
+
+	<form action="#" method="post" id="UTILISATEURTOPRESENTATEUR" name="UtilisateurToPresentateur">
+
+		<?php
+			
+			echo "<select name=\"SELECTUTILISATEUR\">";
+			$sql="SELECT * FROM `utilisateur` ";
+			foreach($conn->query($sql) as $row){
+				echo "<option value=\"".$row['ID_Avatar']."\">".$row['Nom_Avatar']."</option>";
+			}
+			echo "</select><br>";
+			echo "<select name=\"SELECTSTATUE\">";
+			$sql="SELECT * FROM `activite` ";
+			foreach($conn->query($sql) as $row){
+				echo "<option value=\"".$row['ID_Activite']."\">".$row['Libelle_Activite']."</option>";
+			}
+			echo "</select><br>";
+		?>
+		
+		<input type="submit" value="Valider" id="BOUTONUTP" name="BoutonUTP" />
+
+	</form><br>
 
   </body>
 </html>
