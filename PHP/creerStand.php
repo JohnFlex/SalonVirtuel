@@ -22,6 +22,7 @@
             <input type="text" id="Libelle_Stand" name="Libelle_Stand" placeholder="Nom du stand" size="15" required />
 
             <input type="button" id="ajout_ressource" onclick="ajoutRessource();" value="Ajouter une ressource" />
+            <input type="button" id="delete_ressource" onclick="deleteRessource();" value="Enlever une ressource" />
 
             <input type="submit" id="submit_button" name="submit_button"  class="" value="Créer" />
         </form>
@@ -71,6 +72,17 @@
 
                 button.insertAdjacentElement("beforebegin",div);
                 i++;
+            }
+
+            function deleteRessource() {
+                let button = document.getElementById("ajout_ressource"); //Récupérer le bouton ajout pour insérer avant
+                let div = button.previousSibling;//Récupère l'élément précédent le boutton
+
+                if (typeof(div) == "object" && div.firstChild) {
+                    //Si l'élément est bien la ressource alors on la supprime
+                    div.remove()
+                    i--
+                }
             }
         </script>
     </body>
