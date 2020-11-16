@@ -38,20 +38,20 @@
 	$conn = ConnecServ();
 
 	if(isset($_POST["SELECTPRESENTATEUR"])){
-		$sql="insert into utilisateur(ID_Avatar,Nom_Avatar,MDP_Utilisateur) SELECT ID_Avatar, Nom_Avatar, MDP_Presentateur FROM presentateur WHERE ID_Avatar=".$_POST["SELECTPRESENTATEUR"].";";
+		$sql="insert into db_salon_utilisateur(ID_Avatar,Nom_Avatar,MDP_Utilisateur) SELECT ID_Avatar, Nom_Avatar, MDP_Presentateur FROM db_salon_presentateur WHERE ID_Avatar=".$_POST["SELECTPRESENTATEUR"].";";
 		$stmt=$conn->prepare($sql);
 		$stmt->execute();
-		$sql="DELETE FROM presentateur WHERE ID_Avatar=".$_POST["SELECTPRESENTATEUR"].";";
+		$sql="DELETE FROM db_salon_presentateur WHERE ID_Avatar=".$_POST["SELECTPRESENTATEUR"].";";
 		$stmt=$conn->prepare($sql);
 		$stmt->execute();
 		echo "success";
 	}
 
 	if(isset($_POST["SELECTUTILISATEUR"])){
-		$sql="insert into presentateur(ID_Avatar,Nom_Avatar,MDP_Presentateur,ID_Activite,ID_Stand) SELECT ID_Avatar, Nom_Avatar, MDP_Utilisateur,".$_POST["SELECTSTATUE"].",NULL FROM utilisateur WHERE ID_Avatar=".$_POST["SELECTUTILISATEUR"].";";
+		$sql="insert into db_salon_presentateur(ID_Avatar,Nom_Avatar,MDP_Presentateur,ID_Activite,ID_Stand) SELECT ID_Avatar, Nom_Avatar, MDP_Utilisateur,".$_POST["SELECTSTATUE"].",NULL FROM db_salon_utilisateur WHERE ID_Avatar=".$_POST["SELECTUTILISATEUR"].";";
 		$stmt=$conn->prepare($sql);
 		$stmt->execute();
-		$sql="DELETE FROM utilisateur WHERE ID_Avatar=".$_POST["SELECTUTILISATEUR"].";";
+		$sql="DELETE FROM db_salon_utilisateur WHERE ID_Avatar=".$_POST["SELECTUTILISATEUR"].";";
 		$stmt=$conn->prepare($sql);
 		$stmt->execute();
 		echo "success";
@@ -73,7 +73,7 @@
 		<?php
 			
 			echo "<select name=\"SELECTPRESENTATEUR\">";
-			$sql="SELECT * FROM `presentateur` ";
+			$sql="SELECT * FROM `db_salon_presentateur` ";
 			foreach($conn->query($sql) as $row){
 				echo "<option value=\"".$row['ID_Avatar']."\">".$row['Nom_Avatar']."</option>";
 			}
@@ -91,13 +91,13 @@
 		<?php
 			
 			echo "<select name=\"SELECTUTILISATEUR\">";
-			$sql="SELECT * FROM `utilisateur` ";
+			$sql="SELECT * FROM `db_salon_utilisateur` ";
 			foreach($conn->query($sql) as $row){
 				echo "<option value=\"".$row['ID_Avatar']."\">".$row['Nom_Avatar']."</option>";
 			}
 			echo "</select><br>";
 			echo "<select name=\"SELECTSTATUE\">";
-			$sql="SELECT * FROM `activite` ";
+			$sql="SELECT * FROM `db_salon_activite` ";
 			foreach($conn->query($sql) as $row){
 				echo "<option value=\"".$row['ID_Activite']."\">".$row['Libelle_Activite']."</option>";
 			}
