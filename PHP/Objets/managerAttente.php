@@ -46,7 +46,7 @@ class managerAttente
 	//ENTREE : Un objet Attente
 	//SORTIE : /
 	{
-		$req = "INSERT INTO Attendre(ID_Avatar, ID_Stand, Position_Liste) VALUES (:AVATAR, :STAND, :POSITION)";
+		$req = "INSERT INTO DB_SALON_Attendre(ID_Avatar, ID_Stand, Position_Liste) VALUES (:AVATAR, :STAND, :POSITION)";
 
 		//Envoie de la requête à la base
 		try
@@ -66,16 +66,13 @@ class managerAttente
 		}
 	}
 
-	public function deleteAttente() //A FAIRE
-
-	public function selectAttenteByAvatar(Utilisateur $U)
-	//BUT : Obtenir la position dans la liste d'attente d'un utilisateur, ainsi que le stand pour lequel il patiente
-	//ENTREE : Un objet Utilisateur
-	//SORTIE : Un objet Attente
+	public function deleteAttenteByAvatar(Attente $A)
+	//BUT : Supprimer une personne dans une liste d'attente d'un stand
+	//ENTREE : Un objet Attente
+	//SORTIE : /
 	{
-		$req = "SELECT * FROM Attendre WHERE ID_Avatar = :AVATAR";
+		$req = "DELETE FROM DB_SALON_Attendre WHERE ID_Avatar = :AVATAR";
 
-		//Envoie de la requête à la base
 		try
 		{
 			$stmt = $this->db->prepare($req);
@@ -84,13 +81,49 @@ class managerAttente
 
 			$stmt->execute();
 
+			$A->__destruct();
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
+
+	public function selectAttenteByAvatar(Utilisateur $U)
+	//BUT : Obtenir la position dans la liste d'attente d'un utilisateur, ainsi que le stand pour lequel il patiente
+	//ENTREE : Un objet Utilisateur
+	//SORTIE : Un objet Attente
+	{
+		$req = "SELECT A.ID_Avatar, A.ID_Stand, A.Position_Liste FROM DB_SALON_Attendre A, DB_SALON_Utilisateur U WHERE A.ID_Avatar = U.ID_Avatar AND Nom_Avatar = :AVATAR";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":AVATAR", $U->getNom(), PDO::PARAM_STR);
+
+			$stmt->execute();
+
 			$A = new Attente;
 
-			$tab = array(
-				"IdAvatar" => $stmt['ID_Avatar'];
-				"IdStand" => $stmt['ID_Stand'];
-				"Position" => $stmt['Position_Liste'];
-				);
+			if($stmt->rowCount() > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+				
+				$tab = array(
+					"IdAvatar" => $valueStmt['ID_Avatar'],
+					"IdStand" => $valueStmt['ID_Stand'],
+					"Position" => $valueStmt['Position_Liste']
+					);
+			}else{
+				$tab = array(
+					"IdAvatar" => "",
+					"IdStand" => "",
+					"Position" => ""
+					);
+			}
 
 			$A->hydrate($tab);
 
@@ -108,14 +141,14 @@ class managerAttente
 	//ENTREE : Un objet Stand
 	//SORTIE : La liste d'attente
 	{
-		$req = "SELECT * FROM Attendre WHERE ID_Stand = :STAND";
+		$req = "SELECT * FROM DB_SALON_Attendre A, DB_SALON_Stand S WHERE A.ID_Stand = S.ID_Stand AND Libelle_Stand = :STAND ORDER BY Position_Liste";
 
 		//Envoie de la requête à la base
 		try
 		{
 			$stmt = $this->db->prepare($req);
 
-			$stmt->bindValue(":STAND", $A->getIdStand(), PDO::PARAM_INT);
+			$stmt->bindValue(":STAND", $S->getLibelle(), PDO::PARAM_STR);
 
 			$stmt->execute();
 
@@ -128,11 +161,47 @@ class managerAttente
 		}
 	}
 
-	public function selectAttenteByPositionAndStand() //A FAIRE
+	public function selectUtilisateurByPositionAndStand($num, Stand $S)
+	{
+		$req = "SELECT Nom_Avatar FROM DB_SALON_Utilisateur U, DB_SALON_Attendre A, DB_SALON_Stand S WHERE U.ID_Avatar = A.ID_Avatar AND A.ID_Stand = S.ID_Stand AND Position_Liste = :POSITION AND Libelle_Stand = :STAND";
 
-	public function selectUtilisateurByPositionAndStand() //A FAIRE
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
 
-	public function selectUtilisateurByAvatar() //A FAIRE
+			$stmt->bindValue(":POSITION", $num, PDO::PARAM_INT);
+			$stmt->bindValue(":STAND", $S->getLibelle(), PDO::PARAM_STR);
+
+			$stmt->execute();
+
+			$U = new Utilisateur;
+
+			if($stmt->rowCount() > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+				
+				$tab = array(
+					"Id" => $valueStmt['ID_Avatar'],
+					"Nom" => $valueStmt['Nom_Avatar']
+					);
+			}else{
+				$tab = array(
+					"Id" => "",
+					"Nom" => ""
+					);
+			}
+
+			$U->hydrate($tab);
+
+			return $U;
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
 
 	/*End*/
 }

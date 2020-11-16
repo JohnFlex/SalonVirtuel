@@ -44,7 +44,7 @@ class managerRessource
 	//ENTREE : Un objet Ressource
 	//SORTIE : /
 	{
-		$req = "INSERT INTO Ressource (ID_Ressource,Libelle_Ressource, Lien_Ressource) VALUES (NULL, :LIBELLE, :LIEN)";
+		$req = "INSERT INTO DB_SALON_Ressource (Libelle_Ressource, Lien_Ressource) VALUES (:LIBELLE, :LIEN)";
 
 		//Envoie de la requête à la base
 		try
@@ -71,7 +71,7 @@ class managerRessource
 	//ENTREE : /
 	//SORTIE : La liste des ressources
 	{
-		$req = "SELECT * FROM Ressource";
+		$req = "SELECT * FROM DB_SALON_Ressource";
 
 		//Envoie de la requête à la base
 		try
@@ -94,7 +94,7 @@ class managerRessource
 	//ENTREE : Une chaîne de caractère (le libelle)
 	//SORTIE : /
 	{
-		$req = "SELECT * FROM Ressource WHERE Libelle_Ressource = :LIBELLE";
+		$req = "SELECT * FROM DB_SALON_Ressource WHERE Libelle_Ressource = :LIBELLE";
 
 		//Envoie de la requête à la base
 		try
@@ -107,11 +107,22 @@ class managerRessource
 
 			$R = new Ressource;
 
-			$tab = array(
-				"Id" => $stmt['ID_Ressource'],
-				"Libelle" => $stmt['Libelle_Ressource'],
-				"Lien" => $stmt['Lien_Ressource']
-				);
+			if($stmt->rowCount() > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+				
+				$tab = array(
+					"Id" => $valueStmt['ID_Ressource'],
+					"Libelle" => $valueStmt['Libelle_Ressource'],
+					"Lien" => $valueStmt['Lien_Ressource']
+					);
+			}else{
+				$tab = array(
+					"Id" => "",
+					"Libelle" => "",
+					"Lien" => ""
+					);
+			}
 
 			$R->hydrate($tab);
 
@@ -129,7 +140,7 @@ class managerRessource
 	//ENTREE : Un integer (l'Id)
 	//SORTIE : /
 	{
-		$req = "SELECT * FROM Ressource WHERE ID_Ressource = :ID";
+		$req = "SELECT * FROM DB_SALON_Ressource WHERE ID_Ressource = :ID";
 
 		//Envoie de la requête à la base
 		try
@@ -142,11 +153,22 @@ class managerRessource
 
 			$R = new Ressource;
 
-			$tab = array(
-				"Id" => $stmt['ID_Ressource'],
-				"Libelle" => $stmt['Libelle_Ressource'],
-				"Lien" => $stmt['Lien_Ressource']
-				);
+			if($stmt->rowCount() > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+				
+				$tab = array(
+					"Id" => $valueStmt['ID_Ressource'],
+					"Libelle" => $valueStmt['Libelle_Ressource'],
+					"Lien" => $valueStmt['Lien_Ressource']
+					);
+			}else{
+				$tab = array(
+					"Id" => "",
+					"Libelle" => "",
+					"Lien" => ""
+					);
+			}
 
 			$R->hydrate($tab);
 
@@ -159,11 +181,9 @@ class managerRessource
 		}
 	}
 
-	/*End*/
-
 	public function insertContenir($id_stand,$id_res) 
     {
-        $req = "INSERT INTO Contenir VALUES (:ID_Stand,:ID_Ressource)";
+        $req = "INSERT INTO DB_SALON_Contenir VALUES (:ID_Stand,:ID_Ressource)";
         try 
         {
             $stmt = $this->db->prepare($req);
@@ -178,5 +198,7 @@ class managerRessource
             echo "<script>console.log('".$error->getMessage()."')</script>";
         }
     }
+
+    /*End*/
 }
 ?>
