@@ -46,6 +46,7 @@ class managerUtilisateur
 	{
 		$req = "INSERT INTO Avatar() VALUES(); INSERT INTO Utilisateur(ID_Avatar, Nom_Avatar, MDP_Utilisateur) VALUES ((Select MAX(ID_Avatar) FROM Avatar), :NOM, :MDP);";
 
+
 		//Envoie de la requête à la base
 		try
 		{
@@ -101,7 +102,6 @@ class managerUtilisateur
 			$stmt->bindValue(":NOM", $name, PDO::PARAM_STR);
 
 			$stmt->execute();
-
 
 			$U = new Utilisateur;
 
