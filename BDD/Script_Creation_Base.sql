@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS DB_SALON_Composer
 	ID_Avatar INT,
 	ID_Element_Avatar INT,
 	CONSTRAINT PK_Composer PRIMARY KEY (ID_Avatar, ID_Element_Avatar), /*Création de la clef primaire.*/
-	CONSTRAINT FK_Composer_Avatar FOREIGN KEY (ID_Avatar) REFERENCES Avatar (ID_Avatar),
-	CONSTRAINT FK_Composer_Element_Avatar FOREIGN KEY (ID_Element_Avatar) REFERENCES Element_Avatar (ID_Element_Avatar)
+	CONSTRAINT FK_Composer_Avatar FOREIGN KEY (ID_Avatar) REFERENCES DB_SALON_Avatar (ID_Avatar),
+	CONSTRAINT FK_Composer_Element_Avatar FOREIGN KEY (ID_Element_Avatar) REFERENCES DB_SALON_Element_Avatar (ID_Element_Avatar)
 ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS DB_SALON_Utilisateur;
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS DB_SALON_Utilisateur
 	Nom_Avatar varchar(100),
 	MDP_Utilisateur varchar(100) DEFAULT "",
 	CONSTRAINT PK_Utilisateur PRIMARY KEY (ID_Avatar), /*Création de la clef primaire.*/
-	CONSTRAINT FK_Utilisateur_Avatar FOREIGN KEY (ID_Avatar) REFERENCES Avatar (ID_Avatar),
+	CONSTRAINT FK_Utilisateur_Avatar FOREIGN KEY (ID_Avatar) REFERENCES DB_SALON_Avatar (ID_Avatar),
 	CONSTRAINT UK_Utilisateur UNIQUE (Nom_Avatar)
 ) ENGINE=InnoDB;
 
@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS DB_SALON_Attendre
 	ID_Stand INT,
 	Position_Liste INT NOT NULL,
 	CONSTRAINT PK_Attendre PRIMARY KEY (ID_Avatar, ID_Stand),
-	CONSTRAINT FK_Attendre_Avatar FOREIGN KEY (ID_Avatar) REFERENCES Utilisateur (ID_Avatar),
-	CONSTRAINT FK_Attendre_Stand FOREIGN KEY (ID_Stand) REFERENCES Stand (ID_Stand)
+	CONSTRAINT FK_Attendre_Avatar FOREIGN KEY (ID_Avatar) REFERENCES DB_SALON_Utilisateur (ID_Avatar),
+	CONSTRAINT FK_Attendre_Stand FOREIGN KEY (ID_Stand) REFERENCES DB_SALON_Stand (ID_Stand)
 )ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS DB_SALON_Presentateur;
@@ -76,9 +76,9 @@ CREATE TABLE IF NOT EXISTS DB_SALON_Presentateur
 	ID_Activite INT,
 	ID_Stand INT,
 	CONSTRAINT PK_Presentateur PRIMARY KEY (ID_Avatar), /*Création de la clef primaire.*/
-	CONSTRAINT FK_Presentateur_Avatar FOREIGN KEY (ID_Avatar) REFERENCES Avatar (ID_Avatar),
-	CONSTRAINT FK_Presentateur_Stand FOREIGN KEY (ID_Stand) REFERENCES Stand (ID_Stand),
-	CONSTRAINT FK_Presentateur_Activite FOREIGN KEY (ID_Activite) REFERENCES Activite (ID_Activite),
+	CONSTRAINT FK_Presentateur_Avatar FOREIGN KEY (ID_Avatar) REFERENCES DB_SALON_Avatar (ID_Avatar),
+	CONSTRAINT FK_Presentateur_Stand FOREIGN KEY (ID_Stand) REFERENCES DB_SALON_Stand (ID_Stand),
+	CONSTRAINT FK_Presentateur_Activite FOREIGN KEY (ID_Activite) REFERENCES DB_SALON_Activite (ID_Activite),
 	CONSTRAINT UK_Presentateur UNIQUE (Nom_Avatar)
 )ENGINE=InnoDB;
 
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS DB_SALON_Avis
 	ID_Stand INT,
 	Libelle_Avis varchar(100),
 	CONSTRAINT PK_Avis PRIMARY KEY (ID_Avis), /*Création de la clef primaire.*/
-	CONSTRAINT FK_Avis FOREIGN KEY (ID_Stand) REFERENCES Stand (ID_Stand)
+	CONSTRAINT FK_Avis FOREIGN KEY (ID_Stand) REFERENCES DB_SALON_Stand (ID_Stand)
 )ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS DB_SALON_Ressource;
@@ -126,6 +126,6 @@ CREATE TABLE IF NOT EXISTS DB_SALON_Contenir
 	ID_Ressource INT,
 	ID_Stand INT,
 	CONSTRAINT PK_Contenir PRIMARY KEY (ID_Ressource, ID_Stand), /*Création de la clef primaire.*/
-	CONSTRAINT FK_Contenir_Ressource FOREIGN KEY (ID_Ressource) REFERENCES Ressource (ID_Ressource),
-	CONSTRAINT FK_Contenir_Stand FOREIGN KEY (ID_Stand) REFERENCES Stand (ID_Stand)
+	CONSTRAINT FK_Contenir_Ressource FOREIGN KEY (ID_Ressource) REFERENCES DB_SALON_Ressource (ID_Ressource),
+	CONSTRAINT FK_Contenir_Stand FOREIGN KEY (ID_Stand) REFERENCES DB_SALON_Stand (ID_Stand)
 ) ENGINE=InnoDB;
