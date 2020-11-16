@@ -44,7 +44,8 @@ class managerUtilisateur
 	//ENTREE : Un objet utilisateur
 	//SORTIE : /
 	{
-		$req = "INSERT INTO Avatar() VALUES(); INSERT INTO Utilisateur(ID_Avatar, Nom_Avatar, MDP_Avatar) VALUES ((Select MAX(ID_Avatar) FROM Avatar), :NOM, :MDP);";
+		$req = "INSERT INTO Avatar() VALUES(); INSERT INTO Utilisateur(ID_Avatar, Nom_Avatar, MDP_Utilisateur) VALUES ((Select MAX(ID_Avatar) FROM Avatar), :NOM, :MDP);";
+
 
 		//Envoie de la requête à la base
 		try
@@ -104,11 +105,28 @@ class managerUtilisateur
 
 			$U = new Utilisateur;
 
-			$tab = array(
-				"Id" => $stmt['ID_Avatar'];
-				"Nom" => $stmt['Nom_Avatar'];
-				"MDP" => $stmt['MDP_Utilisateur'];
-				);
+			//var_dump($stmt->fetchAll());
+			$tab;
+
+			if($stmt->rowCount() > 0)
+			{
+				$tabstmt = $stmt->fetchAll()[0];	
+				
+					$tab = array(
+					"Id" => $tabstmt['ID_Avatar'],
+					"Nom" => $tabstmt['Nom_Avatar'],
+					"MDP" => $tabstmt['MDP_Utilisateur']
+					);
+				
+			}
+			else
+			{
+				$tab = array(
+					"Id" => "",
+					"Nom" => "",
+					"MDP" => ""
+					);
+			}
 
 			$U->hydrate($tab);
 
@@ -140,9 +158,9 @@ class managerUtilisateur
 			$U = new Utilisateur;
 
 			$tab = array(
-				"Id" => $stmt['ID_Avatar'];
-				"Nom" => $stmt['Nom_Avatar'];
-				"MDP" => $stmt['MDP_Utilisateur'];
+				"Id" => $stmt['ID_Avatar'],
+				"Nom" => $stmt['Nom_Avatar'],
+				"MDP" => $stmt['MDP_Utilisateur']
 				);
 
 			$U->hydrate($tab);
