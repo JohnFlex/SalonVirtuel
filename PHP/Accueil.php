@@ -1,19 +1,20 @@
-<!DOCTYPE html> <!-- Ceci est un modèle de base, penser à faire une copie avant de faire des modifications -->
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8"/>
-		<link rel="icon" href="">
-		<link rel="stylesheet" type="text/css" href="">
-		<link rel="shortcut icon" type="image/x-icon" href="">
-		<script type="text/javascript" src="">
-			
-		</script>
-		<title>
-			Cours de web
-		</title>
+		<title>Accuei</title>
+		<meta charset="utf-8">
 	</head>
-
 	<body>
+		<h1>Accueil</h1>
+		<div>
+			<a href="Inscription.php">Inscription</a>
+		</div>
+		<div>
+			<a href="creerStand.php">Création d'un Stand</a>
+		</div>
+		<div>
+ 			<a href="SwitchPresentateurUtilisateur.php">Page Administrateur quant au passage d'un utilisateur en présentateur</a>
+		</div>
 
 <?php
 	require_once("PDO_Connect/PDO_Connect.php");

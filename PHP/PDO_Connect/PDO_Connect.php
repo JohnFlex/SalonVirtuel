@@ -1,8 +1,8 @@
 <?php
-define('BASE','db_Salon');
-define('SERVER','localhost');
-define('USER','root');
-define('PASSWD','');
+define('BASE','ormcomcplh778');
+define('SERVER','ormcomcplh778.mysql.db');
+define('USER','ormcomcplh778');
+define('PASSWD','R8frzgZzN5S8');
 
 function connect_bd()
 {
