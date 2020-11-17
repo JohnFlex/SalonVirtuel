@@ -16,6 +16,9 @@
 			<input type="submit" name="sub" id="sup" value="Connection">
 		</form>
 	</BODY>
+    <footer>
+        <a href="Accueil.php">Retour Accueil</a>
+    </footer>
 </HTML>
 
 
