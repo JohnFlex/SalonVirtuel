@@ -86,6 +86,9 @@
             }
         </script>
     </body>
+    <footer>
+        <a href="Accueil.php">Retour Accueil</a>
+    </footer>
 </html>
 
 <?php

@@ -23,35 +23,35 @@
 	
 	// Send variables for the MySQL database class.
 	//nom du serveur
-		define('SERVEUR',"localhost");
+		define('SERVEUR',"ormcomcplh778.mysql.db");
 
 	//nom de la base de données
-		define('BASE',"db_salon");
+		define('BASE',"ormcomcplh778");
 
 	//nom de l'utisateur
-		define('USER',"root");
+		define('USER',"ormcomcplh778");
 
 	//mot de passe
-		define('PASSWD',"");
+		define('PASSWD',"R8frzgZzN5S8");
 
 			
 	$conn = ConnecServ();
 
 	if(isset($_POST["SELECTPRESENTATEUR"])){
-		$sql="insert into utilisateur(ID_Avatar,Nom_Avatar,MDP_Utilisateur) SELECT ID_Avatar, Nom_Avatar, MDP_Presentateur FROM presentateur WHERE ID_Avatar=".$_POST["SELECTPRESENTATEUR"].";";
+		$sql="insert into DB_SALON_Utilisateur(ID_Avatar,Nom_Avatar,MDP_Utilisateur) SELECT ID_Avatar, Nom_Avatar, MDP_Presentateur FROM DB_SALON_Presentateur WHERE ID_Avatar=".$_POST["SELECTPRESENTATEUR"].";";
 		$stmt=$conn->prepare($sql);
 		$stmt->execute();
-		$sql="DELETE FROM presentateur WHERE ID_Avatar=".$_POST["SELECTPRESENTATEUR"].";";
+		$sql="DELETE FROM DB_SALON_Presentateur WHERE ID_Avatar=".$_POST["SELECTPRESENTATEUR"].";";
 		$stmt=$conn->prepare($sql);
 		$stmt->execute();
 		echo "success";
 	}
 
 	if(isset($_POST["SELECTUTILISATEUR"])){
-		$sql="insert into presentateur(ID_Avatar,Nom_Avatar,MDP_Presentateur,ID_Activite,ID_Stand) SELECT ID_Avatar, Nom_Avatar, MDP_Utilisateur,".$_POST["SELECTSTATUE"].",NULL FROM utilisateur WHERE ID_Avatar=".$_POST["SELECTUTILISATEUR"].";";
+		$sql="insert into DB_SALON_Presentateur(ID_Avatar,Nom_Avatar,MDP_Presentateur,ID_Activite,ID_Stand) SELECT ID_Avatar, Nom_Avatar, MDP_Utilisateur,".$_POST["SELECTSTATUE"].",NULL FROM DB_SALON_Utilisateur WHERE ID_Avatar=".$_POST["SELECTUTILISATEUR"].";";
 		$stmt=$conn->prepare($sql);
 		$stmt->execute();
-		$sql="DELETE FROM utilisateur WHERE ID_Avatar=".$_POST["SELECTUTILISATEUR"].";";
+		$sql="DELETE FROM DB_SALON_Utilisateur WHERE ID_Avatar=".$_POST["SELECTUTILISATEUR"].";";
 		$stmt=$conn->prepare($sql);
 		$stmt->execute();
 		echo "success";
@@ -63,6 +63,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    
   </head>
   <body>
     
@@ -73,7 +74,7 @@
 		<?php
 			
 			echo "<select name=\"SELECTPRESENTATEUR\">";
-			$sql="SELECT * FROM `presentateur` ";
+			$sql="SELECT * FROM `DB_SALON_Presentateur` ";
 			foreach($conn->query($sql) as $row){
 				echo "<option value=\"".$row['ID_Avatar']."\">".$row['Nom_Avatar']."</option>";
 			}
@@ -91,13 +92,13 @@
 		<?php
 			
 			echo "<select name=\"SELECTUTILISATEUR\">";
-			$sql="SELECT * FROM `utilisateur` ";
+			$sql="SELECT * FROM `DB_SALON_Utilisateur` ";
 			foreach($conn->query($sql) as $row){
 				echo "<option value=\"".$row['ID_Avatar']."\">".$row['Nom_Avatar']."</option>";
 			}
 			echo "</select><br>";
 			echo "<select name=\"SELECTSTATUE\">";
-			$sql="SELECT * FROM `activite` ";
+			$sql="SELECT * FROM `DB_SALON_Activite` ";
 			foreach($conn->query($sql) as $row){
 				echo "<option value=\"".$row['ID_Activite']."\">".$row['Libelle_Activite']."</option>";
 			}
@@ -107,6 +108,9 @@
 		<input type="submit" value="Valider" id="BOUTONUTP" name="BoutonUTP" />
 
 	</form><br>
-
+	
+    <footer>
+        <a href="Accueil.php">Retour Accueil</a>
+    </footer>
   </body>
 </html>
