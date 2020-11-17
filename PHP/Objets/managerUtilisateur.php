@@ -63,6 +63,34 @@ class managerUtilisateur
 		}
 	}
 
+	public function insertTempUtilisateur()
+	//BUT : Insérer un utilisateur temporaire dans le base de donnée
+	//ENTREE : /
+	//SORTIE : /
+	{
+		$req = "INSERT INTO DB_SALON_Avatar() VALUES(); 
+
+				INSERT INTO DB_SALON_Utilisateur(ID_Avatar, Nom_Avatar, MDP_Utilisateur) 
+				VALUES (
+					(Select MAX(ID_Avatar) FROM DB_SALON_Avatar), 
+					CONCAT('GUEST',(Select MAX(ID_Avatar) FROM DB_SALON_Avatar)),
+					''
+				)";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->execute();
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
+
 	public function selectUtilisateurs()
 	//BUT : Récupérer tous les utilisateurs
 	//ENTREE : /

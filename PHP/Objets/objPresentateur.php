@@ -61,7 +61,7 @@ class Presentateur
 	}
 
 	//Les setters
-	public function setId($num)
+	public function setIdAvatar($num)
 	{
 		$this->ID_Avatar = $num;
 	}
@@ -90,7 +90,7 @@ class Presentateur
 	//Autres
 	public function __toString()
 	{
-		return "Utilisateur : ID_Avatar=".$this->getId().", Nom_Avatar=".$this->getNom();
+		return "Utilisateur : ID_Avatar=".$this->getIdAvatar().", Nom_Avatar=".$this->getNom();
 	}
 }
 ?>

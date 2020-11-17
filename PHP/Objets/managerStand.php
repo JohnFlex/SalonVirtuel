@@ -105,7 +105,7 @@ class managerStand
 
 			$stmt->execute();
 
-			$S = new Utilisateur;
+			$S = new Stand;
 
 			if($stmt->rowCount() > 0)
 			{
@@ -138,7 +138,7 @@ class managerStand
 	//ENTREE : Le libelle d'un stand
 	//SORTIE : Un objet stand contenant les informations du stand
 	{
-		$req = "SELECT * FROM DB_SALON_Stand WHERE ID_Stand = :LIBELLE";
+		$req = "SELECT * FROM DB_SALON_Stand WHERE Libelle_Stand = :LIBELLE";
 
 		//Envoie de la requête à la base
 		try
@@ -149,7 +149,7 @@ class managerStand
 
 			$stmt->execute();
 
-			$S = new Utilisateur;
+			$S = new Stand;
 
 			if($stmt->rowCount() > 0)
 			{
