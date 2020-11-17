@@ -116,7 +116,7 @@ class managerPresentateur
 					"Nom" => $valueStmt['Nom_Avatar'],
 					"MDP" => $valueStmt['MDP_Presentateur'],
 					"IdActivite" => $valueStmt['ID_Activite'],
-					"IdStand" = > $valueStmt['ID_Stand']
+					"IdStand" => $valueStmt['ID_Stand']
 					);
 			}else{
 				$tab = array(
@@ -124,7 +124,7 @@ class managerPresentateur
 					"Nom" => "",
 					"MDP" => "",
 					"IdActivite" => "",
-					"IdStand" = > ""
+					"IdStand" => ""
 					);
 			}
 
@@ -166,7 +166,7 @@ class managerPresentateur
 					"Nom" => $valueStmt['Nom_Avatar'],
 					"MDP" => $valueStmt['MDP_Presentateur'],
 					"IdActivite" => $valueStmt['ID_Activite'],
-					"IdStand" = > $valueStmt['ID_Stand']
+					"IdStand" => $valueStmt['ID_Stand']
 					);
 			}else{
 				$tab = array(
@@ -174,7 +174,7 @@ class managerPresentateur
 					"Nom" => "",
 					"MDP" => "",
 					"IdActivite" => "",
-					"IdStand" = > ""
+					"IdStand" => ""
 					);
 			}
 
