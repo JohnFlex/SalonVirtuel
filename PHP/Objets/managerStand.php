@@ -44,7 +44,7 @@ class managerStand
 	//ENTREE : Un objet stand
 	//SORTIE : /
 	{
-		$req = "INSERT INTO Stand(ID_Stand, Libelle_Stand) VALUES (NULL, :LIBELLE)";
+		$req = "INSERT INTO DB_SALON_Stand(Libelle_Stand) VALUES (:LIBELLE)";
 
 		//Envoie de la requête à la base
 		try
@@ -71,7 +71,7 @@ class managerStand
 	//ENTREE : /
 	//SORTIE : Une table contenant l'ensemble des stands
 	{
-		$req = "SELECT * FROM Stand";
+		$req = "SELECT * FROM DB_SALON_Stand";
 
 		//Envoie de la requête à la base
 		try
@@ -94,7 +94,7 @@ class managerStand
 	//ENTREE : L'id de stand
 	//SORTIE : Un objet stand contenant les informations du stand
 	{
-		$req = "SELECT * FROM Stand WHERE ID_Stand = :ID";
+		$req = "SELECT * FROM DB_SALON_Stand WHERE ID_Stand = :ID";
 
 		//Envoie de la requête à la base
 		try
@@ -107,10 +107,20 @@ class managerStand
 
 			$S = new Utilisateur;
 
-			$tab = array(
-				"Id" => $stmt['ID_Stand'],
-				"Libelle" => $stmt['Libelle_Stand']
-				);
+			if($stmt->rowCount() > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+
+				$tab = array(
+					"Id" => $valueStmt['ID_Stand'],
+					"Libelle" => $valueStmt['Libelle_Stand']
+					);
+			}else{
+				$tab = array(
+					"Id" => "",
+					"Libelle" => ""
+					);
+			}
 
 			$S->hydrate($tab);
 
@@ -123,6 +133,49 @@ class managerStand
 		}
 	}
 
+	public function selectStandByLibelle($str)
+	//BUT : Récupérer un stand grâce à son libelle
+	//ENTREE : Le libelle d'un stand
+	//SORTIE : Un objet stand contenant les informations du stand
+	{
+		$req = "SELECT * FROM DB_SALON_Stand WHERE ID_Stand = :LIBELLE";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":LIBELLE", $str, PDO::PARAM_STR);
+
+			$stmt->execute();
+
+			$S = new Utilisateur;
+
+			if($stmt->rowCount() > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+				
+				$tab = array(
+					"Id" => $valueStmt['ID_Stand'],
+					"Libelle" => $valueStmt['Libelle_Stand']
+					);
+			}else{
+				$tab = array(
+					"Id" => "",
+					"Libelle" => ""
+					);
+			}
+
+			$S->hydrate($tab);
+
+			return $S;
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
 	/*End*/
 }
 ?>
