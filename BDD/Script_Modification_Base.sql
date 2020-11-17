@@ -1,0 +1,1 @@
+ALTER TABLE DB_SALON_Attendre RENAME TO DB_SALON_Reunions;

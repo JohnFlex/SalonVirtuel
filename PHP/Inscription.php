@@ -123,6 +123,10 @@
 
 			</script>
 
-		<!-- faire un formulaire de recherche de personne avec le nom ou prenom ou email ou date de naissance (banParam,banValues) -->	          
+		<!-- faire un formulaire de recherche de personne avec le nom ou prenom ou email ou date de naissance (banParam,banValues) -->
+	
+    <footer>
+        <a href="Accueil.php">Retour Accueil</a>
+    </footer>
 	</BODY>
 </HTML>
