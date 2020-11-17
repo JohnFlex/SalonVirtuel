@@ -41,12 +41,12 @@ class managerPresentateur
 		return "Database=".$this->getDb();
 	}
 
-	public function insertPresentateur(Presentateur $P, Utilisateur $U, Stand $S)
+	public function insertPresentateur(Utilisateur $U, Stand $S)
 	//BUT : Insérer un Presentateur dans le base de donnée
-	//ENTREE : Un objet Presentateur
+	//ENTREE : Un objet Utilisateur et un objet Stand
 	//SORTIE : /
 	{
-		$req = "DELETE FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM; INSERT INTO DB_SALON_Presentateur(ID_Avatar, Nom_Avatar, MDP_Presentateur, ID_Activite, ID_Stand) VALUES (:ID, :NOM, :MDP, 0, :STAND)";
+		$req = "DELETE FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM; INSERT INTO DB_SALON_Presentateur(ID_Avatar, Nom_Avatar, MDP_Presentateur, ID_Activite, ID_Stand) VALUES (:ID, :NOM, :MDP, 1, :STAND)";
 
 		//Envoie de la requête à la base
 		try
@@ -116,7 +116,7 @@ class managerPresentateur
 					"Nom" => $valueStmt['Nom_Avatar'],
 					"MDP" => $valueStmt['MDP_Presentateur'],
 					"IdActivite" => $valueStmt['ID_Activite'],
-					"IdStand" = > $valueStmt['ID_Stand']
+					"IdStand" => $valueStmt['ID_Stand']
 					);
 			}else{
 				$tab = array(
@@ -124,7 +124,7 @@ class managerPresentateur
 					"Nom" => "",
 					"MDP" => "",
 					"IdActivite" => "",
-					"IdStand" = > ""
+					"IdStand" => ""
 					);
 			}
 
@@ -166,7 +166,7 @@ class managerPresentateur
 					"Nom" => $valueStmt['Nom_Avatar'],
 					"MDP" => $valueStmt['MDP_Presentateur'],
 					"IdActivite" => $valueStmt['ID_Activite'],
-					"IdStand" = > $valueStmt['ID_Stand']
+					"IdStand" => $valueStmt['ID_Stand']
 					);
 			}else{
 				$tab = array(
@@ -174,7 +174,7 @@ class managerPresentateur
 					"Nom" => "",
 					"MDP" => "",
 					"IdActivite" => "",
-					"IdStand" = > ""
+					"IdStand" => ""
 					);
 			}
 
