@@ -183,7 +183,7 @@ class managerRessource
 
 	public function insertContenir($id_stand,$id_res) 
     {
-        $req = "INSERT INTO DB_SALON_Contenir VALUES (:ID_Stand,:ID_Ressource)";
+        $req = "INSERT INTO DB_SALON_Contenir (ID_Stand, ID_Ressource) VALUES (:ID_Stand,:ID_Ressource)";
         try 
         {
             $stmt = $this->db->prepare($req);
