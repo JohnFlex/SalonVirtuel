@@ -46,7 +46,9 @@ class managerAttente
 	//ENTREE : Un objet Attente
 	//SORTIE : /
 	{
-		$req = "INSERT INTO DB_SALON_Reunions(ID_Avatar, ID_Stand, Heure_Arrivee) VALUES (:AVATAR, :STAND, :POSITION)";
+		$currentTime = time();
+
+		$req = "INSERT INTO DB_SALON_Reunions(ID_Avatar, ID_Stand, Heure_Arrivee) VALUES (:AVATAR, :STAND, :TEMPS)";
 
 		//Envoie de la requête à la base
 		try
@@ -55,7 +57,7 @@ class managerAttente
 
 			$stmt->bindValue(":AVATAR", $A->getIdAvatar(), PDO::PARAM_INT);
 			$stmt->bindValue(":STAND", $A->getIdStand(), PDO::PARAM_INT);
-			$stmt->bindValue(":LIBELLE", $A->getLibelle(), PDO::PARAM_STR);
+			$stmt->bindValue(":TEMPS", $currentTime, PDO::PARAM_INT);
 
 			$stmt->execute();
 		}
@@ -66,22 +68,42 @@ class managerAttente
 		}
 	}
 
-	public function deleteAttenteByAvatar(Attente $A)
-	//BUT : Supprimer une personne dans une liste d'attente d'un stand
-	//ENTREE : Un objet Attente
+	public function deleteAttentesByStand(Stand $S)
+	//BUT : Supprimer la liste d'attente d'un stand en entier
+	//ENTREE : Un objet Stand
 	//SORTIE : /
 	{
-		$req = "DELETE FROM DB_SALON_Reunions WHERE ID_Avatar = :AVATAR";
+		$req = "DELETE FROM DB_SALON_Reunions WHERE ID_Stand = :STAND";
 
 		try
 		{
 			$stmt = $this->db->prepare($req);
 
-			$stmt->bindValue(":AVATAR", $A->getIdAvatar(), PDO::PARAM_INT);
+			$stmt->bindValue(":STAND", $S->getIdStand(), PDO::PARAM_INT);
 
 			$stmt->execute();
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
 
-			$A->__destruct();
+	public function deleteAttenteByUtilisateur(Utilisateur $U)
+	//BUT : Supprimer une personne dans une liste d'attente d'un stand
+	//ENTREE : Un objet Utilisateur
+	//SORTIE : /
+	{
+		$req = "DELETE FROM DB_SALON_Reunions WHERE ID_Avatar = (SELECT ID_Avatar FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM)";
+
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":NOM", $U->getNom(), PDO::PARAM_STR);
+
+			$stmt->execute();
 		}
 		catch(PDOException $error)
 		{
@@ -161,16 +183,18 @@ class managerAttente
 		}
 	}
 
-	public function selectUtilisateurByPositionAndStand($num, Stand $S)
+	public function selectFirstUtilisateurByStand(Stand $S)
+	//BUT : Obtenir la première personne dans liste d'attente d'un stand, puis le supprime dans la file d'attente
+	//ENTREE : Un objet Stand
+	//SORTIE : Un objet Utilisateur
 	{
-		$req = "SELECT Nom_Avatar FROM DB_SALON_Utilisateur U, DB_SALON_Reunions A, DB_SALON_Stand S WHERE U.ID_Avatar = A.ID_Avatar AND A.ID_Stand = S.ID_Stand AND Heure_Arrivee = :POSITION AND Libelle_Stand = :STAND";
+		$req = "SELECT Nom_Avatar FROM DB_SALON_Utilisateur U, DB_SALON_Reunions A, DB_SALON_Stand S WHERE U.ID_Avatar = A.ID_Avatar AND A.ID_Stand = S.ID_Stand AND Heure_Arrivee = (SELECT MIN(Heure_Arrivee) FROM DB_SALON_Reunions A, DB_SALON_Stand S WHERE A.ID_Stand = S.ID_Stand AND Libelle_Stand = :STAND) AND Libelle_Stand = :STAND";
 
 		//Envoie de la requête à la base
 		try
 		{
 			$stmt = $this->db->prepare($req);
 
-			$stmt->bindValue(":POSITION", $num, PDO::PARAM_INT);
 			$stmt->bindValue(":STAND", $S->getLibelle(), PDO::PARAM_STR);
 
 			$stmt->execute();
@@ -182,17 +206,17 @@ class managerAttente
 				$valueStmt = $stmt->fetchAll()[0];
 				
 				$tab = array(
-					"Id" => $valueStmt['ID_Avatar'],
 					"Nom" => $valueStmt['Nom_Avatar']
 					);
 			}else{
 				$tab = array(
-					"Id" => "",
 					"Nom" => ""
 					);
 			}
 
 			$U->hydrate($tab);
+
+			$this->deleteAttenteByUtilisateur($U); //!!!!! SUPPRESSION DE L'UTILISATEUR DANS LA FILE D'ATTENTE !!!!!
 
 			return $U;
 		}
