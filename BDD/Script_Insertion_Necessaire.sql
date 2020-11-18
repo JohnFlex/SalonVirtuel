@@ -4,3 +4,4 @@ VALUES
 ("En_Attente_De_Validation"),
 ("Disponible"),
 ("Indisponible");
+
