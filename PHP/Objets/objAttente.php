@@ -4,7 +4,7 @@ class Attente
 	//Membres privés
 	private $ID_Avatar;
 	private $ID_Stand;
-	private $Position_Liste;
+	private $Heure_Arrivee;
 
 
 	//Fonctions membres
@@ -43,9 +43,9 @@ class Attente
 		return $this->ID_Stand;
 	}
 
-	public function getPosition()
+	public function getHeure()
 	{
-		return $this->Position_Liste;
+		return $this->Heure_Arrivee;
 	}
 
 	//Les setters
@@ -59,9 +59,9 @@ class Attente
 		$this->ID_Stand = $num;
 	}
 
-	public function setPosition($num)
+	public function setHeure($num)
 	{
-		$this->Position_Liste = $num;
+		$this->Heure_Arrivee = $num;
 	}
 
 
