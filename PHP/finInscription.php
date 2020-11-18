@@ -1,5 +1,4 @@
 <?php
-	
 	require_once("./PDO_Connect/PDO_Connect.php");
 	require_once("./Objets/managerUtilisateur.php");
 

@@ -31,28 +31,35 @@
 
 
 	$conn = connect_bd();
-	$tab = array("Nom" =>$_POST["nom"], "MDP" => $_POST["mdp"]);
 
-	$manager  = new managerUtilisateur($conn);
-
-	$Ut1 = new Utilisateur;
-
-	$Ut1->hydrate($tab);
-
-	//var_dump($Ut1->getMDP());
-
-
-
-	$verifUt = $manager->selectUtilisateurByName($Ut1->getNom());
-	//var_dump($verifUt->getMDP());
-
-	if($verifUt->getNom() == $Ut1->getNom() &&  password_verify($Ut1->getMDP(),$verifUt->getMDP()))
-	{		
-		echo"<script> alert('Connection au salon');</script>'";
-			
-	}
-	else
+	if(isset($_POST["nom"]) && isset($_POST["mdp"]))
 	{
-		echo"<script> alert('Nom ou Mot de passe Incorect');</script>";
+		$tab = array("Nom" =>$_POST["nom"], "MDP" => $_POST["mdp"]);
+
+		$manager = new managerUtilisateur($conn);
+
+		$Ut1 = new Utilisateur;
+
+		$Ut1->hydrate($tab);
+
+		//var_dump($Ut1->getMDP());
+
+
+
+		$verifUt = $manager->selectUtilisateurByName($Ut1->getNom());
+		//var_dump($verifUt->getMDP());
+
+		if($verifUt->getNom() == $Ut1->getNom() && password_verify($Ut1->getMDP(),$verifUt->getMDP()))
+		{		
+			echo"<script> alert('Connection au salon');</script>";
+
+			//A FAIRE : SET LE NOM DE SESSION (Verifier si c'est un utilisateur ou un presentateur)
+
+			header("Location: site.php");
+		}
+		else
+		{
+			echo"<script> alert('Nom ou Mot de passe Incorrect');</script>";
+		}
 	}
 ?>
