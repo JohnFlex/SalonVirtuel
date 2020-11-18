@@ -48,7 +48,7 @@ class managerAttente
 	{
 		$currentTime = time();
 
-		$req = "INSERT INTO DB_SALON_Reunions(ID_Avatar, ID_Stand, Heure_Arrivee) VALUES (:AVATAR, :STAND, :TEMPS)";
+		$req = "INSERT INTO DB_SALON_Reunions(ID_Avatar, ID_Stand, ID_Avatar_Presentateur, Heure_Arrivee) VALUES (:AVATAR, :STAND, NULL, :TEMPS)";
 
 		//Envoie de la requête à la base
 		try
@@ -112,7 +112,7 @@ class managerAttente
 		}
 	}
 
-	public function selectAttenteByAvatar(Utilisateur $U)
+	public function selectAttenteByUtilisateur(Utilisateur $U)
 	//BUT : Obtenir la position dans la liste d'attente d'un utilisateur, ainsi que le stand pour lequel il patiente
 	//ENTREE : Un objet Utilisateur
 	//SORTIE : Un objet Attente

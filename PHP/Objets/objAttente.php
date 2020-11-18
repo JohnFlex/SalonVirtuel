@@ -3,6 +3,7 @@ class Attente
 {
 	//Membres privés
 	private $ID_Avatar;
+	private $ID_Avatar_Presentateur;
 	private $ID_Stand;
 	private $Heure_Arrivee;
 
@@ -38,6 +39,11 @@ class Attente
 		return $this->ID_Avatar;
 	}
 
+	public function getIdPresentateur()
+	{
+		return $this->ID_Avatar_Presentateur;
+	}
+
 	public function getIdStand()
 	{
 		return $this->ID_Stand;
@@ -52,6 +58,11 @@ class Attente
 	public function setIdAvatar($num)
 	{
 		$this->ID_Avatar = $num;
+	}
+
+	public function setIdPresentateur($num)
+	{
+		$this->ID_Avatar_Presentateur = $num;
 	}
 
 	public function setIdStand($num)
