@@ -17,6 +17,19 @@
         <meta charset="utf-8">
     </head>
     <body>
+		<?php
+
+			if(!isset($_SESSION['user_name'])){
+				session_start();
+
+				$_SESSION['user_name']="guestTest";
+
+				$_SESSION['user_ID']=0;
+
+			}else{
+				echo "vous êtes : ".$_SESSION['user_name'];
+			}
+		?>
         <form id="creation_stand" class="" method="get" action="#">
             <label for="nom">Nom du stand :</label>
             <input type="text" id="Libelle_Stand" name="Libelle_Stand" placeholder="Nom du stand" size="15" required />

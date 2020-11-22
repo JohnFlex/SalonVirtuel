@@ -9,7 +9,19 @@
 		<link rel="shortcut icon" type="image/x-icon" href="">     
 	</HEAD>
 	<BODY>
+		<?php
 
+			if(!isset($_SESSION['user_name'])){
+				session_start();
+
+				$_SESSION['user_name']="guestTest";
+
+				$_SESSION['user_ID']=0;
+
+			}else{
+				echo "vous êtes : ".$_SESSION['user_name'];
+			}
+		?>
 		<form method="POST" action="#">
 			<label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" onchange="" required><span class="desc">ne pas utiliser de caracter spécial</span><br>
 			<label for="mdp"> Mot de Passe : </label><input type="password" id="pass" name="mdp" placeholder="password"   required><span class="desc">doit au moins contenir 1 Majuscule, 1 Minuscule et 1 Chiffre</span><br>
@@ -52,6 +64,26 @@
 		if($verifUt->getNom() == $Ut1->getNom() && password_verify($Ut1->getMDP(),$verifUt->getMDP()))
 		{		
 			echo"<script> alert('Connection au salon');</script>";
+
+			if(!isset($_SESSION['user_name'])){
+				session_start();
+
+				$_SESSION['user_name']=$_POST["nom"];
+
+		
+				$sql="SELECT ID_Avatar FROM `DB_SALON_Utilisateur` WHERE Nom_Avatar=".$_POST["nom"];
+				foreach($conn->query($sql) as $row){
+					$_SESSION['user_ID']=$row["ID_Avatar"];
+				}
+			}else{
+				$_SESSION['user_name']=$_POST["nom"];
+
+		
+				$sql="SELECT ID_Avatar FROM `DB_SALON_Utilisateur` WHERE Nom_Avatar=".$_POST["nom"];
+				foreach($conn->query($sql) as $row){
+					$_SESSION['user_ID']=$row["ID_Avatar"];
+				}
+			}
 
 			//A FAIRE : SET LE NOM DE SESSION (Verifier si c'est un utilisateur ou un presentateur)
 
