@@ -137,7 +137,7 @@ class managerUtilisateur
 		}
 	}
 
-	public function existUtilisateurById($num)
+	public function existUtilisateurById($num, $MDP)
 	//BUT : Vérifier si un utilisateur existe
 	//ENTREE : Un ID
 	//SORTIE : Un booléen

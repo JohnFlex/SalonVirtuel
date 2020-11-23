@@ -98,7 +98,7 @@ class managerPresentateur
 		}
 	}
 
-	public function existPresentateurById($num)
+	public function existPresentateurById($num, $MDP)
 	//BUT : Vérifier si un Presentateur existe
 	//ENTREE : Un ID
 	//SORTIE : Un booléen
