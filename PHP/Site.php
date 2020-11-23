@@ -8,6 +8,7 @@
         <h1>Site</h1>
     <footer>
 		<?php
+            session_start();
 			if(isset($_SESSION['user_name'])){
 				echo "vous êtes : ".$_SESSION['user_name'];
 			}
