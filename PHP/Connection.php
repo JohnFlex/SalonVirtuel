@@ -18,9 +18,9 @@
 				$conn = connect_bd();
 				$manager = new managerUtilisateur($conn);
 				$tmpUtilisateur = $manager->insertTempUtilisateur();
-				$_SESSION['user_name']=$tmpUtilisateur["Nom"];
+				$_SESSION['user_name']=$tmpUtilisateur->getNom();
 
-				$_SESSION['user_ID']=$tmpUtilisateur["Id"];
+				$_SESSION['user_ID']=$tmpUtilisateur->getId();
 
 				$_SESSION['user_Statue']=0;
 
