@@ -10,10 +10,14 @@
 	</HEAD>
 	<BODY>
 		<?php
-			require_once("PHP/objUtilisateur.php");
+			require_once("./PDO_Connect/PDO_Connect.php");
+			require_once("./Objets/managerUtilisateur.php");
+			
 			if(!isset($_SESSION['user_name'])){
 				session_start();
-				$tmpUtilisateur = insertTempUtilisateur()
+				$conn = connect_bd();
+				$manager = new managerUtilisateur($conn);
+				$tmpUtilisateur = $manager->insertTempUtilisateur();
 				$_SESSION['user_name']=$tmpUtilisateur["Nom"];
 
 				$_SESSION['user_ID']=$tmpUtilisateur["Id"];
