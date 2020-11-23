@@ -147,7 +147,7 @@ class managerUtilisateur
 		{
 			$stmt = $this->db->prepare($req);
 
-			$stmt->bindValue(":ID", $ID, PDO::PARAM_STR);
+			$stmt->bindValue(":ID", $num, PDO::PARAM_STR);
 
 			$stmt->execute();
 
