@@ -7,6 +7,12 @@
     <body>
         <h1>Site</h1>
     <footer>
+		<?php
+			if(isset($_SESSION['user_name'])){
+				echo "vous êtes : ".$_SESSION['user_name'];
+			}
+				
+		?>
         <a href="Accueil.php">Retour Accueil</a>
     </footer>
     </body>
