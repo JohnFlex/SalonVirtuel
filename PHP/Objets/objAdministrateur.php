@@ -1,5 +1,5 @@
 <?php
-class Utilisateur
+class Administrateur
 {
 	//Membres privés
 	private $ID_Administrateur;
