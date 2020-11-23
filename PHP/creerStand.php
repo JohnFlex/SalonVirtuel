@@ -4,9 +4,9 @@
         header('Location: Accueil.php');
     }
     */
-    require_once("./PDO_Connect/PDO_Connect.php");
-    require_once("./Objets/managerStand.php");
-    require_once("./Objets/managerRessource.php");
+    require_once("PDO_Connect/PDO_Connect.php");
+    require_once("Objets/managerStand.php");
+    require_once("Objets/managerRessource.php");
 
     $db = connect_bd();
 ?>

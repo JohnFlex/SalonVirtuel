@@ -9,25 +9,6 @@
 		<link rel="shortcut icon" type="image/x-icon" href="">     
 	</HEAD>
 	<BODY>
-		<?php
-			require_once("./PDO_Connect/PDO_Connect.php");
-			require_once("./Objets/managerUtilisateur.php");
-			
-			if(!isset($_SESSION['user_name'])){
-				session_start();
-				$conn = connect_bd();
-				$manager = new managerUtilisateur($conn);
-				$tmpUtilisateur = $manager->insertTempUtilisateur();
-				$_SESSION['user_name']=$tmpUtilisateur["Nom"];
-
-				$_SESSION['user_ID']=$tmpUtilisateur["Id"];
-
-				$_SESSION['user_Statue']=0;
-
-			}else{
-				echo "vous êtes : ".$_SESSION['user_name'];
-			}
-		?>
 		<form method="POST" action="#">
 			<label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" onchange="" required><span class="desc">ne pas utiliser de caracter spécial</span><br>
 			<label for="mdp"> Mot de Passe : </label><input type="password" id="pass" name="mdp" placeholder="password"   required><span class="desc">doit au moins contenir 1 Majuscule, 1 Minuscule et 1 Chiffre</span><br>
@@ -52,6 +33,11 @@
 
 	if(isset($_POST["nom"]) && isset($_POST["mdp"]))
 	{
+		//Faire un Select From Utilisateur si rowcount()>0 c'est OK
+		//Sinon Faire un Select From Presentateur si rowcount()>0 c'est OK
+		//Sinon Faire un Select From Administrateur si rowcount()>0 c'est OK
+		//Sinon Nom et MDP invalide.
+
 		$tab = array("Nom" =>$_POST["nom"], "MDP" => $_POST["mdp"]);
 
 		$manager = new managerUtilisateur($conn);
@@ -63,7 +49,6 @@
 		//var_dump($Ut1->getMDP());
 
 
-
 		$verifUt = $manager->selectUtilisateurByName($Ut1->getNom());
 		//var_dump($verifUt->getMDP());
 
@@ -71,29 +56,25 @@
 		{		
 			echo"<script> alert('Connection au salon');</script>";
 
-			if(!isset($_SESSION['user_name'])){
-				session_start();
+			session_start();
 
-				$_SESSION['user_name']=$_POST["nom"];
+			$_SESSION['user_name']=$_POST["nom"];
 
-		
-				$sql="SELECT ID_Avatar FROM `DB_SALON_Utilisateur` WHERE Nom_Avatar=".$_POST["nom"];
-				foreach($conn->query($sql) as $row){
-					$_SESSION['user_ID']=$row["ID_Avatar"];
-				}
-			}else{
-				$_SESSION['user_name']=$_POST["nom"];
+	
+			/****Faire la différenciation****/
+			$_SESSION['user_type']="Utilisateur"; //A changer.
 
-		
-				$sql="SELECT ID_Avatar FROM `DB_SALON_Utilisateur` WHERE Nom_Avatar=".$_POST["nom"];
-				foreach($conn->query($sql) as $row){
-					$_SESSION['user_ID']=$row["ID_Avatar"];
-				}
+			$sql="SELECT ID_Avatar FROM `DB_SALON_Utilisateur` WHERE Nom_Avatar=".$_POST["nom"];
+			foreach($conn->query($sql) as $row)
+			{
+				$_SESSION['user_ID']=$row["ID_Avatar"];
 			}
+			/********/
+
 
 			//A FAIRE : SET LE NOM DE SESSION (Verifier si c'est un utilisateur ou un presentateur)
 
-			header("Location: site.php");
+			header("Location: Site.php");
 		}
 		else
 		{
