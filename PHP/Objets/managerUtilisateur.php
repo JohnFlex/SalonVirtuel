@@ -64,7 +64,7 @@ class managerUtilisateur
 	}
 
 	public function insertTempUtilisateur()
-	//BUT : Insérer un utilisateur temporaire dans le base de donnée
+	//BUT : Insérer un utilisateur temporaire dans la base de donnée
 	//ENTREE : /
 	//SORTIE : Un objet utilisateur
 	{
@@ -97,6 +97,66 @@ class managerUtilisateur
 			$U->hydrate($tab);
 
 			return $U;
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
+
+	public function existUtilisateurByName($name)
+	//BUT : Vérifier si un utilisateur existe
+	//ENTREE : Un nom
+	//SORTIE : Un booléen
+	{
+		$req = "SELECT * FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":NOM", $name, PDO::PARAM_STR);
+
+			$stmt->execute();
+
+			if($stmt->rowCount() > 0)
+			{
+				return true;
+			}else{
+				return false;
+			}
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
+
+	public function existUtilisateurById($num)
+	//BUT : Vérifier si un utilisateur existe
+	//ENTREE : Un ID
+	//SORTIE : Un booléen
+	{
+		$req = "SELECT * FROM DB_SALON_Utilisateur WHERE ID_Avatar = :ID";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":ID", $ID, PDO::PARAM_STR);
+
+			$stmt->execute();
+
+			if($stmt->rowCount() > 0)
+			{
+				return true;
+			}else{
+				return false;
+			}
 		}
 		catch(PDOException $error)
 		{
