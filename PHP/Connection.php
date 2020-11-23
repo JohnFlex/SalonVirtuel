@@ -16,6 +16,9 @@
 		</form>
 	</BODY>
     <footer>
+		<div>
+        	<a href="Inscription.php">Inscription</a>
+        </div>
         <a href="Accueil.php">Retour Accueil</a>
     </footer>
 </HTML>

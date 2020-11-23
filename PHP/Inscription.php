@@ -126,6 +126,9 @@
 		<!-- faire un formulaire de recherche de personne avec le nom ou prenom ou email ou date de naissance (banParam,banValues) -->
 	
     <footer>
+    	<div>
+            <a href="Connection.php">Connexion</a>
+        </div>
         <a href="Accueil.php">Retour Accueil</a>
     </footer>
 	</BODY>
