@@ -1,5 +1,5 @@
 // Variables globales
-let lastId = 0 // id du dernier message affiché
+let lastId = 0; // id du dernier message affiché
 
 // On attend le chargement du document
 window.onload = () =>{
@@ -24,8 +24,11 @@ function chargeMessages(){
 
     // On gère la réponse
     xmlhttp.onreadystatechange = function(){
-        if (this.readyState == 4){
-            if(this.status == 200){
+        if (this.readyState == 4)
+        {
+            console.log(this.status)
+            if(this.status == 200)
+            {
                 // On a une réponse
                 // On convertit la réponse en objet JS
                 //console.log(this.response);

@@ -1,9 +1,9 @@
 <?php
-	define("SERVERNAME", "localhost"); //Nom du serveur.
-	define("USERNAME", "root"); //Nom d'utilisateur.
-	define("PASSWORD", ""); //Mot de Passe.
-	define("DBNAME", "db_tchat"); //Nom de la Base de Donnée.
-
+	define("SERVERNAME", "ormcomcplh778.mysql.db"); //Nom du serveur.
+	define("USERNAME", "ormcomcplh778"); //Nom d'utilisateur.
+	define("PASSWORD", "R8frzgZzN5S8"); //Mot de Passe.
+	define("DBNAME", "ormcomcplh778"); //Nom de la Base de Donnée.
+	
 	function ConnexionBDD()
 	{
 		$dsn="mysql:host=".SERVERNAME.";dbname=".DBNAME;//Data Source Name.

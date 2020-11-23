@@ -3,7 +3,8 @@
 //session_start();
 
 // On vérifie la méthode
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if($_SERVER['REQUEST_METHOD'] == 'POST')
+{
     // On vérifie si l'utilisateur est connecté
     //if(/*isset($_SESSION['user']['id']*/true)){
         // L'utilisateur est connecté
@@ -23,7 +24,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $db = ConnexionBDD();
 
             // On écrit la requête
-            $sql = 'INSERT INTO db_tchat_message (message, pseudo) VALUES (:message, :user);';
+            $sql = 'INSERT INTO DB_TCHAT_MESSAGE (message, pseudo) VALUES (:message, :user);';
 
             // On prépare la requête
             $query = $db->prepare($sql);
