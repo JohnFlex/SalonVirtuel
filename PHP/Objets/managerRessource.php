@@ -197,7 +197,56 @@ class managerRessource
         {
             echo "<script>console.log('".$error->getMessage()."')</script>";
         }
-    }
+	}
+	
+	public function selectRessourceByStandId($id_stand) {
+		$req = "SELECT R.* FROM DB_SALON_Stand S, DB_SALON_Ressource R, DB_SALON_Contenir C WHERE S.ID_Stand = :ID AND S.ID_Stand = C.ID_Stand AND C.ID_Ressource = R.ID_Ressource";
+
+		try {
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":ID",$id_stand,PDO::PARAM_INT);
+
+			$stmt->execute();
+
+			return $stmt;
+			
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+		}
+		
+	}
+
+	public function updateRessource(Ressource $R)
+	{
+		$req = "UPDATE DB_SALON_Ressource SET Libelle_Ressource = :LIBELLE,Lien_Ressource = :LIEN  WHERE ID_Ressource = :ID";
+		try {
+			$stmt = $this->db->prepare($req);
+			$stmt->bindValue(":LIBELLE",$R->getLibelle(),PDO::PARAM_STR);
+			$stmt->bindValue(":LIEN",$R->getLien(),PDO::PARAM_STR);
+			$stmt->bindValue(":ID",$R->getId(),PDO::PARAM_INT);
+
+			$stmt->execute();
+
+		} catch(PDOException $e) {
+            echo "Erreur : ".$e->getMessage();
+        }
+	}
+
+	public function deleteRessourceById($id) {
+		$req = "DELETE FROM DB_SALON_Contenir WHERE ID_Ressource = :ID1; DELETE FROM DB_SALON_Ressource WHERE ID_Ressource = :ID2";
+		try {
+			$stmt = $this->db->prepare($req);
+			$stmt->bindValue(":ID1",$id,PDO::PARAM_INT);
+			$stmt->bindValue(":ID2",$id,PDO::PARAM_INT);
+
+			$stmt->execute();
+		} catch(PDOException $e) {
+            echo "Erreur : ".$e->getMessage();
+		}
+	}
 
     /*End*/
 }

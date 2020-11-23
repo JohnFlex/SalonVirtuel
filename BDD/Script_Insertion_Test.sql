@@ -39,3 +39,18 @@ VALUES
 
 
 SELECT * FROM DB_SALON_Attendre A, DB_SALON_Utilisateur U WHERE A.ID_Avatar = U.ID_Avatar AND Nom_Avatar = "Cesar";
+
+INSERT INTO DB_SALON_Stand_Element(Nom_Element)VALUES ("MurG"),("MurD"),("Sol");
+
+INSERT INTO DB_SALON_Emplacement
+(Position_X_Emplacement,Position_Y_Emplacement)
+VALUES
+(1,1),
+(1,2),
+(1,3),
+(2,1),
+(2,2),
+(2,3),
+(3,1),
+(3,2),
+(3,3);

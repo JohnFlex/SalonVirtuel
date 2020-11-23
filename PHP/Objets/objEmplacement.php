@@ -1,13 +1,12 @@
 <?php
-class Stand
+class Emplacement
 {
 	//Membres privés
-	private $ID_Stand;
-	private $Libelle_Stand;
-	private $Categorie_Stand;
-	private $Information_Stand;
 	private $Position_X_Element;
     private $Position_Y_Element;
+    private $ID_Mur_Gauche;
+	private $ID_Mur_Droite;
+	private $ID_Sol;
 
 
 	//Fonctions membres
@@ -36,24 +35,6 @@ class Stand
 
 
 	//Les getters
-	public function getId()
-	{
-		return $this->ID_Stand;
-	}
-
-	public function getLibelle()
-	{
-		return $this->Libelle_Stand;
-	}
-
-	public function getCategorie()
-	{
-		return $this->Categorie_Stand;
-	}
-	public function getInformation()
-	{
-		return $this->Information_Stand;
-	}
 	public function getPositionX()
 	{
 		return $this->Position_X_Element;
@@ -62,26 +43,21 @@ class Stand
 	{
 		return $this->Position_Y_Element;
     }
-
-
+    public function getIdMurGauche()
+	{
+		return $this->ID_Mur_Gauche;
+	}
+	public function getIdMurDroite()
+	{
+		return $this->ID_Mur_Droite;
+	}
+	public function getIdSol()
+	{
+		return $this->ID_Sol;
+	}
+    
 	//Les setters
-	public function setId($num)
-	{
-		$this->ID_Stand = $num;
-	}
 
-	public function setLibelle($str)
-	{
-		$this->Libelle_Stand = $str;
-	}
-	public function setInformation($str)
-	{
-		$this->Information_Stand = $str;
-	}
-	public function setCategorie($str)
-	{
-		$this->Categorie_Stand = $str;
-	}
 	public function setPositionX($num)
 	{
 		$this->Position_X_Element = $num;
@@ -90,13 +66,24 @@ class Stand
 	{
 		$this->Position_Y_Element = $num;
     }
-
+    public function setIdMurGauche($num)
+	{
+		$this->ID_Mur_Gauche = $num;
+	}
+	public function setIdMurDroite($num)
+	{
+		$this->ID_Mur_Droite = $num;
+	}
+	public function setIdSol($num)
+	{
+		$this->ID_Sol = $num;
+	}
 
 
 	//Autres
 	public function __toString()
 	{
-		return "Utilisateur : ID_Stand=".$this->getId().", Libelle_Stand=".$this->getLibelle().", Information_Stand=".$this->getInformation().", Categorie_Stand=".$this->getCategorie();
+		return "Utilisateur : Position_X_Element=".$this->getPositonX().", Position_Y_Element=".$this->getPositionY().", ID_Mur_Gauche=".$this->getIdMurGauche().", ID_Mur_Droite=".$this->getIdMurDroite().", ID_Sol=".$this->getIdSol();
 	}
 }
 ?>

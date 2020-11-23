@@ -44,7 +44,7 @@ class managerStand
 	//ENTREE : Un objet stand
 	//SORTIE : /
 	{
-		$req = "INSERT INTO DB_SALON_Stand(Libelle_Stand) VALUES (:LIBELLE)";
+		$req = "INSERT INTO DB_SALON_Stand(Libelle_Stand,Information_Stand,Categorie_Stand,Position_X_Emplacement,Position_Y_Emplacement) VALUES (:LIBELLE,:INFORMATION,:CATEGORIE,:X,:Y)";
 
 		//Envoie de la requête à la base
 		try
@@ -53,6 +53,10 @@ class managerStand
 
 			//$stmt->bindValue(":ID", $S->getId(), PDO::PARAM_INT);
 			$stmt->bindValue(":LIBELLE", $S->getLibelle(), PDO::PARAM_STR);
+			$stmt->bindValue(":INFORMATION", $S->getInformation(), PDO::PARAM_STR);
+			$stmt->bindValue(":CATEGORIE", $S->getCategorie(), PDO::PARAM_STR);
+			$stmt->bindValue(":X", $S->getPositionX(), PDO::PARAM_INT);
+            $stmt->bindValue(":Y", $S->getPositionY(), PDO::PARAM_INT);
 
 			$stmt->execute();
 
@@ -105,7 +109,7 @@ class managerStand
 
 			$stmt->execute();
 
-			$S = new Utilisateur;
+			$S = new Stand;
 
 			if($stmt->rowCount() > 0)
 			{
@@ -113,12 +117,20 @@ class managerStand
 
 				$tab = array(
 					"Id" => $valueStmt['ID_Stand'],
-					"Libelle" => $valueStmt['Libelle_Stand']
+					"Libelle" => $valueStmt['Libelle_Stand'],
+					"Categorie" => $valueStmt['Categorie_Stand'],
+					"Information" => $valueStmt['Information_Stand'],
+					"PositionX" => $valueStmt['Position_X_Emplacement'],
+					"PositionY" => $valueStmt['Position_Y_Emplacement']
 					);
 			}else{
 				$tab = array(
 					"Id" => "",
-					"Libelle" => ""
+					"Libelle" => "",
+					"Categorie" => "",
+					"Information" => "",
+					"PositionX" => "",
+					"PositionY" => ""
 					);
 			}
 
@@ -149,20 +161,29 @@ class managerStand
 
 			$stmt->execute();
 
-			$S = new Utilisateur;
+			$S = new Stand;
 
+	
 			if($stmt->rowCount() > 0)
 			{
 				$valueStmt = $stmt->fetchAll()[0];
-				
+
 				$tab = array(
 					"Id" => $valueStmt['ID_Stand'],
-					"Libelle" => $valueStmt['Libelle_Stand']
+					"Libelle" => $valueStmt['Libelle_Stand'],
+					"Categorie" => $valueStmt['Categorie_Stand'],
+					"Information" => $valueStmt['Information_Stand'],
+					"PositionX" => $valueStmt['Position_X_Emplacement'],
+					"PositionY" => $valueStmt['Position_Y_Emplacement']
 					);
 			}else{
 				$tab = array(
 					"Id" => "",
-					"Libelle" => ""
+					"Libelle" => "",
+					"Categorie" => "",
+					"Information" => "",
+					"PositionX" => "",
+					"PositionY" => ""
 					);
 			}
 
@@ -176,6 +197,44 @@ class managerStand
 			exit();
 		}
 	}
+
+	public function updateStand(Stand $S) {
+		$req = "UPDATE DB_SALON_Stand SET Libelle_Stand = :LIBELLE , Information_Stand = :INFORMATION , Categorie_Stand = :CATEGORIE , Position_X_Emplacement = :X , Position_Y_Emplacement = :Y  WHERE ID_Stand = :ID";
+		try {
+			$stmt = $this->db->prepare($req);
+			$stmt->bindValue(":LIBELLE",$S->getLibelle(),PDO::PARAM_STR);
+			$stmt->bindValue(":INFORMATION", $S->getInformation(), PDO::PARAM_STR);
+			$stmt->bindValue(":CATEGORIE", $S->getCategorie(), PDO::PARAM_STR);
+            $stmt->bindValue(":X", $S->getPositionX(), PDO::PARAM_INT);
+			$stmt->bindValue(":Y", $S->getPositionY(), PDO::PARAM_INT);
+			
+			$stmt->bindValue(":ID",$S->getId(),PDO::PARAM_INT);
+
+			$stmt->execute();
+
+
+		} catch(PDOException $e) {
+            echo "Erreur : ".$e->getMessage();
+        }
+	}
+
+	public function updateStandEmplacement(Stand $S)
+	{
+		$req = "UPDATE DB_SALON_Stand SET Position_X_Emplacement = :X, Position_Y_Emplacement = :Y  WHERE ID_Stand = :ID";
+		try {
+			$stmt = $this->db->prepare($req);
+            $stmt->bindValue(":X", $S->getPositionX(), PDO::PARAM_INT);
+			$stmt->bindValue(":Y", $S->getPositionY(), PDO::PARAM_INT);
+			
+			$stmt->bindValue(":ID",$S->getId(),PDO::PARAM_INT);
+
+			$stmt->execute();
+
+		} catch(PDOException $e) {
+            echo "Erreur : ".$e->getMessage();
+        }
+	}
+
 	/*End*/
 }
 ?>
