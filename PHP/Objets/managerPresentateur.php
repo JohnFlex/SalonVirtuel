@@ -66,6 +66,70 @@ class managerPresentateur
 		}
 	}
 
+	public function existPresentateurByName($name, $MDP)
+	//BUT : Vérifier si un Presentateur existe
+	//ENTREE : Un nom
+	//SORTIE : Un booléen
+	{
+		$req = "SELECT * FROM DB_SALON_Presentateur WHERE Nom_Avatar = :NOM";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":NOM", $name, PDO::PARAM_STR);
+
+			$stmt->execute();
+
+			if($stmt->rowCount > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+
+				return password_verify($MDP, $valueStmt["MDP"]);
+			}else{
+				return false;
+			}
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			return false;
+		}
+	}
+
+	public function existPresentateurById($num)
+	//BUT : Vérifier si un Presentateur existe
+	//ENTREE : Un ID
+	//SORTIE : Un booléen
+	{
+		$req = "SELECT * FROM DB_SALON_Presentateur WHERE ID_Avatar = :ID";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":ID", $num, PDO::PARAM_STR);
+
+			$stmt->execute();
+
+			if($stmt->rowCount > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+
+				return password_verify($MDP, $valueStmt["MDP"]);
+			}else{
+				return false;
+			}
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			return false;
+		}
+	}
+
 	public function selectPresentateurs()
 	//BUT : Récupérer tous les Presentateurs
 	//ENTREE : /

@@ -1,7 +1,7 @@
 <?php
-require_once("objUtilisateur.php");
+require_once("objAdministrateur.php");
 
-class managerUtilisateur
+class managerAdministrateur
 {
 	//Membres privés
 	private $db;
@@ -39,12 +39,12 @@ class managerUtilisateur
 		return "Database=".$this->getDb();
 	}
 
-	public function insertUtilisateur(Utilisateur $U)
-	//BUT : Insérer un utilisateur dans le base de donnée
-	//ENTREE : Un objet utilisateur
+	public function insertAdministrateur(Administrateur $U)
+	//BUT : Insérer un Administrateur dans le base de donnée
+	//ENTREE : Un objet Administrateur
 	//SORTIE : /
 	{
-		$req = "INSERT INTO DB_SALON_Avatar() VALUES(); INSERT INTO DB_SALON_Utilisateur(ID_Avatar, Nom_Avatar, MDP_Utilisateur) VALUES ((Select MAX(ID_Avatar) FROM DB_SALON_Avatar), :NOM, :MDP)";
+		$req = "INSERT INTO DB_SALON_Administrateur(Nom_Administrateur, MDP_Administrateur) VALUES (:NOM, :MDP)";
 
 		//Envoie de la requête à la base
 		try
@@ -63,54 +63,12 @@ class managerUtilisateur
 		}
 	}
 
-	public function insertTempUtilisateur()
-	//BUT : Insérer un utilisateur temporaire dans la base de donnée
-	//ENTREE : /
-	//SORTIE : Un objet utilisateur
-	{
-		$req = "INSERT INTO DB_SALON_Avatar() VALUES(); 
-
-				INSERT INTO DB_SALON_Utilisateur(ID_Avatar, Nom_Avatar, MDP_Utilisateur) 
-				VALUES (
-					(Select MAX(ID_Avatar) FROM DB_SALON_Avatar), 
-					CONCAT('GUEST',(Select MAX(ID_Avatar) FROM DB_SALON_Avatar)),
-					''
-				);";
-
-		//Envoie de la requête à la base
-		try
-		{
-			$stmt = $this->db->prepare($req);
-
-			$stmt->execute();
-
-			$lastId = $this->db->lastInsertId();
-
-			$U = new Utilisateur;
-
-			$tab = array(
-				"Id" => $lastId,
-				"Nom" => "GUEST".$lastId,
-				"MDP" => ""
-			);
-
-			$U->hydrate($tab);
-
-			return $U;
-		}
-		catch(PDOException $error)
-		{
-			echo "<script>console.log('".$error->getMessage()."')</script>";
-			exit();
-		}
-	}
-
-	public function existUtilisateurByName($name, $MDP)
-	//BUT : Vérifier si un utilisateur existe
+	public function existAdministrateurByName($name, $MDP)
+	//BUT : Vérifier si un Administrateur existe
 	//ENTREE : Un nom
 	//SORTIE : Un booléen
 	{
-		$req = "SELECT * FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM";
+		$req = "SELECT * FROM DB_SALON_Administrateur WHERE Nom_Administrateur = :NOM";
 
 		//Envoie de la requête à la base
 		try
@@ -137,12 +95,12 @@ class managerUtilisateur
 		}
 	}
 
-	public function existUtilisateurById($num)
-	//BUT : Vérifier si un utilisateur existe
+	public function existAdministrateurById($num)
+	//BUT : Vérifier si un Administrateur existe
 	//ENTREE : Un ID
 	//SORTIE : Un booléen
 	{
-		$req = "SELECT * FROM DB_SALON_Utilisateur WHERE ID_Avatar = :ID";
+		$req = "SELECT * FROM DB_SALON_Administrateur WHERE ID_Administrateur = :ID";
 
 		//Envoie de la requête à la base
 		try
@@ -169,12 +127,12 @@ class managerUtilisateur
 		}
 	}
 
-	public function selectUtilisateurs()
-	//BUT : Récupérer tous les utilisateurs
+	public function selectAdministrateurs()
+	//BUT : Récupérer tous les Administrateurs
 	//ENTREE : /
-	//SORTIE : Une table contenant l'ensemble des utilisateurs
+	//SORTIE : Une table contenant l'ensemble des Administrateurs
 	{
-		$req = "SELECT * FROM DB_SALON_Utilisateur";
+		$req = "SELECT * FROM DB_SALON_Administrateur";
 
 		//Envoie de la requête à la base
 		try
@@ -192,12 +150,12 @@ class managerUtilisateur
 		}
 	}
 
-	public function selectUtilisateurByName($name)
-	//BUT : Récupérer un utilisateur grâce à son pseudo
-	//ENTREE : Le nom de l'utilisateur
-	//SORTIE : Un objet utilisateur contenant les informations de l'utilisateur
+	public function selectAdministrateurByName($name)
+	//BUT : Récupérer un Administrateur grâce à son pseudo
+	//ENTREE : Le nom de l'Administrateur
+	//SORTIE : Un objet Administrateur contenant les informations de l'Administrateur
 	{
-		$req = "SELECT * FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM";
+		$req = "SELECT * FROM DB_SALON_Administrateur WHERE Nom_Administrateur = :NOM";
 
 		//Envoie de la requête à la base
 		try
@@ -208,16 +166,16 @@ class managerUtilisateur
 
 			$stmt->execute();
 
-			$U = new Utilisateur;
+			$U = new Administrateur;
 
 			if($stmt->rowCount() > 0)
 			{
 				$valueStmt = $stmt->fetchAll()[0];
 
 				$tab = array(
-					"Id" => $valueStmt['ID_Avatar'],
-					"Nom" => $valueStmt['Nom_Avatar'],
-					"MDP" => $valueStmt['MDP_Utilisateur']
+					"Id" => $valueStmt['ID_Administrateur'],
+					"Nom" => $valueStmt['Nom_Administrateur'],
+					"MDP" => $valueStmt['MDP_Administrateur']
 					);
 			}else{
 				$tab = array(
@@ -238,12 +196,12 @@ class managerUtilisateur
 		}
 	}
 
-	public function selectUtilisateurById($id)
-	//BUT : Récupérer un utilisateur grâce à son id
-	//ENTREE : L'id de l'utilisateur
-	//SORTIE : Un objet utilisateur contenant les informations de l'utilisateur
+	public function selectAdministrateurById($id)
+	//BUT : Récupérer un Administrateur grâce à son id
+	//ENTREE : L'id de l'Administrateur
+	//SORTIE : Un objet Administrateur contenant les informations de l'Administrateur
 	{
-		$req = "SELECT * FROM DB_SALON_Utilisateur WHERE ID_Avatar = :ID";
+		$req = "SELECT * FROM DB_SALON_Administrateur WHERE ID_Administrateur = :ID";
 
 		//Envoie de la requête à la base
 		try
@@ -254,16 +212,16 @@ class managerUtilisateur
 
 			$stmt->execute();
 
-			$U = new Utilisateur;
+			$U = new Administrateur;
 
 			if($stmt->rowCount() > 0)
 			{
 				$valueStmt = $stmt->fetchAll()[0];
 
 				$tab = array(
-					"Id" => $valueStmt['ID_Avatar'],
-					"Nom" => $valueStmt['Nom_Avatar'],
-					"MDP" => $valueStmt['MDP_Utilisateur']
+					"Id" => $valueStmt['ID_Administrateur'],
+					"Nom" => $valueStmt['Nom_Administrateur'],
+					"MDP" => $valueStmt['MDP_Administrateur']
 					);
 			}else{
 				$tab = array(
