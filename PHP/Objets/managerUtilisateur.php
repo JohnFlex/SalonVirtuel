@@ -201,6 +201,8 @@ class managerUtilisateur
 	{
 		$req = "SELECT * FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM";
 
+		echo $name;
+
 		//Envoie de la requête à la base
 		try
 		{
