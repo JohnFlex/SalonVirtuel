@@ -4,10 +4,7 @@ class Emplacement
 	//Membres privés
 	private $Position_X_Element;
     private $Position_Y_Element;
-    private $ID_Mur_Gauche;
-	private $ID_Mur_Droite;
-	private $ID_Sol;
-
+    private $Couleur_Element;
 
 	//Fonctions membres
 	//Le hydrate (Ou le constructeur)
@@ -42,19 +39,12 @@ class Emplacement
 	public function getPositionY()
 	{
 		return $this->Position_Y_Element;
-    }
-    public function getIdMurGauche()
-	{
-		return $this->ID_Mur_Gauche;
 	}
-	public function getIdMurDroite()
+	public function getCouleur()
 	{
-		return $this->ID_Mur_Droite;
+		return $this->Couleur_Element;
 	}
-	public function getIdSol()
-	{
-		return $this->ID_Sol;
-	}
+
     
 	//Les setters
 
@@ -66,24 +56,16 @@ class Emplacement
 	{
 		$this->Position_Y_Element = $num;
     }
-    public function setIdMurGauche($num)
+	public function setCouleur($str)
 	{
-		$this->ID_Mur_Gauche = $num;
-	}
-	public function setIdMurDroite($num)
-	{
-		$this->ID_Mur_Droite = $num;
-	}
-	public function setIdSol($num)
-	{
-		$this->ID_Sol = $num;
+		$this->Couleur_Element = $str;
 	}
 
 
 	//Autres
 	public function __toString()
 	{
-		return "Utilisateur : Position_X_Element=".$this->getPositonX().", Position_Y_Element=".$this->getPositionY().", ID_Mur_Gauche=".$this->getIdMurGauche().", ID_Mur_Droite=".$this->getIdMurDroite().", ID_Sol=".$this->getIdSol();
+		return "Utilisateur : Position_X_Element=".$this->getPositonX().", Position_Y_Element=".$this->getPositionY().", Couleur=".$this->getCouleur();
 	}
 }
 ?>

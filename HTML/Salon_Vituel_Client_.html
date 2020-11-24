@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon Vituel</title>
+    <link href="../CSS/style_salon.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="test"></div>
+    <canvas id="salon"></canvas>
+   <!--<div id="test2"></div>
+    <div id="test3"></div>
+    <div id="test4"></div>--> 
+</body>
+<script>
+    var MonCanvas = document.getElementById("salon");
+    MonCanvas.addEventListener("click", ClickStand);
+    MonCanvas.addEventListener("click", ClickPerso);
+    var ctx2d = MonCanvas.getContext("2d");
+    var player = document.getElementById("player");
+    setInterval(update,1000/10);
+
+    var positionX = 40;
+    var positionY = 45;
+    var positionCliquerX = positionX+690;
+    var positionCliquerY = positionY+115;
+    document.addEventListener("keydown",OnGameDown);
+    document.addEventListener("keyup",OnGameUp);
+    var Condi1 = true;
+    var Condi2= true;
+    var deplacementDroite = false;
+    var deplacementGauche = false;
+    var deplacementHaut = false;
+    var deplacementBas = false;
+    var P = 0;
+    var currentColor = "red";
+    function update()
+    {
+        ctx2d.clearRect(0,0,500,500);
+        ctx2d.fillStyle =  "rgb(0,0,0)"
+        ctx2d.fillRect(0,0,500,500);
+
+        LesSalon();
+        colisionStand();
+        //console.log("X: ",positionX+400," Y: ",positionY+100);
+
+        ctx2d.fillStyle = currentColor;
+        ctx2d.fillRect(positionX,positionY,20,10);
+        deplacement();
+        console.log()
+        //var testPosition = document.getElementById("test");
+        //testPosition.innerHTML = " X : "+ positionCliquerX+ " Y : "+ positionCliquerY;
+        //var testPosition2 = document.getElementById("test2");
+        //testPosition2.innerHTML = " X : "+ positionX+ " Y : "+ positionY;
+        //var testPosition3 = document.getElementById("test3");
+        //testPosition3.innerHTML = " X : "+ (positionCliquerX+50)+ " Y : "+ (positionCliquerY+40);
+        //var testPosition4 = document.getElementById("test4");
+        //testPosition4.innerHTML = " X : "+ sourisX+ " Y : "+ sourisY;
+    }
+
+
+function OnGameDown (e){
+    //console.log(e.keyCode);
+    switch (e.keyCode) {
+            case 37:if(Condi1)
+                    {
+                    deplacementGauche = true;
+                    Condi1=false; 
+                    } 
+            break;
+            case 39:if(Condi1)
+                    {
+                    deplacementDroite = true; 
+                    Condi1=false;
+                    }
+            break;
+            case 38:if(Condi2)
+                    {
+                    deplacementHaut = true; 
+                    Condi2=false;
+                    }
+            break;
+            case 40:if(Condi2)
+                    {
+                    deplacementBas = true;
+                    Condi2=false;
+                    }  
+            break;
+        }
+    
+}
+function OnGameUp (e){
+    switch (e.keyCode) {
+            case 37: deplacementGauche = false;
+                    Condi2=true; 
+            break;
+            case 39: deplacementDroite = false;
+                    Condi2=true;
+             break;
+             case 38: deplacementHaut = false;
+                    Condi1=true;
+            break;
+            case 40: deplacementBas = false;
+                    Condi1=true
+            break;
+        }
+}
+
+function deplacement ()
+{
+        if(deplacementBas)
+        {
+            positionY= positionY +5;
+            positionCliquerY = positionCliquerY +15;
+        }
+        if(deplacementHaut)
+        {
+            positionY= positionY -5;
+            positionCliquerY= positionCliquerY -15;
+        }
+        if(deplacementDroite)
+        {
+            positionX = positionX +5;
+            positionCliquerX = positionCliquerX +10;
+        }
+        if(deplacementGauche)
+        {
+            positionX = positionX -5;
+            positionCliquerX = positionCliquerX -10;
+        }
+        //console.log("Perso X: ", positionX," Perso Y: ",positionY);
+}
+
+
+function LesSalon ()
+{
+    for(var i = 0; i<500;i++)
+        {
+            for(var j = 0; j<500; j++)
+            {
+                if (i<15 && j<7)
+                {
+                    ctx2d.fillStyle =  Stand[0].Background;
+                    ctx2d.fillRect(i,j,50,25);
+                }
+                if ((i>115 && j<7)&&(i<140 && j<7))
+                {
+                    ctx2d.fillStyle =  Stand[1].Background;
+                    ctx2d.fillRect(i,j,50,25);
+                }
+                if ((i>215 && j<7)&&(i<240 && j<7))
+                {
+                    ctx2d.fillStyle =  Stand[2].Background;
+                    ctx2d.fillRect(i,j,50,25);
+                }
+
+                if ((j>55) && (i<15 && j<65))
+                {
+                    ctx2d.fillStyle =  Stand[3].Background;
+                    ctx2d.fillRect(i,j,50,25);
+                }
+                if ((i>115 &&j>55)&&(i<140 && j<65 ))
+                {
+                    ctx2d.fillStyle =  Stand[4].Background;
+                    ctx2d.fillRect(i,j,50,25);
+                }
+                if ((i>215 &&j>55)&&(i<240 && j<65 ))
+                {
+                    ctx2d.fillStyle =  Stand[5].Background;
+                    ctx2d.fillRect(i,j,50,25);
+                }
+
+
+                if ((j>120) && (i<15 && j<150))
+                {
+                    ctx2d.fillStyle =  Stand[6].Background;
+                    ctx2d.fillRect(i,j,50,25);
+                }
+                if ((i>115 &&j>120)&&(i<140 && j<150 ))
+                {
+                    ctx2d.fillStyle =  Stand[7].Background;
+                    ctx2d.fillRect(i,j,50,25);
+                }
+                if ((i>215 &&j>120)&&(i<240 && j<150 ))
+                {
+                    ctx2d.fillStyle =  Stand[8].Background;
+                    ctx2d.fillRect(i,j,50,25);
+                }
+            }
+        }
+}
+
+
+function colisionStand ()
+{
+
+    if (Clicker == false)
+    {
+        if(positionX < 65 && positionY < 35)
+        {
+            console.log("Hola");
+            P = 0;
+            if (Stand[P].cree == true)
+            {
+                Stand[P].InfoActive == true
+                Information();
+            }
+            
+        }
+        else
+        {
+             if (Stand[0].InfoActive == true)
+            {
+                console.log("Fermé?");
+                fermerfenetre();
+            }
+        }   
+        
+        if((positionX > 115) && (positionX < 190 && positionY < 35))
+        {
+            //console.log("jf");
+            P = 1;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            }
+        }
+        else
+        {
+             if (Stand[1].InfoActive == true)
+            {
+                console.log("Fermé?");
+                fermerfenetre();
+            }
+        } 
+        if((positionX > 215) && (positionX < 290 && positionY < 35))
+        {
+            //console.log("Biquette");
+            P = 2;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            }
+        }
+        else
+        {
+             if (Stand[2].InfoActive == true)
+            {
+                console.log("Fermé?");
+                fermerfenetre();
+            }
+        } 
+        if((positionY > 55) && (positionX < 65 && positionY < 80))
+        {
+            //console.log("Chausette");
+            P = 3;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            }
+        }
+        else
+        {
+             if (Stand[3].InfoActive == true)
+            {
+                console.log("Fermé?");
+                fermerfenetre();
+            }
+        } 
+        if((positionX > 115 && positionY > 55) && (positionX < 190 && positionY < 80))
+        {
+            //console.log("Poke");
+            P = 4;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            }
+        }
+        else
+        {
+             if (Stand[4].InfoActive == true)
+            {
+                console.log("Fermé?");
+                fermerfenetre();
+            }
+        } 
+        if((positionX > 215 && positionY > 55) && (positionX < 290 && positionY < 80))
+        {
+            //console.log("Patates");
+            P = 5;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            }
+        }
+        else
+        {
+             if (Stand[5].InfoActive == true)
+            {
+                console.log("Fermé?");
+                fermerfenetre();
+            }
+        } 
+        if((positionY > 120) && (positionX < 65 && positionY < 150))
+        {
+            //console.log("Dark");
+            P = 6;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            }
+        }
+        else
+        {
+             if (Stand[6].InfoActive == true)
+            {
+                console.log("Fermé?");
+                fermerfenetre();
+            }
+        } 
+        if((positionX > 115 && positionY > 120) && (positionX < 190 && positionY < 150))
+        {
+            //console.log("Diable");
+            P = 7;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            }
+        }
+        else
+        {
+             if (Stand[7].InfoActive == true)
+            {
+                console.log("Fermé?");
+                fermerfenetre();
+            }
+        } 
+        if((positionX > 215 && positionY > 120) && (positionX < 290 && positionY < 150))
+        {
+            //console.log("Abysse");
+            P = 8;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            }
+        }
+        else
+        {
+             if (Stand[8].InfoActive == true)
+            {
+                console.log("Fermé?");
+                fermerfenetre();
+            }
+        } 
+    }
+        
+}
+
+var Stand =[
+    {nom: "nom 1",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "white"},
+    {nom: "nom 2",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 3",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 4",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 5",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 6",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 7",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 8",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 9",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+];
+
+
+
+function Information ()
+    {
+        var fennetre = false
+        for(var i=0;i<9;i++)
+        {
+            if(Stand[i].InfoActive == true)
+            {   
+                //console.log("biquette");
+                fennetre = true;
+            }
+        }
+            if (fennetre == false)
+            {
+            var info = document.createElement("div");
+            info.className = "InfoStand";
+            info.id = "Info";
+            document.body.appendChild(info);
+            var titre = document.createElement("h1");
+            titre.innerHTML = Stand[P].nom;
+            document.getElementById("Info").appendChild(titre);
+            var phrase =document.createElement("p");
+            phrase.innerHTML = Stand[P].categorie;
+            document.getElementById("Info").appendChild(phrase);
+            var phrase =document.createElement("p");
+            phrase.innerHTML = Stand[P].organisateur;
+            document.getElementById("Info").appendChild(phrase);
+            var phrase =document.createElement("p");
+            phrase.innerHTML = Stand[P].Resume;
+            document.getElementById("Info").appendChild(phrase);
+            var phrase =document.createElement("p");
+            phrase.innerHTML = Stand[P].nbPersonne;
+            document.getElementById("Info").appendChild(phrase);
+            var phrase =document.createElement("p");
+            phrase.innerHTML = Stand[P].placemax;
+            document.getElementById("Info").appendChild(phrase);
+            var fermer = document.createElement("button");
+            fermer.id = "Fermeture";
+            fermer.innerHTML = "Fermer";
+            fermer.addEventListener("click",fermerfenetre);
+            document.getElementById("Info").appendChild(fermer);
+            Stand[P].InfoActive = true;
+            saveInfo = P;
+            }
+        
+    }
+      
+
+        
+    
+    function fermerfenetre ()
+    {
+        effacer =document.getElementById("Info");
+        effacer.parentElement.removeChild(effacer);
+        Stand[saveInfo].InfoActive = false;
+        Clicker = false;
+    }
+    var souris = document.addEventListener("mousemove", positionsouris); 
+    var sourisX;
+    var sourisY;
+    function positionsouris (e)
+    {
+        //console.log( e.clientX, e.clientY);//position de la souris
+        sourisX = e.clientX;
+        sourisY = e.clientY;
+        console.log("Souris X: ", sourisX, " Souris Y: " ,sourisY);
+    }
+
+var Clicker = false
+    function ClickStand()
+    {
+        
+        //console.log("Bat");
+        if ((sourisX > 710 && sourisY > 0) && (sourisX < 820 && sourisY < 110))
+        {
+            P = 0;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            Clicker = true;
+            }
+        }
+        if ((sourisX > 590 && sourisY > 0) && (sourisX < 690 && sourisY < 110))
+        {
+            P = 1;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            Clicker = true;
+            }
+        }
+        if ((sourisX > 730 && sourisY > 0) && (sourisX < 850 && sourisY < 110))
+        {
+            P = 2;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            Clicker = true;
+            }
+        }
+        if ((sourisX > 370 && sourisY > 200) && (sourisX < 480 && sourisY < 300))
+        {
+            P = 3;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            Clicker = true;
+            }
+        }
+        if ((sourisX > 590 && sourisY > 200) && (sourisX < 690 && sourisY < 300))
+        {
+            P = 4;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            Clicker = true;
+            }
+        }
+        if ((sourisX > 730 && sourisY > 200) && (sourisX < 850 && sourisY < 300))
+        {
+            P = 5;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            Clicker = true;
+            }
+        }
+        if ((sourisX > 370 && sourisY > 410) && (sourisX < 480 && sourisY < 500))
+        {
+            P = 6;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            Clicker = true;
+            }
+        }
+        if ((sourisX > 590 && sourisY > 410) && (sourisX < 690 && sourisY < 500))
+        {
+            P = 7;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            Clicker = true;
+            }
+        }
+        if ((sourisX > 730 && sourisY > 410) && (sourisX < 850 && sourisY < 500))
+        {
+            P = 8;
+            if (Stand[P].cree == true)
+            {
+            Stand[P].InfoActive == true
+            Information();
+            Clicker = true;
+            }
+        }
+        
+    }
+    var Tcolors = ['silver','gray','black','red','darkred','yellow','olive',
+    'lime','green','aqua','teal','blue','navy','fuchsia','purple', 'white'];
+   
+    function createPalette(){
+        var creePalette = document.createElement('div');
+        creePalette.id = "Palette";
+        document.body.appendChild(creePalette); 
+        var palette = document.getElementById("Palette");
+        palette.innerHTML='';
+
+        for(var i = 0; i < Tcolors.length ;i++){//
+            var couleurs = document.createElement('div');
+            couleurs.className = "couleurs";
+            palette.appendChild(couleurs);
+            couleurs.style.background =Tcolors[i];
+            couleurs.addEventListener('click',coloringChoice);
+        }
+        console.log("Palette fini")
+    }
+    function ClickPerso()
+    {
+        if ((sourisX >= positionCliquerX && sourisY>= positionCliquerY)
+        &&(sourisX <= positionCliquerX+50 && sourisY<= positionCliquerY+40))//
+        {
+            createPalette();
+        }
+    }
+    function coloringChoice(e){
+        currentColor = e.target.style.backgroundColor;
+        console.log("Changer");
+        effacerPalette =document.getElementById("Palette");
+        effacerPalette.parentElement.removeChild(effacerPalette);
+    }   
+</script>
+</html>

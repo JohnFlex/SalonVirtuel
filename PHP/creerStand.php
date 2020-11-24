@@ -8,6 +8,14 @@
     require_once("./Objets/managerStand.php");
     require_once("./Objets/managerRessource.php");
 
+    if (isset($_POST["Position_X_Emplacement"])) {
+        $posx = $_POST["Position_X_Emplacement"];
+        $posy = $_POST["Position_Y_Emplacement"];
+    } else {
+        $posx = "";
+        $posy = "";
+    }
+
     $db = connect_bd();
 ?>
 <!DOCTYPE html>
@@ -20,6 +28,9 @@
         <form id="creation_stand" class="" method="post" action="#">
             <label for="nom">Nom du stand :</label>
             <input type="text" id="Libelle_Stand" name="Libelle_Stand" placeholder="Nom du stand" size="15" required />
+
+            <input type="hidden" name="Position_X_Emplacement" value="<?php echo $posx ?>">
+            <input type="hidden" name="Position_Y_Emplacement" value="<?php echo $posy ?>">
 
             <label for="nom">Catégorie :</label>
             <input type="text" id="Categorie_Stand" name="Categorie_Stand" placeholder="Catégorie" size="15" />
@@ -100,12 +111,12 @@
 <?php
     /* Si l'utilisateur a rentré un libellé de stand : création du stand */
     if(isset($_POST['Libelle_Stand']) && !empty($_POST['Libelle_Stand'])) {
-        $managerStand = new managerStand($db);
+        
 
         $mStand = array(
             'Libelle' => $_POST['Libelle_Stand'],
             'Information' => $_POST['Information_Stand'],
-            'Categorie' => $_POST['Categorie_Stand']
+            'Categorie' => $_POST['Categorie_Stand'],
         );
 
         $stand = new Stand;
@@ -114,7 +125,7 @@
 
         /* Si l'utilisateur a rentré un libellé de ressource : création de la ressource*/
         if (isset($_POST['Libelle_Ressource']) && !empty($_POST['Libelle_Ressource'])) {
-            $managerRes = new managerRessource($db);
+            
 
             /* Pour chaque ressource entrée, insertion dans ressource et contenir */
             foreach($_POST['Libelle_Ressource'] as $res) {

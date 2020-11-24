@@ -16,7 +16,7 @@ class managerEmplacement
 	//Le destructeur
 	public function __destruct()
 	{
-		echo "<script>console.log(\"Destruction de l'élement\")</script>";
+		//echo "<script>console.log(\"Destruction de l'élement\")</script>";
 	}
 
 
@@ -44,7 +44,7 @@ class managerEmplacement
 	//ENTREE : Un objet stand
 	//SORTIE : /
 	{
-		$req = "INSERT INTO DB_SALON_Emplacement(Position_X_Emplacement,Position_Y_Emplacement,ID_Mur_Gauche,ID_Mur_Droite,ID_Sol) VALUES (:X,:Y,:MURGAUCHE,:MURDOITE,:SOL)";
+		$req = "INSERT INTO DB_SALON_Emplacement(Position_X_Emplacement,Position_Y_Emplacement,Couleur_Element) VALUES (:X,:Y,:COULEUR)";
 
 		//Envoie de la requête à la base
 		try
@@ -54,9 +54,7 @@ class managerEmplacement
 			//$stmt->bindValue(":ID", $S->getId(), PDO::PARAM_INT);
             $stmt->bindValue(":X", $S->getPositionX(), PDO::PARAM_INT);
             $stmt->bindValue(":Y", $S->getPositionY(), PDO::PARAM_INT);
-            $stmt->bindValue(":MURGAUCHE", $S->getIdMurGauche(), PDO::PARAM_INT);
-			$stmt->bindValue(":MURDROITE", $S->getIdMurDroite(), PDO::PARAM_INT);
-			$stmt->bindValue(":SOL", $S->getIdSol(), PDO::PARAM_INT);
+            $stmt->bindValue(":COULEUR", $S->getCouleur(), PDO::PARAM_STR);
 
 			$stmt->execute();
 		}
@@ -115,17 +113,13 @@ class managerEmplacement
 				$tab = array(
                     "PositionX" => $valueStmt['Position_X_Emplacement'],
                     "PositionY" => $valueStmt['Position_Y_Emplacement'],
-                    "IdMurGauche" => $valueStmt['ID_Mur_Gauche'],
-					"IdMurDroite" => $valueStmt['ID_Mur_Droite'],
-					"IdSol" => $valueStmt['ID_Sol']
+                    "Couleur" => $valueStmt['Couleur_Element'],
 					);
 			}else{
 				$tab = array(
                     "PositionX" => "",
                     "PositionY" => "",
-                    "IdMurGauche" => "",
-					"IdMurDroite" => "",
-					"IdSol" => ""
+                    "Couleur" => "",
 					);
 			}
 
@@ -141,14 +135,12 @@ class managerEmplacement
 	}
 
 	public function updateEmplacement(Emplacement $S) {
-		$req = "UPDATE DB_SALON_Emplacement SET ID_Mur_Gauche = :MURGAUCHE, ID_Mur_Droite = :MURDROITE, ID_Sol = :SOL WHERE Position_X_Emplacement = :X AND Position_Y_Emplacement = :Y";
+		$req = "UPDATE DB_SALON_Emplacement SET Couleur_Element = :COULEUR WHERE Position_X_Emplacement = :X AND Position_Y_Emplacement = :Y";
 		try {
 			$stmt = $this->db->prepare($req);
             $stmt->bindValue(":X", $S->getPositionX(), PDO::PARAM_INT);
             $stmt->bindValue(":Y", $S->getPositionY(), PDO::PARAM_INT);
-            $stmt->bindValue(":MURGAUCHE", $S->getIdMurGauche(), PDO::PARAM_STR);
-			$stmt->bindValue(":MURDROITE", $S->getIdMurDroite(), PDO::PARAM_STR);
-			$stmt->bindValue(":SOL", $S->getIdSol(), PDO::PARAM_STR);
+            $stmt->bindValue(":COULEUR", $S->getCouleur(), PDO::PARAM_STR);
 
 			$stmt->execute();
 

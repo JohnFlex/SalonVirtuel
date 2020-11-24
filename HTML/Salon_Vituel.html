@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon Vituel</title>
+    <link href="../CSS/style_salon.css" rel="stylesheet" />
+</head>
+<body>
+    <button class="Bouton" id="creation">
+        Creation du salon
+    </button>
+       
+</body>
+
+<script>
+    //Creation du salon
+    var cree = document.getElementById("creation");
+    cree.addEventListener("click",BuildSalon);
+    
+    var InfoActive = false;
+    function BuildSalon()
+    {
+
+        //console.log("Hola");
+        var salon = document.createElement("div");
+        salon.className = "Salon";
+        salon.id = "Salon";
+        document.body.appendChild(salon);
+        cree.style.visibility = "hidden";
+
+        var j = 0;
+        var k = 6;
+        var l = 8;
+        // 6 8 16 18 
+        for(i=0;i<25;i++)
+        {
+        //console.log("k :", k);
+        //console.log("j :", j);
+        //console.log("i :", i);
+        //console.log("l :", l);
+        var sol = document.createElement("div");
+        if (i == j && i != k&& i != l)
+        {
+            //console.log("Stand");
+            sol.className = "Stand";
+            sol.id = "build"
+            j = j+2;
+            sol.addEventListener("click", CreationStand);
+            //sol.addEventListener("click", Information);
+
+        }
+        else
+        {
+            //console.log("sol");
+            sol.className = "sol";
+        }
+        if (i == k)
+        {
+            k = k+10;
+        
+            j = j+2;
+           sol.className = "sol";
+            //console.log("saut");
+        }
+        if ( i == l)
+        {
+
+            l = l+10;
+            j = j+2;
+           sol.className = "sol";
+            //console.log("saut2");
+        }
+        document.getElementById("Salon").appendChild(sol);//getElementsByClassName("Salon")[i]
+        }
+
+    }
+
+
+var Stand =[
+    {nom: "nom 1",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 2",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 3",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 4",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 5",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 6",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 7",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 8",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 9",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
+];
+    function CreationStand(e)
+    {
+        //console.log("Bonjour Jojo");
+        let build = document.getElementsByClassName("Stand");
+        for(var i=0;i<9;i++){
+           
+        if(e.target == build[i] && Stand[i].cree == false)
+        {
+            test = i;
+            //Stand[i].nom = prompt("Le nom du stand");
+            
+            //console.log("Stand : ",i);
+            var crea = document.createElement("form");
+            crea.id = "creation_stand";
+            crea.method = "POST";
+            crea.action = "#";
+            document.body.appendChild(crea);
+
+            var input = document.createElement("input");
+            input.type = "text";
+            input.id = "nom_stand";
+            input.name ="NomStand";
+            input.placeholder = "Le nom du stand";
+            crea.appendChild(input);
+
+            var input = document.createElement("input");
+            input.type = "number";
+            input.id = "maxplace";
+            input.name ="placedispo";
+            input.placeholder = "nombre de place au maximun";
+            crea.appendChild(input);
+
+            var input = document.createElement("input");
+            input.type = "text";
+            input.id = "orgarnisateur_stand";
+            input.name ="Organisateur";
+            input.placeholder = "L'organisateur du stand";
+            crea.appendChild(input);
+
+            var input = document.createElement("input");
+            input.type = "text";
+            input.id = "categorie_stand";
+            input.name ="Categorie";
+            input.placeholder = "La catégorie du stand";
+            crea.appendChild(input);
+
+            var input = document.createElement("input");
+            input.type = "text";
+            input.id = "resume_stand";
+            input.name ="Resume";
+            input.placeholder = "Le résumé du stand";
+            crea.appendChild(input);
+
+            var input = document.createElement("input");
+            input.type = "color";
+            input.id = "CouleurStand";
+            input.name ="Couleur_Stand";
+            input.placeholder = "Couleur du Stand";
+            crea.appendChild(input);
+
+            var btn = document.createElement("button");
+            btn.id = "validation";
+            btn.innerHTML = "Validation";
+            btn.addEventListener("click",onValidation);
+            crea.appendChild(btn);
+            
+        }
+    }
+        //console.log(build);<input type="file">
+    }
+
+    function Information (e)
+    {
+        var fennetre = false
+        for(var i=0;i<9;i++){
+            console.log(Stand[i].InfoActive);
+            if(Stand[i].InfoActive == true)
+            {   
+                console.log("biquette");
+                fennetre = true;
+            }
+        }
+        //console.log(fennetre);
+        for(var i=0;i<9;i++){
+        if(e.target== build[i] && Stand[i].cree == true && fennetre == false)
+        {
+            console.log("J'ai les infos de ",i);
+            var info = document.createElement("div");
+            info.className = "InfoStand";
+            info.id = "Info";
+            document.body.appendChild(info);
+            var titre = document.createElement("h1");
+            titre.innerHTML = Stand[i].nom;
+            document.getElementById("Info").appendChild(titre);
+            //-----------------------------------------------------
+            /*for (var j =0;j<5;j++)
+            {
+                var phrase =document.createElement("p");
+                phrase.innerHTML = "Info "+ (j+1);
+                document.getElementById("Info").appendChild(phrase);
+            }*/
+            var phrase =document.createElement("p");
+            phrase.innerHTML = Stand[i].categorie;
+            document.getElementById("Info").appendChild(phrase);
+            var phrase =document.createElement("p");
+            phrase.innerHTML = Stand[i].organisateur;
+            document.getElementById("Info").appendChild(phrase);
+            var phrase =document.createElement("p");
+            phrase.innerHTML = Stand[i].Resume;
+            document.getElementById("Info").appendChild(phrase);
+            var phrase =document.createElement("p");
+            phrase.innerHTML = Stand[i].nbPersonne;
+            document.getElementById("Info").appendChild(phrase);
+            var phrase =document.createElement("p");
+            phrase.innerHTML = Stand[i].placemax;
+            document.getElementById("Info").appendChild(phrase);
+            //------------------------------------------------------
+            var fermer = document.createElement("button");
+            fermer.id = "Fermeture";
+            fermer.innerHTML = "Fermer";
+            fermer.addEventListener("click",fermerfenetre);
+            document.getElementById("Info").appendChild(fermer);
+            Stand[i].InfoActive = true;
+            saveInfo = i;
+            
+        }
+        }
+      
+
+        
+    }
+
+    var saveInfo = 0;
+    function fermerfenetre ()
+    {
+        effacer =document.getElementById("Info");
+        effacer.parentElement.removeChild(effacer);
+        Stand[saveInfo].InfoActive = false;
+
+    }
+
+
+    //var formulaire = document.getElementById("formulaire");
+    
+    var test = 0;
+    function onValidation() {
+        var nomform = document.getElementById("nom_stand");
+        var orgaform = document.getElementById("orgarnisateur_stand");
+        var cateform = document.getElementById("categorie_stand");
+        var max = document.getElementById("maxplace");
+        var resum = document.getElementById("resume_stand");
+        var CouleurStand = document.getElementById("CouleurStand");
+        Stand[test].nom = nomform.value;
+        Stand[test].placemax = max.value;
+        Stand[test].organisateur = orgaform.value;
+        Stand[test].categorie = cateform.value;
+        Stand[test].Resume = resum.value;//
+        Stand[test].cree = true;
+        Stand[test].Background = CouleurStand.value;
+        crea =document.getElementById("creation_stand");
+        crea.parentElement.removeChild(crea);
+        build[test].innerHTML = Stand[test].nom;
+        build[test].style.background = Stand[test].Background;
+    }
+    
+BuildSalon();
+</script>
+
+</html> 

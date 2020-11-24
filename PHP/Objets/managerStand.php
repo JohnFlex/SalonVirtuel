@@ -16,7 +16,7 @@ class managerStand
 	//Le destructeur
 	public function __destruct()
 	{
-		echo "<script>console.log(\"Destruction de l'élement\")</script>";
+		//echo "<script>console.log(\"Destruction de l'élement\")</script>";
 	}
 
 
@@ -158,6 +158,60 @@ class managerStand
 			$stmt = $this->db->prepare($req);
 
 			$stmt->bindValue(":LIBELLE", $str, PDO::PARAM_STR);
+
+			$stmt->execute();
+
+			$S = new Stand;
+
+	
+			if($stmt->rowCount() > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+
+				$tab = array(
+					"Id" => $valueStmt['ID_Stand'],
+					"Libelle" => $valueStmt['Libelle_Stand'],
+					"Categorie" => $valueStmt['Categorie_Stand'],
+					"Information" => $valueStmt['Information_Stand'],
+					"PositionX" => $valueStmt['Position_X_Emplacement'],
+					"PositionY" => $valueStmt['Position_Y_Emplacement']
+					);
+			}else{
+				$tab = array(
+					"Id" => "",
+					"Libelle" => "",
+					"Categorie" => "",
+					"Information" => "",
+					"PositionX" => "",
+					"PositionY" => ""
+					);
+			}
+
+			$S->hydrate($tab);
+
+			return $S;
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
+
+	public function selectStandByPos($posX,$posY)
+	//BUT : Récupérer un stand grâce à son libelle
+	//ENTREE : Le libelle d'un stand
+	//SORTIE : Un objet stand contenant les informations du stand
+	{
+		$req = "SELECT * FROM DB_SALON_Stand WHERE Position_X_Emplacement = :X AND Position_Y_Emplacement = :Y";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":X", $posX, PDO::PARAM_INT);
+			$stmt->bindValue(":Y", $posY, PDO::PARAM_INT);
 
 			$stmt->execute();
 

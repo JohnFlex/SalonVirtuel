@@ -8,23 +8,16 @@
     require_once("./Objets/managerStand.php");
     require_once("./Objets/managerRessource.php");
     require_once("./Objets/managerEmplacement.php");
-    require_once("./Objets/managerStandElement.php");
 
     $db = connect_bd();
     $managerStand = new managerStand($db);
     $managerRes = new managerRessource($db);
-    $managerSElement = new managerStandElement($db);
     $managerEmplacement = new managerEmplacement($db);
 
     $id_stand = 1; //A changer avec la session
 
     $standToUpdate = $managerStand->selectStandById($id_stand);
     $emplacement = $managerEmplacement->selectEmplacementById($standToUpdate->getPositionX(),$standToUpdate->getPositionY());
-    $elements = array(
-        $mur_gauche = $managerSElement->selectStandElementById($emplacement->getIdMurGauche()),
-        $mur_droite = $managerSElement->selectStandElementById($emplacement->getIdMurDroite()),
-        $sol = $managerSElement->selectStandElementById($emplacement->getIdSol())
-    );
 
     /* Si l'utilisateur a rentré un libellé de stand : création du stand */
     if(isset($_POST['Libelle_Stand']) && !empty($_POST['Libelle_Stand'])) {
@@ -43,53 +36,54 @@
         $stand->hydrate($mStand);
         $managerStand->updateStand($stand);
 
-        for($i = 0; $i < 3; $i++) {
-            $mSElement = array(
-                'Nom' => $elements[$i]->getNom(),
-                'Couleur' => $_POST['Couleur_Element'][$i],
-                'Id' => $elements[$i]->getId()
-            );
+        $mEmplacement = array(
+            'PositionX' => $_POST['Position_X_Emplacement'],
+            'PositionY' => $_POST['Position_Y_Emplacement'],
+            'Couleur' => $_POST['Couleur_Element']
+        );
 
-            $element = new StandElement;
-            $element->hydrate($mSElement);
-            $managerSElement->updateStandElement($element);
+        $newEmplacement = new Emplacement;
+        $newEmplacement->hydrate($mEmplacement);
+
+        $managerEmplacement->updateEmplacement($newEmplacement);
+        
+        /* Si l'utilisateur a rentré un libellé de ressource : création de la ressource*/
+        if (isset($_POST['Libelle_Ressource']) && !empty($_POST['Libelle_Ressource'])) {
+            /* Pour chaque ressource entrée, insertion dans ressource et contenir */
+            for($i=0 ; $i < count($_POST['Libelle_Ressource']);$i++) {
+                if(isset($_POST['ID_Ressource'][$i])) {
+                    $mRessource = array(
+                        'Libelle' => $_POST['Libelle_Ressource'][$i],
+                        'Lien' => $_POST['Lien_Ressource'][$i],
+                        'Id' => $_POST['ID_Ressource'][$i]
+                    );
+                    $res = new Ressource;
+                    $res->hydrate($mRessource);
+                    $managerRes->updateRessource($res);
+                } else {
+                    $mRessource = array(
+                        'Libelle' => $_POST['Libelle_Ressource'][$i],
+                        'Lien' => $_POST['Lien_Ressource'][$i],
+                    );
+                    $res = new Ressource;
+                    $res->hydrate($mRessource);
+                    $managerRes->updateRessource($res);
+                    $idRes = $managerRes->insertRessource($res); //insére et récupère l'id auto_increment
+                    $managerRes->insertContenir($id_stand,$idRes);
+                }
+            }
+
+            if (isset($_POST['ID_Ressource_Delete']) && !empty($_POST['ID_Ressource_Delete'])) {
+                foreach($_POST['ID_Ressource_Delete'] as $id) {
+                    $managerRes->deleteRessourceById($id);
+                }
+            }
+
+            
         }
+    header('Location: modifierStand.php');
     }
 
-    /* Si l'utilisateur a rentré un libellé de ressource : création de la ressource*/
-    if (isset($_POST['Libelle_Ressource']) && !empty($_POST['Libelle_Ressource'])) {
-        /* Pour chaque ressource entrée, insertion dans ressource et contenir */
-        for($i=0 ; $i < count($_POST['Libelle_Ressource']);$i++) {
-            if(isset($_POST['ID_Ressource'][$i])) {
-                $mRessource = array(
-                    'Libelle' => $_POST['Libelle_Ressource'][$i],
-                    'Lien' => $_POST['Lien_Ressource'][$i],
-                    'Id' => $_POST['ID_Ressource'][$i]
-                );
-                $res = new Ressource;
-                $res->hydrate($mRessource);
-                $managerRes->updateRessource($res);
-            } else {
-                $mRessource = array(
-                    'Libelle' => $_POST['Libelle_Ressource'][$i],
-                    'Lien' => $_POST['Lien_Ressource'][$i],
-                );
-                $res = new Ressource;
-                $res->hydrate($mRessource);
-                $managerRes->updateRessource($res);
-                $idRes = $managerRes->insertRessource($res); //insére et récupère l'id auto_increment
-                $managerRes->insertContenir($id_stand,$idRes);
-            }
-        }
-
-        if (isset($_POST['ID_Ressource_Delete']) && !empty($_POST['ID_Ressource_Delete'])) {
-            foreach($_POST['ID_Ressource_Delete'] as $id) {
-                $managerRes->deleteRessourceById($id);
-            }
-        }
-
-        header('Location: modifierStand.php');
-    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -109,14 +103,9 @@
             <label for="nom">Informations :</label>
             <textarea name="Information_Stand" placeholder="Description" value="<?php echo $standToUpdate->getInformation(); ?>"></textarea>
 
-            <label for="couleur_mur_gauche">Couleur du mur gauche :</label>
-            <input type="color" name="Couleur_Element[]" value="<?php echo $elements[0]->getCouleur(); ?>"/>
-
-            <label for="couleur_mur_gauche">Couleur du mur droite :</label>
-            <input type="color" name="Couleur_Element[]" value="<?php echo $elements[1]->getCouleur(); ?>"/>
 
             <label for="couleur_mur_gauche">Couleur du sol :</label>
-            <input type="color" name="Couleur_Element[]" value="<?php echo $elements[2]->getCouleur(); ?>" />
+            <input type="color" name="Couleur_Element" value="<?php echo $emplacement->getCouleur(); ?>" />
 
 
             <input type="hidden" name="ID_Stand" value="<?php echo $standToUpdate->getId();?>" />

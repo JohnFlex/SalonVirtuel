@@ -1,12 +1,25 @@
-INSERT INTO DB_SALON_Stand
-(Libelle_Stand)
+INSERT INTO DB_SALON_Emplacement
+(Position_X_Emplacement,Position_Y_Emplacement)
 VALUES
-("The World"),
-("Star Platinum"),
-("D4C"),
-("Starlight Unicorn"),
-("Highway to Hell"),
-("Killer Queen");
+(1,1),
+(1,2),
+(1,3),
+(2,1),
+(2,2),
+(2,3),
+(3,1),
+(3,2),
+(3,3);
+
+INSERT INTO DB_SALON_Stand
+(Libelle_Stand,Position_X_Emplacement,Position_Y_Emplacement)
+VALUES
+("The World",1,1),
+("Star Platinum",2,1),
+("D4C",3,1),
+("Starlight Unicorn",2,1),
+("Highway to Hell",2,2),
+("Killer Queen",3,2);
 
 
 INSERT INTO DB_SALON_Avatar()VALUES();
@@ -27,7 +40,7 @@ INSERT INTO DB_SALON_Avatar()VALUES();INSERT INTO DB_SALON_Utilisateur(ID_Avatar
 ((SELECT MAX(ID_Avatar) FROM DB_SALON_Avatar), "Cesar", "XXX");
 
 
-INSERT INTO DB_SALON_Attendre
+INSERT INTO DB_SALON_Reunions
 (ID_Avatar,ID_Stand,Position_Liste)
 VALUES
 ((SELECT ID_Avatar FROM DB_SALON_Utilisateur WHERE Nom_Avatar = "Dio"),(SELECT ID_Stand FROM DB_SALON_Stand WHERE Libelle_Stand = "The World"),1),
@@ -38,19 +51,5 @@ VALUES
 ((SELECT ID_Avatar FROM DB_SALON_Utilisateur WHERE Nom_Avatar = "Cesar"),(SELECT ID_Stand FROM DB_SALON_Stand WHERE Libelle_Stand = "The World"),5);
 
 
-SELECT * FROM DB_SALON_Attendre A, DB_SALON_Utilisateur U WHERE A.ID_Avatar = U.ID_Avatar AND Nom_Avatar = "Cesar";
+SELECT * FROM DB_SALON_Reunions A, DB_SALON_Utilisateur U WHERE A.ID_Avatar = U.ID_Avatar AND Nom_Avatar = "Cesar";
 
-INSERT INTO DB_SALON_Stand_Element(Nom_Element)VALUES ("MurG"),("MurD"),("Sol");
-
-INSERT INTO DB_SALON_Emplacement
-(Position_X_Emplacement,Position_Y_Emplacement)
-VALUES
-(1,1),
-(1,2),
-(1,3),
-(2,1),
-(2,2),
-(2,3),
-(3,1),
-(3,2),
-(3,3);
