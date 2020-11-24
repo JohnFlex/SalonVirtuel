@@ -4,6 +4,7 @@
         header('Location: Accueil.php');
     }
     */
+    session_start();
     require_once("./PDO_Connect/PDO_Connect.php");
     require_once("./Objets/managerStand.php");
     require_once("./Objets/managerRessource.php");

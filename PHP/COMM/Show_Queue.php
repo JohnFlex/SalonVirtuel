@@ -8,8 +8,11 @@ $_SESSION["stand_id"] = 11;
 
 //$_SESSION['user_name'] = "Joseph";
 
-include 'ConnexionBD.php';
-//include '../';
+require_once 'ConnexionBD.php';
+require_once '../Objets/managerPresentateur.php';
+
+$managerPresentateur = new managerPresentateur();
+$managerPresentateur->UpdatePresentateurState($_SESSION["user_name"],"Disponible");
 
 if ($_GET['reunionStart'] == "true")
 {

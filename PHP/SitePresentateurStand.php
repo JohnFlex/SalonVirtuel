@@ -24,6 +24,7 @@
 		?>
         <a href="Accueil.php">Deconnexion</a>
         <a href="COMM/Show_Queue.php">Menu de réunion</a>
+        <a href="modifierStand.php">Modifier Stand</a>
     </footer>
     </body>
 </html>
