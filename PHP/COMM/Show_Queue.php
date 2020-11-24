@@ -3,118 +3,73 @@
 include 'ConnexionBD.php';
 session_start();
 
-$query_setPresDispo = 'UPDATE DB_SALON_Presentateur SET ID_Activite = 2 WHERE Nom_Avatar LIKE "%'.$_SESSION['user_name'].'%" ; ';
-if ($connection->query($query_setPresDispo) === TRUE) {
-    echo "You are now available. Users can join queue !";
-  }else {
-    echo "Error updating record: " . $connection->error;
-  }
-
-// Ici rendre le présentateur dispo
-
 $_SESSION["stand_id"] = 11;
 
-//$_SESSION['user_name'] = "Joseph";
-
-
-
-
-if ($_GET['reunionStart'] == "true")
-{
-    $queryMyID = 'SELECT * FROM DB_SALON_Presentateur WHERE DB_SALON_Presentateur.Nom_Avatar LIKE "'. $_SESSION['user_name'].'";';
-    if($result = mysqli_query($connection,$queryMyID)) {
-        
-        while($rows = mysqli_fetch_assoc($result)){
-            $myId = $rows['ID_Avatar'];
-            echo $myId;
-        }
-
-        mysqli_free_result($result);
-    }else echo "Fail connection 0";
+//Rend le présentateur actuel disponible dans la base de données
+//ENTREE : N/A
+//SORTIE : Le présentateur qui est actuellement connecté est rendu disponible dans la base de données
+function Rendre_Le_Presentateur_Disponible(){
+    $query_setPresDispo = 'UPDATE DB_SALON_Presentateur SET ID_Activite = 2 WHERE Nom_Avatar LIKE "%'.$_SESSION['user_name'].'%" ; ';
+    if ($connection->query($query_setPresDispo) === TRUE) {
+        echo "You are now available. Users can join queue !";
+    }
+    else echo "Error updating record: " . $connection->error;
     
-    
+}
 
-    $urlReunion = "Reunion.php?role=1&stand=".$_SESSION["stand_id"]."&ID_Pres=".$myId."&ID_User=".$_SESSION['LastFoundUserForThisStand'];
-    echo $urlReunion;
+//Redirige sur la page avec la réunion en transmettant les paramètres du présentateur connecté
+//ENTREE : N/A
+//SORTIE : Redirection sur la page de réunion avec les bonnes infos
+function Demarrer_La_Reunion(){
+
+    $urlReunion = "Reunion.php?role=1&stand=".$_SESSION["stand_id"]."&ID_Pres=".Recuperer_ID_Presentateur_Actuellement_Connecte()."&ID_User=".Recuperer_Le_Premier_Utilisateur_De_La_File_Pour_Un_Stand($_SESSION["stand_id"]);
 
     header("Location : ".$urlReunion);
 }
 
-
-
-//1.Recuperer les infos de la table
-$querry = "SELECT ID_Avatar, MIN(Heure_Arrivee), ID_Avatar_Presentateur FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$_SESSION["stand_id"].";";
-
-$querry_file_length = "SELECT COUNT(DB_SALON_Reunions.ID_Avatar) AS total FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$_SESSION["stand_id"].";";
-
-if($result = mysqli_query($connection,$querry)) {
-    while($rows = mysqli_fetch_assoc($result)){
-        $_SESSION['LastFoundUserForThisStand'] = $rows['ID_Avatar'];
-        //$occuper = $rows['ID_Avatar_Presentateur'];
-        //printf("%s(%s)\n",$rows["id"],$rows["temps"]); //verification 
-    }
-    
-    //Envoyer l'utilisateur dans la page
-    //include 'LancerLaReunion.php';
-    
-    //Libération des résultats
-    mysqli_free_result($result);
-}else echo "Fail connection 1";
-
-
-if($result = mysqli_query($connection,$querry_file_length)) {
-    while($rows = mysqli_fetch_assoc($result)){
-        $total = $rows['total'];
-        //printf("%s(%s)\n",$rows["id"],$rows["temps"]); //verification 
-    }
-    
-    //Envoyer l'utilisateur dans la page
-    //include 'LancerLaReunion.php';
-    
-    //Libération des résultats
-    mysqli_free_result($result);
-}
-else echo "Fail connection 2";
-
-
-if ($total != 0) {
-    echo "Premier de la file : ".$_SESSION['LastFoundUserForThisStand']. "\n Total file : ".$total.". ";
-}
-else echo "Il n'y a personne dans la file !";
-/*
-
-if($_GET['reunionQuit']=="true")
-{
-    
-        
+//Recupère l'ID du premier utilisateur pour un stand donné
+//ENTREE : ID du stand du présentateur
+//SORTIE : ID de l'avatar du premier utilisateur du stand
+function Recuperer_Le_Premier_Utilisateur_De_La_File_Pour_Un_Stand($numeroStand){
+    $querry = "SELECT ID_Avatar, MIN(Heure_Arrivee), ID_Avatar_Presentateur FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$numeroStand.";";
     if($result = mysqli_query($connection,$querry)) {
-        while($rows = mysqli_fetch_assoc($result))
-        {
-            $_SESSION['LastFoundUserForThisStand'] = $rows['ID_Avatar'];
-        
-    }
-    $queryQuitFile = 'DELETE FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Avatar = "'. $_SESSION['LastFoundUserForThisStand'].'";';
-        
-    if ($connection->query($queryQuitFile) === TRUE) 
-    {
-        header("Location:Add_In_Queue.php");
-    }else 
-    {
-        echo "Error updating record: " . $connection->error;
-    }
+        while($rows = mysqli_fetch_assoc($result)){
+           return $rows['ID_Avatar'];
 
-        $connection->close();
-    }
-    
-    
+        }
+
+        mysqli_free_result($result);
+    }else echo "Error connection : Failed to get last user";
 }
 
-*/
+//Recupère le nombre total d'utilisateur dans une file d'attente pour un stand donné
+//ENTREE : ID du stand du présentateur
+//SORTIE : Le nombre d'utilisateurs dans la file bla bla
+function Recuperer_Le_Nombre_Total_De_Personnes_Qui_Attendent_Dans_La_File_D_Attente_Pour_Un_Stand($numeroStand){
+    $querry_file_length = "SELECT COUNT(DB_SALON_Reunions.ID_Avatar) AS total FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$numeroStand.";";
+
+    if($result = mysqli_query($connection,$querry_file_length)) {
+        while($rows = mysqli_fetch_assoc($result)){
+            return $rows['total'];
+        }
+        mysqli_free_result($result);
+    }
+    else echo "Error connetion : Failed to get total users number";
+
+}
+
+function Recuperer_ID_Presentateur_Actuellement_Connecte(){
+    $queryMyID = 'SELECT * FROM DB_SALON_Presentateur WHERE DB_SALON_Presentateur.Nom_Avatar LIKE "'. $_SESSION['user_name'].'";';
+    if($result = mysqli_query($connection,$queryMyID)) {
+        
+        while($rows = mysqli_fetch_assoc($result)){
+            return $rows['ID_Avatar'];
+            
+        }
+
+        mysqli_free_result($result);
+    }else echo "Error connection : Failed to get Presentateur ID";
+    
+}
 
 ?>
-
-
-<form action="Show_Queue.php" method="GET">
-    <input type="hidden" name="reunionStart" value="true">
-    <input type="submit" value="Démarrer la réunion avec le prochain visiteur">
-</form>
