@@ -4,12 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salon Vituel</title>
-    <link href="../CSS/style_salon.css" rel="stylesheet" />
+
+
+    <style>
+        .Salon
+        {
+            border: black 1px solid;
+            height: 500px;
+            width: 500px;
+            display: grid;
+            grid-template-columns: 100px 100px 100px 100px 100px;
+            grid-template-rows: 100px 100px 100px 100px 100px;
+        }
+
+        .Stand
+        {
+            background-color: blue;
+            height: 100px;
+            width: 100px;
+            
+           
+        }
+        .sol
+        {
+            height: 100px;
+            width: 100px;
+            background-color: fuchsia;
+           
+        }
+
+        .Bouton
+        {
+            height: 50px;
+            width: 150px;
+            
+        }
+
+        body
+        {
+        display: grid;
+         grid-template-columns: 1fr 500px 1fr;
+        }
+
+        .InfoStand
+        {
+            height: 500px;
+            width: 250px;
+            border: darkgreen solid 1px;
+        }
+
+        .canvaStand
+         {
+            height: 100px;
+            width: 100px;
+            border: darkgreen solid 1px;
+            background: black;
+         }
+         #canva2
+         {
+            height: 50px;
+            width: 50px;
+            border: darkgreen solid 1px;
+            background: fuchsia;
+         }
+    </style>
+
+
 </head>
 <body>
-    <button class="Bouton" id="creation">
-        Creation du salon
-    </button>
+    
+
+        <button class="Bouton" id="creation">
+            Creation du salon
+        </button>
        
 </body>
 
@@ -19,7 +86,7 @@
     cree.addEventListener("click",BuildSalon);
     
     var InfoActive = false;
-    function BuildSalon()
+    function BuildSalon ()
     {
 
         //console.log("Hola");
@@ -47,7 +114,7 @@
             sol.id = "build"
             j = j+2;
             sol.addEventListener("click", CreationStand);
-            //sol.addEventListener("click", Information);
+            sol.addEventListener("click", Information);
 
         }
         else
@@ -91,10 +158,8 @@ var Stand =[
     function CreationStand(e)
     {
         //console.log("Bonjour Jojo");
-        let build = document.getElementsByClassName("Stand");
         for(var i=0;i<9;i++){
-           
-        if(e.target == build[i] && Stand[i].cree == false)
+        if(e.target== build[i] && Stand[i].cree == false)
         {
             test = i;
             //Stand[i].nom = prompt("Le nom du stand");
@@ -103,56 +168,48 @@ var Stand =[
             var crea = document.createElement("form");
             crea.id = "creation_stand";
             crea.method = "POST";
-            crea.action = "#";
             document.body.appendChild(crea);
-
             var input = document.createElement("input");
             input.type = "text";
             input.id = "nom_stand";
             input.name ="NomStand";
             input.placeholder = "Le nom du stand";
-            crea.appendChild(input);
-
+            document.getElementById("creation_stand").appendChild(input);
             var input = document.createElement("input");
             input.type = "number";
             input.id = "maxplace";
             input.name ="placedispo";
             input.placeholder = "nombre de place au maximun";
-            crea.appendChild(input);
-
+            document.getElementById("creation_stand").appendChild(input);
             var input = document.createElement("input");
             input.type = "text";
             input.id = "orgarnisateur_stand";
             input.name ="Organisateur";
             input.placeholder = "L'organisateur du stand";
-            crea.appendChild(input);
-
+            document.getElementById("creation_stand").appendChild(input);
             var input = document.createElement("input");
             input.type = "text";
             input.id = "categorie_stand";
             input.name ="Categorie";
             input.placeholder = "La catégorie du stand";
-            crea.appendChild(input);
-
+            document.getElementById("creation_stand").appendChild(input);
             var input = document.createElement("input");
             input.type = "text";
             input.id = "resume_stand";
             input.name ="Resume";
             input.placeholder = "Le résumé du stand";
-            crea.appendChild(input);
-
+            document.getElementById("creation_stand").appendChild(input);
             var input = document.createElement("input");
             input.type = "color";
             input.id = "CouleurStand";
             input.name ="Couleur_Stand";
             input.placeholder = "Couleur du Stand";
-            crea.appendChild(input);
-
+            document.getElementById("creation_stand").appendChild(input);
             var btn = document.createElement("button");
             btn.id = "validation";
             btn.innerHTML = "Validation";
             btn.addEventListener("click",onValidation);
-            crea.appendChild(btn);
+            document.getElementById("creation_stand").appendChild(btn);
             
         }
     }
@@ -253,7 +310,7 @@ var Stand =[
         build[test].style.background = Stand[test].Background;
     }
     
-BuildSalon();
+
 </script>
 
 </html> 
