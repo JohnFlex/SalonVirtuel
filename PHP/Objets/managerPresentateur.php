@@ -82,11 +82,11 @@ class managerPresentateur
 
 			$stmt->execute();
 
-			if($stmt->rowCount > 0)
+			if($stmt->rowCount() > 0)
 			{
 				$valueStmt = $stmt->fetchAll()[0];
 
-				return password_verify($MDP, $valueStmt["MDP"]);
+				return password_verify($MDP, $valueStmt["MDP_Presentateur"]);
 			}else{
 				return false;
 			}
