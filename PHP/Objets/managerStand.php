@@ -150,7 +150,7 @@ class managerStand
 	//ENTREE : Le libelle d'un stand
 	//SORTIE : Un objet stand contenant les informations du stand
 	{
-		$req = "SELECT * FROM DB_SALON_Stand WHERE ID_Stand = :LIBELLE";
+		$req = "SELECT * FROM DB_SALON_Stand WHERE Libelle_Stand = :LIBELLE";
 
 		//Envoie de la requête à la base
 		try

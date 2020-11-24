@@ -1,12 +1,10 @@
 <?php
-class Presentateur
+class Administrateur
 {
 	//Membres privés
-	private $ID_Avatar;
-	private $Nom_Avatar;
-	private $MDP_Presentateur;
-	private $ID_Activite;
-	private $ID_Stand;
+	private $ID_Administrateur;
+	private $Nom_Administrateur;
+	private $MDP_Administrateur;
 
 
 	//Fonctions membres
@@ -35,62 +33,42 @@ class Presentateur
 
 
 	//Les getters
-	public function getIdAvatar()
+	public function getId()
 	{
-		return $this->ID_Avatar;
+		return $this->ID_Administrateur;
 	}
 
 	public function getNom()
 	{
-		return $this->Nom_Avatar;
+		return $this->Nom_Administrateur;
 	}
 
 	public function getMDP()
 	{
-		return $this->MDP_Presentateur;
-	}
-
-	public function getIdActivite()
-	{
-		return $this->ID_Activite;
-	}
-
-	public function getIdStand()
-	{
-		return $this->ID_Stand;
+		return $this->MDP_Administrateur;
 	}
 
 	//Les setters
-	public function setIdAvatar($num)
+	public function setId($num)
 	{
-		$this->ID_Avatar = $num;
+		$this->ID_Administrateur = $num;
 	}
 
 	public function setNom($name)
 	{
-		$this->Nom_Avatar = $name;
+		$this->Nom_Administrateur = $name;
 	}
 
 	public function setMDP($MDP)
 	{
-		$this->MDP_Presentateur = $MDP;
-	}
-
-	public function setIdActivite($num)
-	{
-		$this->ID_Activite = $num;
-	}
-
-	public function setIdStand($num)
-	{
-		$this->ID_Stand = $num;
+		$this->MDP_Administrateur = $MDP;
 	}
 
 
 	//Autres
 	public function __toString()
 	{
-		return "Utilisateur : ID_Avatar=".$this->getIdAvatar().", Nom_Avatar=".$this->getNom();
+		return "Administrateur : ID_Administrateur=".$this->getId().", Nom_Administrateur=".$this->getNom();
 	}
 }
 ?>

@@ -3,8 +3,9 @@ class Attente
 {
 	//Membres privés
 	private $ID_Avatar;
+	private $ID_Avatar_Presentateur;
 	private $ID_Stand;
-	private $Position_Liste;
+	private $Heure_Arrivee;
 
 
 	//Fonctions membres
@@ -38,14 +39,19 @@ class Attente
 		return $this->ID_Avatar;
 	}
 
+	public function getIdPresentateur()
+	{
+		return $this->ID_Avatar_Presentateur;
+	}
+
 	public function getIdStand()
 	{
 		return $this->ID_Stand;
 	}
 
-	public function getPosition()
+	public function getHeure()
 	{
-		return $this->Position_Liste;
+		return $this->Heure_Arrivee;
 	}
 
 	//Les setters
@@ -54,14 +60,19 @@ class Attente
 		$this->ID_Avatar = $num;
 	}
 
+	public function setIdPresentateur($num)
+	{
+		$this->ID_Avatar_Presentateur = $num;
+	}
+
 	public function setIdStand($num)
 	{
 		$this->ID_Stand = $num;
 	}
 
-	public function setPosition($num)
+	public function setHeure($num)
 	{
-		$this->Position_Liste = $num;
+		$this->Heure_Arrivee = $num;
 	}
 
 
