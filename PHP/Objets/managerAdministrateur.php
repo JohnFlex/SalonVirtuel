@@ -95,7 +95,7 @@ class managerAdministrateur
 		}
 	}
 
-	public function existAdministrateurById($num)
+	public function existAdministrateurById($num, $MDP)
 	//BUT : Vérifier si un Administrateur existe
 	//ENTREE : Un ID
 	//SORTIE : Un booléen

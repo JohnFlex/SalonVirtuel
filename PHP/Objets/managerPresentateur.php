@@ -41,12 +41,12 @@ class managerPresentateur
 		return "Database=".$this->getDb();
 	}
 
-	public function insertPresentateur(Utilisateur $U, Stand $S)
+	public function insertPresentateur(Utilisateur $U)
 	//BUT : Insérer un Presentateur dans le base de donnée
-	//ENTREE : Un objet Utilisateur et un objet Stand
+	//ENTREE : Un objet Utilisateur
 	//SORTIE : /
 	{
-		$req = "DELETE FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM; INSERT INTO DB_SALON_Presentateur(ID_Avatar, Nom_Avatar, MDP_Presentateur, ID_Activite, ID_Stand) VALUES (:ID, :NOM, :MDP, 1, :STAND)";
+		$req = "DELETE FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM; INSERT INTO DB_SALON_Presentateur(ID_Avatar, Nom_Avatar, MDP_Presentateur, ID_Activite, ID_Stand) VALUES (:ID, :NOM, :MDP, 1, NULL)";
 
 		//Envoie de la requête à la base
 		try
@@ -56,13 +56,14 @@ class managerPresentateur
 			$stmt->bindValue(":ID", $U->getId(), PDO::PARAM_INT);
 			$stmt->bindValue(":NOM", $U->getNom(), PDO::PARAM_STR);
 			$stmt->bindValue(":MDP", $U->getMDP(), PDO::PARAM_STR);
-			$stmt->bindValue(":STAND", $S->getId(), PDO::PARAM_INT);
 
 			$stmt->execute();
+			return true;
 		}
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
+			return false;
 		}
 	}
 
@@ -98,7 +99,7 @@ class managerPresentateur
 		}
 	}
 
-	public function existPresentateurById($num)
+	public function existPresentateurById($num, $MDP)
 	//BUT : Vérifier si un Presentateur existe
 	//ENTREE : Un ID
 	//SORTIE : Un booléen
@@ -119,6 +120,40 @@ class managerPresentateur
 				$valueStmt = $stmt->fetchAll()[0];
 
 				return password_verify($MDP, $valueStmt["MDP"]);
+			}else{
+				return false;
+			}
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			return false;
+		}
+	}
+
+	public function issetStand($name)
+	//BUT : Vérifier si un Presentateur a un stand associé
+	//ENTREE : Un nom
+	//SORTIE : Un booléen ou le numéro du stand
+	{
+		$req = "SELECT ID_Stand FROM DB_SALON_Presentateur WHERE Nom_Avatar = :NOM";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":NOM", $name, PDO::PARAM_STR);
+
+			$stmt->execute();
+
+			if($stmt->rowCount > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+
+				//var_dump($valueStmt["ID_Stand"]);
+
+				return $valueStmt["ID_Stand"];
 			}else{
 				return false;
 			}
