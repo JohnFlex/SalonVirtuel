@@ -1,0 +1,80 @@
+.Salon
+{
+    border: black 1px solid;
+    height: 500px;
+    width: 500px;
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px 100px;
+    grid-template-rows: 100px 100px 100px 100px 100px;
+    /*transform: rotateX(40deg) rotateZ(45deg);*/
+}
+
+.Stand
+{
+    background-color: blue;
+    height: 100px;
+    width: 100px;  
+}
+.sol
+{
+    height: 100px;
+    width: 100px;
+    background-color: fuchsia;
+   
+}
+
+.Bouton
+{
+    height: 50px;
+    width: 150px;
+    
+}
+
+body
+{
+display: grid;
+ grid-template-columns: 1fr 500px 1fr;
+}
+
+.InfoStand
+{
+    height: 500px;
+    width: 250px;
+    border: darkgreen solid 1px;
+}
+
+.canvaStand
+ {
+    height: 100px;
+    width: 100px;
+    border: darkgreen solid 1px;
+    background: black;
+ }
+ #canva2
+ {
+    height: 50px;
+    width: 50px;
+    border: darkgreen solid 1px;
+    background: fuchsia;
+ }
+
+ #salon
+ {
+     border: black 1px solid;
+     height: 500px;
+     width: 500px;
+     /*transform: rotateX(40deg) rotateZ(45deg);*/
+ }
+
+ #Palette
+ {
+     border: black 1px solid;
+     grid-template-columns: 1fr 1fr 1fr;
+     display: grid;
+ }
+ .couleurs
+ {
+     border: black 1px solid;
+     width: 50px;
+     height: 50px;
+ }
