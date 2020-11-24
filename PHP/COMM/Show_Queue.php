@@ -9,7 +9,7 @@ $_SESSION["stand_id"] = 11;
 //$_SESSION['user_name'] = "Joseph";
 
 include 'ConnexionBD.php';
-
+//include '../';
 
 if ($_GET['reunionStart'] == "true")
 {

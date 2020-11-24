@@ -278,6 +278,32 @@ class managerPresentateur
 		}
 	}
 
+	public function UpdatePresentateurState(string $Name, string $Etat)
+	//BUT : Obtenir le libelle de l'activité d'un présentateur P
+	//ENTREE : Un présentateur P
+	//SORTIE : Une chaine de caractères contenant le libelle de l'activité
+	{
+		$req = "UPDATE  DB_SALON_Presentateur SET ID_Activite = (SELECT ID_Activite FROM DB_SALON_Activite WHERE Libelle_Activite = :ETAT) WHERE Nom_Avatar = :NAME;";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":ETAT", $Etat, PDO::PARAM_STR);
+			$stmt->bindValue(":NAME", $Name, PDO::PARAM_STR);
+
+			$stmt->execute();
+
+			return $stmt;
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
+
 	/*End*/
 }
 ?>
