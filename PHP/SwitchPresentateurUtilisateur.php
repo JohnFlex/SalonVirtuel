@@ -24,8 +24,13 @@
 
 		$U = $mU->selectUtilisateurById($_POST["SELECTUTILISATEUR"]);
 
-		$mP->insertPresentateur($U);
-		echo "success";
+		$X = $mP->insertPresentateur($U);
+		if($X)
+		{
+			echo "success";
+		}else{
+			echo "Failure";
+		}
 	}
 
 ?>

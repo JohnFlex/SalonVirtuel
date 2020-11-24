@@ -7,6 +7,7 @@
     require_once("PDO_Connect/PDO_Connect.php");
     require_once("Objets/managerStand.php");
     require_once("Objets/managerRessource.php");
+    require_once("Objets/managerPresentateur.php");
 
     if (isset($_POST["Position_X_Emplacement"])) {
         $posx = $_POST["Position_X_Emplacement"];
@@ -17,6 +18,8 @@
     }
 
     $db = connect_bd();
+
+    session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -104,9 +107,15 @@
         </script>
     </body>
     <footer>
+        <?php
+            if(isset($_SESSION['user_name'])){
+                echo "vous êtes : ".$_SESSION['user_name'];
+            }
+                
+        ?>
+
         <a href="Accueil.php">Retour Accueil</a>
     </footer>
-</html>
 
 <?php
     /* Si l'utilisateur a rentré un libellé de stand : création du stand */
@@ -142,6 +151,16 @@
                 $managerRes->insertContenir($idStand,$idRes);
             }
         }
+
+        if($idStand != 0)
+        {
+            $managerPres = new managerPresentateur($db);
+            $managerPres->setStand($idStand, $_SESSION['user_name']);
+        }else{
+            echo"erreur";
+        }
     }
 ?>
+
+</html>
 
