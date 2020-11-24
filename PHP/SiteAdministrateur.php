@@ -12,6 +12,7 @@
                
         <div>
             <a href="SwitchPresentateurUtilisateur.php">Page Administrateur quant au passage d'un utilisateur en présentateur</a>
+            <a href="LiaisonAUnStand.php">Liaison au stand</a>
         </div>
     <footer>
 		<?php
