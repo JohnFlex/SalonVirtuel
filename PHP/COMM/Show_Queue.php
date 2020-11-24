@@ -1,9 +1,10 @@
 <?php
 
-//$thisStand = 11;
-
-
 session_start();
+
+// Ici rendre le présentateur dispo
+
+$_SESSION["stand_id"] = 11;
 
 //$_SESSION['user_name'] = "Joseph";
 
@@ -25,7 +26,7 @@ if ($_GET['reunionStart'] == "true")
     
     
 
-    $urlReunion = "Reunion.php?role=1&stand=".$thisStand."&ID_Pres=".$myId."&ID_User=".$_SESSION['LastFoundUserForThisStand'];
+    $urlReunion = "Reunion.php?role=1&stand=".$_SESSION["stand_id"]."&ID_Pres=".$myId."&ID_User=".$_SESSION['LastFoundUserForThisStand'];
     echo $urlReunion;
 
     header("Location : ".$urlReunion);
@@ -34,11 +35,11 @@ if ($_GET['reunionStart'] == "true")
 
 
 //1.Recuperer les infos de la table
-$querry = "SELECT ID_Avatar, MIN(Heure_Arrivee), ID_Avatar_Presentateur FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$thisStand.";";
+$querry = "SELECT ID_Avatar, MIN(Heure_Arrivee), ID_Avatar_Presentateur FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$_SESSION["stand_id"].";";
 
-$querry_file_length = "SELECT COUNT(DB_SALON_Reunions.ID_Avatar) AS total FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$thisStand.";";
+$querry_file_length = "SELECT COUNT(DB_SALON_Reunions.ID_Avatar) AS total FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$_SESSION["stand_id"].";";
 
-
+var_dump($result = mysqli_query($connection,$querry));
 if($result = mysqli_query($connection,$querry)) {
     while($rows = mysqli_fetch_assoc($result)){
         $_SESSION['LastFoundUserForThisStand'] = $rows['ID_Avatar'];
@@ -53,6 +54,8 @@ if($result = mysqli_query($connection,$querry)) {
     mysqli_free_result($result);
 }else echo "Fail connection 1";
 
+
+var_dump($result = mysqli_query($connection,$querry_file_length));
 if($result = mysqli_query($connection,$querry_file_length)) {
     while($rows = mysqli_fetch_assoc($result)){
         $total = $rows['total'];
