@@ -289,6 +289,26 @@ class managerStand
         }
 	}
 
+
+	public function selectStandsDispo()
+	{
+		$req = "SELECT Libelle_Stand FROM DB_SALON_Stand, DB_SALON_Presentateur WHERE DB_SALON_Stand.ID_Stand = DB_SALON_Presentateur.ID_Stand AND DB_SALON_Presentateur.ID_Activite = (SELECT ID_Activite FROM DB_SALON_Activite WHERE Libelle_Activite = 'Disponible');";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->execute();
+
+			return $stmt;
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
 	/*End*/
 }
 ?>
