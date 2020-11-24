@@ -130,6 +130,37 @@ class managerPresentateur
 		}
 	}
 
+	public function issetStand($name)
+	{
+		$req = "SELECT ID_Stand FROM DB_SALON_Presentateur WHERE Nom_Avatar = :NOM";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":NOM", $name, PDO::PARAM_STR);
+
+			$stmt->execute();
+
+			if($stmt->rowCount > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+
+				//var_dump($valueStmt["ID_Stand"]);
+
+				return $valueStmt["ID_Stand"];
+			}else{
+				return false;
+			}
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			return false;
+		}
+	}
+
 	public function selectPresentateurs()
 	//BUT : Récupérer tous les Presentateurs
 	//ENTREE : /
