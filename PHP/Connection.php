@@ -4,12 +4,8 @@
 	require_once("Objets/managerPresentateur.php");
 	require_once("Objets/managerAdministrateur.php");
 
-	//var_dump($_POST["nom"]);
-	//var_dump($_POST["mdp"]);
-
 
 	$conn = connect_bd();
-
 	if(isset($_POST["nom"]) && isset($_POST["mdp"]))
 	{
 		//Faire un Select From Utilisateur si rowcount()>0 c'est OK
@@ -20,6 +16,7 @@
 		$managerUtilisateur = new managerUtilisateur($conn);
 		$managerPresentateur = new managerPresentateur($conn);
 		$managerAdministrateur = new managerAdministrateur($conn);
+
 		if ($managerUtilisateur->existUtilisateurByName($_POST["nom"], $_POST["mdp"]))
 		{
 			session_start();
