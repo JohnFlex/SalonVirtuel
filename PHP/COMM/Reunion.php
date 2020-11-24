@@ -82,8 +82,6 @@ function generate_signature ( $api_key, $api_secret, $meeting_number, $role){
 
 <body>
 
-	<div style="height: 200px; width:200px ; display:block; background-color:red;position:absolute;top:0; right:0; z-index:2" onclick="GetSignature()">Connexion</div>
-
 	<!-- import ZoomMtg dependencies -->
 	<script src="https://source.zoom.us/1.8.1/lib/vendor/react.min.js"></script>
 	<script src="https://source.zoom.us/1.8.1/lib/vendor/react-dom.min.js"></script>
@@ -104,6 +102,8 @@ function generate_signature ( $api_key, $api_secret, $meeting_number, $role){
 
 		const zoomMeeting = document.getElementById("zmmtg-root")
 
+
+		GetSignature();
 
 		function GetSignature(){
 			
