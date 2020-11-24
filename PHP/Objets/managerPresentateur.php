@@ -147,7 +147,7 @@ class managerPresentateur
 
 			$stmt->execute();
 
-			if($stmt->rowCount > 0)
+			if($stmt->rowCount() > 0)
 			{
 				$valueStmt = $stmt->fetchAll()[0];
 
@@ -155,13 +155,34 @@ class managerPresentateur
 
 				return $valueStmt["ID_Stand"];
 			}else{
-				return false;
+				return -1;
 			}
 		}
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			return false;
+			return -1;
+		}
+	}
+
+	public function setStand($ID, $name)
+	{
+		$req = "UPDATE DB_SALON_Presentateur SET ID_Stand = :ID WHERE Nom_Avatar = :NOM";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":ID", $ID, PDO::PARAM_INT);
+			$stmt->bindValue(":NOM", $name, PDO::PARAM_STR);
+
+			$stmt->execute();
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
 		}
 	}
 

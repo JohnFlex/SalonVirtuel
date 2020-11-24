@@ -1,4 +1,9 @@
-<?php 
+<?php
+    require_once("PDO_Connect/PDO_Connect.php");
+    require_once("Objets/managerPresentateur.php");
+
+    $conn = connect_bd();
+
     session_start();
 ?>
 <!DOCTYPE html>
@@ -10,11 +15,22 @@
     <body>
         <h1>Site présentateur</h1>
         <div>
-            <a href="creerStand.php">Création d'un Stand</a>
+            <?php
+                $mP = new managerPresentateur($conn);
+
+                $X = $mP->issetStand($_SESSION['user_name']);
+
+                if($X < 1)
+                {
+                    echo"<a href='creerStand.php'>Création d'un Stand</a>";
+                }
+                else{
+                    echo"<a href='Accueil.php'>Oui</a>";
+                }
+            ?>
         </div>
     <footer>
 		<?php
-            session_start();
 			if(isset($_SESSION['user_name'])){
 				echo "vous êtes : ".$_SESSION['user_name'];
 			}
