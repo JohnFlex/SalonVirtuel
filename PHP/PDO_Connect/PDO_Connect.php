@@ -1,13 +1,13 @@
 <?php
-define('BASE','ormcomcplh778');
+/*define('BASE','ormcomcplh778');
 define('SERVER','ormcomcplh778.mysql.db');
 define('USER','ormcomcplh778');
-define('PASSWD','R8frzgZzN5S8');
+define('PASSWD','R8frzgZzN5S8');*/
 
-/*define('BASE','DB_SALON');
+define('BASE','DB_SALON');
 define('SERVER','localhost');
 define('USER','root');
-define('PASSWD','');*/
+define('PASSWD','');
 
 function connect_bd()
 {

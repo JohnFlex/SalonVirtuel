@@ -5,10 +5,18 @@
 		<title>Inscription</title>
 		<lang = fr/>
 		<style type="text/css"></style>
-		<link rel="stylesheet" type="text/css" href=""> 
+		<link rel="stylesheet" type="text/css" href="../CSS/style.css"> 
 		<link rel="shortcut icon" type="image/x-icon" href="">     
 	</HEAD>
 	<BODY>
+		<div class="navbar">
+            <h1>Titre du site</h1>
+            <h2 class="titre1">Inscription</h2>
+            <div>
+                <a href="Accueil.php">Retour accueil</a>
+                <a href="Connection.php">Connexion</a>
+            </div>
+        </div>
 
 		<form method="POST" action="finInscription.php">
 			<label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" oninput="verifNom(v1);v1=verifNom(v1);verifAllTrue(v1,v2,v3);" onchange="" required><span class="desc">ne pas utiliser de caracter spécial</span><br>
@@ -126,10 +134,7 @@
 		<!-- faire un formulaire de recherche de personne avec le nom ou prenom ou email ou date de naissance (banParam,banValues) -->
 	
     <footer>
-    	<div>
-            <a href="Connection.php">Connexion</a>
-        </div>
-        <a href="Accueil.php">Retour Accueil</a>
+
     </footer>
 	</BODY>
 </HTML>

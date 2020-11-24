@@ -1,0 +1,132 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    background-color: #34495e;
+    font-family: sans-serif;
+}
+
+h1
+{
+    color: white;
+    font-family: Calibri;
+    font-size: 1.2em;
+    text-decoration: underline;
+}
+
+h2 
+{
+    color: white;
+    font-family: Calibri;
+}
+
+p
+{
+    color: white;
+}
+
+form
+{
+    width: 300px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #2f3640;
+    text-align: center;
+}
+
+form input[type ="text"], form input[type = "password"], form input[type = "number"], form input[type = "email"], form input[type ="tel"]
+{
+    border:0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    border-radius: 20px;
+    color: white;
+    padding: 14px 10px;
+    width: 200px;
+    outline: none;
+    color: white;    
+    transition: 0.25s;
+
+}
+
+form h1
+{
+    color: white;
+    text-transform: uppercase;    
+    font-weight: 500px;
+}
+
+form input[type ="text"]:focus, form input[type = "password"]:focus, form input[type = "number"]:focus, form input[type = "email"]:focus, form input[type ="tel"]:focus
+{
+    width: 280px;
+    border-color:#2ed573;
+}
+
+form input[type = "Submit"]
+{
+    border:0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #2ed573;
+    border-radius: 20px;
+    color: white;
+    padding: 14px 40px;
+    outline: none;
+    color: white;    
+    transition: 0.25s;
+
+}
+
+form input[type = "submit"]:hover
+{
+    background: #2ed573;
+}
+
+a
+{
+    font-family: Calibri;
+    font-size: 100%;
+    color: white;
+}
+
+div.navbar
+{
+    overflow: hidden;
+    background-color: #2f3640;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.navbar a
+{
+    float: right;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.navbar a:hover
+{
+    background-color: #00a8ff;
+}
+
+.navbar h2.titre1
+{
+    font-size: 1.1em;
+}
+
+label
+{
+    color: white;
+}
