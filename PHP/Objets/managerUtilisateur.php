@@ -139,7 +139,7 @@ class managerUtilisateur
 		}
 	}
 
-	public function existUtilisateurById($num)
+	public function existUtilisateurById($num, $MDP)
 	//BUT : Vérifier si un utilisateur existe
 	//ENTREE : Un ID
 	//SORTIE : Un booléen
@@ -200,6 +200,8 @@ class managerUtilisateur
 	//SORTIE : Un objet utilisateur contenant les informations de l'utilisateur
 	{
 		$req = "SELECT * FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM";
+
+		echo $name;
 
 		//Envoie de la requête à la base
 		try
