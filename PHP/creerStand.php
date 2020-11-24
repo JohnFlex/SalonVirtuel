@@ -8,6 +8,14 @@
     require_once("Objets/managerStand.php");
     require_once("Objets/managerRessource.php");
 
+    if (isset($_POST["Position_X_Emplacement"])) {
+        $posx = $_POST["Position_X_Emplacement"];
+        $posy = $_POST["Position_Y_Emplacement"];
+    } else {
+        $posx = "";
+        $posy = "";
+    }
+
     $db = connect_bd();
 ?>
 <!DOCTYPE html>
@@ -17,12 +25,21 @@
         <meta charset="utf-8">
     </head>
     <body>
-        <form id="creation_stand" class="" method="get" action="#">
+        <form id="creation_stand" class="" method="post" action="#">
             <label for="nom">Nom du stand :</label>
             <input type="text" id="Libelle_Stand" name="Libelle_Stand" placeholder="Nom du stand" size="15" required />
 
+            <input type="hidden" name="Position_X_Emplacement" value="<?php echo $posx ?>">
+            <input type="hidden" name="Position_Y_Emplacement" value="<?php echo $posy ?>">
+
+            <label for="nom">Catégorie :</label>
+            <input type="text" id="Categorie_Stand" name="Categorie_Stand" placeholder="Catégorie" size="15" />
+
+            <label for="nom">Informations :</label>
+            <textarea name="Information_Stand" placeholder="Description"></textarea>
+
             <input type="button" id="ajout_ressource" onclick="ajoutRessource();" value="Ajouter une ressource" />
-            <input type="button" id="delete_ressource" onclick="deleteRessource();" value="Enlever une ressource" />
+            <input type="button" iqd="delete_ressource" onclick="deleteRessource();" value="Enlever une ressource" />
 
             <input type="submit" id="submit_button" name="submit_button"  class="" value="Créer" />
         </form>
@@ -93,11 +110,13 @@
 
 <?php
     /* Si l'utilisateur a rentré un libellé de stand : création du stand */
-    if(isset($_REQUEST['Libelle_Stand']) && !empty($_REQUEST['Libelle_Stand'])) {
-        $managerStand = new managerStand($db);
+    if(isset($_POST['Libelle_Stand']) && !empty($_POST['Libelle_Stand'])) {
+        
 
         $mStand = array(
-            'Libelle' => $_REQUEST['Libelle_Stand']
+            'Libelle' => $_POST['Libelle_Stand'],
+            'Information' => $_POST['Information_Stand'],
+            'Categorie' => $_POST['Categorie_Stand'],
         );
 
         $stand = new Stand;
@@ -105,12 +124,12 @@
         $idStand = $managerStand->insertStand($stand); //insére et récupère l'id auto_increment
 
         /* Si l'utilisateur a rentré un libellé de ressource : création de la ressource*/
-        if (isset($_REQUEST['Libelle_Ressource']) && !empty($_REQUEST['Libelle_Ressource'])) {
-            $managerRes = new managerRessource($db);
+        if (isset($_POST['Libelle_Ressource']) && !empty($_POST['Libelle_Ressource'])) {
+            
 
             /* Pour chaque ressource entrée, insertion dans ressource et contenir */
-            foreach($_REQUEST['Libelle_Ressource'] as $res) {
-                foreach($_REQUEST['Lien_Ressource'] as $url) {
+            foreach($_POST['Libelle_Ressource'] as $res) {
+                foreach($_POST['Lien_Ressource'] as $url) {
                     $mRessource = array(
                         'Libelle' => $res,
                         'Lien' => $url
