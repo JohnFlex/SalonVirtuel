@@ -112,7 +112,7 @@ function generate_signature ( $api_key, $api_secret, $meeting_number, $role){
 			ZoomMtg.init(
 				{
 					debug: true, 
-    				leaveUrl: 'https://2orm.com/SALON/TEST_COMM/QuitterFile.php'}
+    				leaveUrl: 'https://2orm.com/SALON/PHP/COMM/QuitterFile.php'}
 			);
 			ZoomMtg.join({
     			meetingNumber: 2412265718,

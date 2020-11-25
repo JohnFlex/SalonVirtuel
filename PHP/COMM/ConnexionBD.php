@@ -10,12 +10,11 @@ $dbname = "ormcomcplh778";
 
  //Connection vers la Base de données
     
-    $connection = mysqli_connect($servername,$username,$password,$dbname);
-
-    if (mysqli_connect_errno()) {
-        printf("Échec de la connexion : %s\n", mysqli_connect_error());
+$connection = mysqli_connect($servername,$username,$password,$dbname);
+if (mysqli_connect_errno()) {
+    printf("Échec de la connexion : %s\n", mysqli_connect_error());
     exit();
-    }
+}
 
 
 
