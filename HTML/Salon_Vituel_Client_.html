@@ -111,6 +111,9 @@
     MonCanvas.addEventListener("click", ClickStand);
     MonCanvas.addEventListener("click", ClickPerso);
     var ctx2d = MonCanvas.getContext("2d");
+    var ctx2dtxt = MonCanvas.getContext("2d");
+    ctx2dtxt.font ="25px serif";
+    //ctx2dtxt.fillStyle =  "rgb(0,0,0)";
     
     var player = document.getElementById("player");
     
@@ -140,6 +143,8 @@
         ctx2d.clearRect(0,0,500,500);
         ctx2d.fillStyle =  "rgb(0,0,0)";
         ctx2d.fillRect(0,0,500,500);
+        
+
 
         LesSalon();
         colisionStand();
@@ -237,6 +242,18 @@ function deplacement ()
 
 }
 
+var Stand =[
+    {nom: "nom 1",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "white"},
+    {nom: "nom 2",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "purple"},
+    {nom: "nom 3",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 4",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "yellow"},
+    {nom: "nom 5",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "green"},
+    {nom: "nom 6",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "gray"},
+    {nom: "nom 7",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "burlywood"},
+    {nom: "nom 8",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "darkblue"},
+    {nom: "nom 9",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "red"},
+];
+
 
 function LesSalon ()
 {
@@ -249,51 +266,78 @@ function LesSalon ()
                 {
                     ctx2d.fillStyle =  Stand[0].Background;
                     ctx2d.fillRect(i,j,100,100);
-                    
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[0].nom,0,50);
+                    //console.log(Stand[0].nom);
                 }
                 if (i==200 && j==0)
                 {
                     ctx2d.fillStyle =  Stand[1].Background;
                     ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[1].nom,200,50);
                 }
                 if (i==400 && j==0)
                 {
                     ctx2d.fillStyle =  Stand[2].Background;
                     ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[2].nom,400,50);
                 }
 
                 if (i==0 && j==200)
                 {
                     ctx2d.fillStyle =  Stand[3].Background;
                     ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[3].nom,0,250);
                     
                 }
                 if (i==200 && j==200)
                 {
                     ctx2d.fillStyle =  Stand[4].Background;
                     ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[4].nom,200,250);
                 }
                 if (i==400 && j==200)
                 {
                     ctx2d.fillStyle =  Stand[5].Background;
                     ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[5].nom,400,250);
                 }
 
                 if (i==0 && j==400)
                 {
                     ctx2d.fillStyle =  Stand[6].Background;
                     ctx2d.fillRect(i,j,100,100);
+
+                   ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                   ctx2dtxt.fillText(Stand[6].nom,0,450);
                     
                 }
                 if (i==200 && j==400)
                 {
                     ctx2d.fillStyle =  Stand[7].Background;
                     ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[7].nom,200,450);
                 }
                 if (i==400 && j==400)
                 {
                     ctx2d.fillStyle =  Stand[8].Background;
                     ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[8].nom,400,450);
                 }
             }
         }
@@ -314,6 +358,7 @@ function colisionStand ()
             if (Stand[P].cree == true && unseul==0)
             {
                 Stand[P].InfoActive = true;
+                uneseulepageinfo=1;
                 Information();
                 unseul =1;
             }
@@ -336,6 +381,7 @@ function colisionStand ()
             if (Stand[P].cree == true && unseul==0)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             unseul=1;
             }
@@ -355,6 +401,7 @@ function colisionStand ()
             if (Stand[P].cree == true && unseul==0)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             unseul =1;
             }
@@ -376,6 +423,7 @@ function colisionStand ()
             {
                 console.log("Chausette2");
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             unseul=1;
             }
@@ -396,6 +444,7 @@ function colisionStand ()
             if (Stand[P].cree == true && unseul==0)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             unseul=1;
             }
@@ -415,6 +464,7 @@ function colisionStand ()
             if (Stand[P].cree == true && unseul==0)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             unseul=1;
             }
@@ -434,6 +484,7 @@ function colisionStand ()
             if (Stand[P].cree == true && unseul==0)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             unseul=1;
             }
@@ -453,6 +504,7 @@ function colisionStand ()
             if (Stand[P].cree == true && unseul==0)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             unseul=1;
             }
@@ -472,6 +524,7 @@ function colisionStand ()
             if (Stand[P].cree == true && unseul==0)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             unseul=1;
             }
@@ -488,17 +541,6 @@ function colisionStand ()
         
 }
 
-var Stand =[
-    {nom: "nom 1",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "white"},
-    {nom: "nom 2",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "purple"},
-    {nom: "nom 3",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "Blue"},
-    {nom: "nom 4",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "yellow"},
-    {nom: "nom 5",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "green"},
-    {nom: "nom 6",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "gray"},
-    {nom: "nom 7",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "fushia"},
-    {nom: "nom 8",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "darkblue"},
-    {nom: "nom 9",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "red"},
-];
 
 
 
@@ -645,6 +687,7 @@ function Lejeu()
         effacer.parentElement.removeChild(effacer);
         Stand[saveInfo].InfoActive = false;
         Clicker = false;
+        uneseulepageinfo=0;
         unseul = 0;
     }
     
@@ -656,9 +699,12 @@ function Lejeu()
         //console.log("Souris X: ", sourisX, " Souris Y: " ,sourisY);
     }
 
+    var uneseulepageinfo=0;
+
 var Clicker = false
     function ClickStand()
     {
+        if (uneseulepageinfo == 0){
         //alert("mousex: "+sourisX+" mousey: "+sourisY);
         //console.log("Bat");
         if ((sourisX > 249 && sourisY > 0) && (sourisX < 351 && sourisY < 101))
@@ -667,6 +713,7 @@ var Clicker = false
             if (Stand[P].cree == true)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
@@ -677,6 +724,7 @@ var Clicker = false
             if (Stand[P].cree == true)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
@@ -687,6 +735,7 @@ var Clicker = false
             if (Stand[P].cree == true)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
@@ -697,6 +746,7 @@ var Clicker = false
             if (Stand[P].cree == true)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
@@ -707,6 +757,7 @@ var Clicker = false
             if (Stand[P].cree == true)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
@@ -717,6 +768,7 @@ var Clicker = false
             if (Stand[P].cree == true)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
@@ -727,6 +779,7 @@ var Clicker = false
             if (Stand[P].cree == true)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
@@ -737,6 +790,7 @@ var Clicker = false
             if (Stand[P].cree == true)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
@@ -747,9 +801,11 @@ var Clicker = false
             if (Stand[P].cree == true)
             {
             Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
+        }
         }
         
     }
