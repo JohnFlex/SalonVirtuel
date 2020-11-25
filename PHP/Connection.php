@@ -49,7 +49,7 @@
 <HTML>
 	<HEAD>
 		<meta charset="utf-8"/>
-		<title>Inscription</title>
+		<title>Connexion</title>
 		<lang = fr/>
 		<style type="text/css"></style>
 		<link rel="stylesheet" type="text/css" href="../CSS/style.css"> 

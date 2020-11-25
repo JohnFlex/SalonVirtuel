@@ -1,6 +1,7 @@
 // Variables globales
 
 //let utilisateurId = 7;
+let boolEnAttente = false;
 
 // On attend le chargement du document
 window.onload = () =>{
@@ -13,41 +14,46 @@ window.onload = () =>{
  */
 function chargeReunion()
 {
-    // On instancie XMLHttpRequest
-    let xmlhttp = new XMLHttpRequest();
-
-    // On gère la réponse
-    xmlhttp.onreadystatechange = function()
+    if (boolEnAttente)
     {
-        if (this.readyState == 4)
+        // On instancie XMLHttpRequest
+        let xmlhttp = new XMLHttpRequest();
+
+        // On gère la réponse
+        xmlhttp.onreadystatechange = function()
         {
-            if(this.status == 200)
+            if (this.readyState == 4)
             {
-                // On a une réponse
-                // On convertit la réponse en objet JS
-                console.log(this.response);
-                let Reponses = JSON.parse(this.response);
-
-                //Reponse.reverse();
-
-                for(let Reponse of Reponses)
+                if(this.status == 200)
                 {
-                    //Ici on peut récupérer les informations reçues.
-                    console.log("ID Presentateur : "+Reponse.ID_Avatar_Presentateur);
-                    console.log("ID Stand : "+Reponse.ID_Stand);
+                    // On a une réponse
+                    // On convertit la réponse en objet JS
+                    console.log(this.response);
+                    let Reponses = JSON.parse(this.response);
+
+                    //Reponse.reverse();
+
+                    for(let Reponse of Reponses)
+                    {
+                        //Ici on peut récupérer les informations reçues.
+                        console.log("ID Presentateur : "+Reponse.ID_Avatar_Presentateur);
+                        console.log("ID Stand : "+Reponse.ID_Stand);
+                    }
+                }
+                else
+                {
+                    // On gère les erreurs
+                    let erreur = JSON.parse("erreur"+this.response);
+                    alert(erreur.message);
                 }
             }
-            else
-            {
-                // On gère les erreurs
-                let erreur = JSON.parse("erreur"+this.response);
-                alert(erreur.message);
-            }
         }
-    }
-    // On ouvre la requête
-    xmlhttp.open("GET", "ajax/PrepReunion.php?ID_Utilisateur="+utilisateurId);
+        // On ouvre la requête
+        xmlhttp.open("GET", "ajax/PrepReunion.php?ID_Utilisateur="+utilisateurId);
 
-    // On envoie
-    xmlhttp.send();
+        // On envoie
+        xmlhttp.send();
+    }
 }
+
+function rentrerEnFile()
