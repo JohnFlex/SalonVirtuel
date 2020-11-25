@@ -1,9 +1,4 @@
 <?php
-    /*
-    if (!$_SESSION) {
-        header('Location: Accueil.php');
-    }
-    */
     require_once("PDO_Connect/PDO_Connect.php");
     require_once("Objets/managerStand.php");
     require_once("Objets/managerRessource.php");
@@ -20,6 +15,7 @@
     $db = connect_bd();
 
     session_start();
+    $dom = new DOMDocument('1.0', 'iso-8859-1');
 ?>
 <!DOCTYPE html>
 <html>
@@ -29,6 +25,34 @@
         <link href="../CSS/style.css" rel="stylesheet" />
     </head>
     <body>
+        <header>
+            <div class="navbar">
+                <h1>Titre du site</h1>
+                <h2 class="titre1">Création d'un Stand</h2>
+                <div>
+                    <a href="Accueil.php">Deconnexion</a>
+                    <a href="SitePresentateur.php">Retour Gestion</a>
+                    <?php
+                        if(isset($_SESSION['user_name']))
+                        {
+                            $link = $dom->createElement('a');
+
+                            $noeudTexteLink = $dom->createTextNode("Compte : ".$_SESSION['user_name']);
+
+                            $link->appendChild($noeudTexteLink);
+
+                            $dom->appendChild($link);
+
+                            echo $dom->saveHTML();
+
+                            $dom->removeChild($link);
+
+                            //echo "<a href=''>".$_SESSION['user_name']."</a>";
+                        }      
+                    ?>
+                </div>
+            </div>
+        </header>
         <form id="creation_stand" class="" method="post" action="#">
             <label for="nom">Nom du stand :</label>
             <input type="text" id="Libelle_Stand" name="Libelle_Stand" placeholder="Nom du stand" size="15" required />
@@ -108,14 +132,6 @@
         </script>
     </body>
     <footer>
-        <?php
-            if(isset($_SESSION['user_name'])){
-                echo "vous êtes : ".$_SESSION['user_name'];
-            }
-                
-        ?>
-
-        <a href="Accueil.php">Retour Accueil</a>
     </footer>
 
 <?php
@@ -130,6 +146,7 @@
         );
 
         $stand = new Stand;
+        $managerStand = new managerStand($db);
         $stand->hydrate($mStand);
         $idStand = $managerStand->insertStand($stand); //insére et récupère l'id auto_increment
 

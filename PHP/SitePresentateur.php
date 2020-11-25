@@ -5,16 +5,56 @@
     $conn = connect_bd();
 
     session_start();
+
+    $dom = new DOMDocument('1.0', 'iso-8859-1');
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Ici c'est le site prÈsentateur</title>
         <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="../CSS/style.css">
+        <title>Ici c'est le site pr√©sentateur</title>
     </head>
     <body>
-        <h1>Site prÈsentateur</h1>
-        <div>
+        <header>
+        <div class="navbar">
+            <h1>Titre du site</h1>
+            <h2 class="titre1">Site pr√©sentateur</h2>
+            <div>
+                <a href="Accueil.php">Deconnexion</a>
+                <?php
+                    $mP = new managerPresentateur($conn);
+
+                    $X = $mP->issetStand($_SESSION['user_name']);
+
+                    if($X < 1)
+                    {
+                        echo"<a href='creerStand.php'>Cr√©ation d'un Stand</a>";
+                    }
+                    else{
+                        echo"<a href='modifierStand.php'>Gestion d'un Stand</a>";
+                    }
+
+                    if(isset($_SESSION['user_name']))
+                    {
+                        $link = $dom->createElement('a');
+
+                        $noeudTexteLink = $dom->createTextNode("Compte : ".$_SESSION['user_name']);
+
+                        $link->appendChild($noeudTexteLink);
+
+                        $dom->appendChild($link);
+
+                        echo $dom->saveHTML();
+
+                        $dom->removeChild($link);
+                    }
+                ?>
+            </div>
+        </div>
+    </header>
+        
+        <div id="container" class="container">
             <?php
                 $mP = new managerPresentateur($conn);
 
@@ -22,23 +62,15 @@
 
                 if($X < 1)
                 {
-                    echo"<a href='creerStand.php'>CrÈation d'un Stand</a>";
+                    echo"<a href='creerStand.php'><img src='../Contenus/images/STANDS/Stand02_RotateA.png' alt='Image de Stand'>Cr√©ation d'un Stand</a>";
                 }
                 else{
-                    echo"<a href='Accueil.php'>Oui</a>";
+                    echo"<a href='modifierStand.php'><img src='../Contenus/images/STANDS/Stand02_RotateA.png' alt='Image de Stand'>Gestion d'un Stand</a>";
                 }
             ?>
         </div>
     <footer>
-		<?php
-			if(isset($_SESSION['user_name'])){
-				echo "vous Ítes : ".$_SESSION['user_name'];
-			}
-            //Set la session du stand du presentateur.
-            //$_SESSION["stand_id"];
-		?>
-        <a href="SitePresentateurStand.php">Stand</a>
-        <a href="Accueil.php">Deconnexion</a>
+		
     </footer>
     </body>
 </html>
