@@ -24,6 +24,8 @@ function Rendre_Le_Presentateur_Disponible()
 function Demarrer_La_Reunion()
 {
 
+    Verifier_Si_Les_Cles_De_L_API_Sont_Rentrees();
+
     $urlReunion = "Reunion.php?role=1&stand=".$_SESSION["stand_id"]."&ID_Pres=".Recuperer_ID_Presentateur_Actuellement_Connecte()."&ID_User=".Recuperer_Le_Premier_Utilisateur_De_La_File_Pour_Un_Stand($_SESSION["stand_id"]);
 
     header("Location : ".$urlReunion);
@@ -75,6 +77,23 @@ function Recuperer_ID_Presentateur_Actuellement_Connecte()
         mysqli_free_result($result);
     }else echo "Error connection : Failed to get Presentateur ID";
     
+}
+
+
+//Arrête la possibilité de réunion si les clés API ne sont pas renseignées
+function Verifier_Si_Les_Cles_De_L_API_Sont_Rentrees(){
+    $queryAPIInfos = 'SELECT * FROM DB_SALON_Presentateur WHERE ID_Avatar = '.Recuperer_ID_Presentateur_Actuellement_Connecte().';';
+    if($result = mysqli_query($connection,$queryAPIInfos)) {
+        while($rows = mysqli_fetch_assoc($result)){
+            $tempKey = $rows['Numero_Reunion'];
+            if ($tempKey == "") {
+                echo "Vos codes API ne sont pas renseignés !";
+                exit();
+            }
+        }
+        mysqli_free_result($result);
+    }
+    else echo "Error connetion : Failed to get total users number";
 }
 
 ?>
