@@ -147,7 +147,7 @@ class managerPresentateur
 
 			$stmt->execute();
 
-			if($stmt->rowCount > 0)
+			if($stmt->rowCount() > 0)
 			{
 				$valueStmt = $stmt->fetchAll()[0];
 
@@ -155,13 +155,34 @@ class managerPresentateur
 
 				return $valueStmt["ID_Stand"];
 			}else{
-				return false;
+				return -1;
 			}
 		}
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			return false;
+			return -1;
+		}
+	}
+
+	public function setStand($ID, $name)
+	{
+		$req = "UPDATE DB_SALON_Presentateur SET ID_Stand = :ID WHERE Nom_Avatar = :NOM";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":ID", $ID, PDO::PARAM_INT);
+			$stmt->bindValue(":NOM", $name, PDO::PARAM_STR);
+
+			$stmt->execute();
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
 		}
 	}
 
@@ -301,6 +322,32 @@ class managerPresentateur
 			$stmt = $this->db->prepare($req);
 
 			$stmt->bindValue(":ACTIVITE", $P->getIdActivite(), PDO::PARAM_INT);
+
+			$stmt->execute();
+
+			return $stmt;
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
+
+	public function UpdatePresentateurState(string $Name, string $Etat)
+	//BUT : Obtenir le libelle de l'activité d'un présentateur P
+	//ENTREE : Un présentateur P
+	//SORTIE : Une chaine de caractères contenant le libelle de l'activité
+	{
+		$req = "UPDATE  DB_SALON_Presentateur SET ID_Activite = (SELECT ID_Activite FROM DB_SALON_Activite WHERE Libelle_Activite = :ETAT) WHERE Nom_Avatar = :NAME;";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":ETAT", $Etat, PDO::PARAM_STR);
+			$stmt->bindValue(":NAME", $Name, PDO::PARAM_STR);
 
 			$stmt->execute();
 

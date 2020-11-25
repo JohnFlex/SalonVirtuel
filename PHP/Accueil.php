@@ -8,14 +8,19 @@
     <head>
         <title>Accueil</title>
         <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="../CSS/style.css">
     </head>
     <body>
-        <h1>Accueil</h1>
-        <div>
-        	<a href="Inscription.php">Inscription</a>
+        <div class="navbar">
+            <h1>Titre du site</h1>
+            <h2 class="titre1">Accueil</h2>
+            <div>
+                <a href="Inscription.php">Inscription</a>
+                <a href="Connection.php">Connexion</a>
+            </div>
         </div>
-        <div>
-            <a href="Connection.php">Connexion</a>
-        </div>
+
+        <p>Bonjour je suis beau</p>
+
     </body>
 </html>

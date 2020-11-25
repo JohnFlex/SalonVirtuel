@@ -52,20 +52,26 @@
 		<title>Inscription</title>
 		<lang = fr/>
 		<style type="text/css"></style>
-		<link rel="stylesheet" type="text/css" href=""> 
+		<link rel="stylesheet" type="text/css" href="../CSS/style.css"> 
 		<link rel="shortcut icon" type="image/x-icon" href="">     
 	</HEAD>
 	<BODY>
+		<div class="navbar">
+            <h1>Titre du site</h1>
+            <h2 class="titre1">Connexion</h2>
+            <div>
+            	<a href="Accueil.php">Retour accueil</a>
+                <a href="Inscription.php">Inscription</a>
+            </div>
+        </div>
+
 		<form method="POST" action="#">
-			<label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" onchange="" required><span class="desc">ne pas utiliser de caracter spécial</span><br>
+			<label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" onchange="" required><span class="desc">ne pas utiliser de caracterès spéciaux</span><br><br>
 			<label for="mdp"> Mot de Passe : </label><input type="password" id="pass" name="mdp" placeholder="password"   required><span class="desc">doit au moins contenir 1 Majuscule, 1 Minuscule et 1 Chiffre</span><br>
 			<input type="submit" name="sub" id="sup" value="Connection">
 		</form>
 	</BODY>
     <footer>
-		<div>
-        	<a href="Inscription.php">Inscription</a>
-        </div>
-        <a href="Accueil.php">Retour Accueil</a>
+		
     </footer>
 </HTML>
