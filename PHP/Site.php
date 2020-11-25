@@ -25,26 +25,63 @@
             //var_dump($resultat);
             $resultat=$resultat->fetchAll();
 
-            echo "<h3>Liste des stands</h3>";
+            $tabStand=Array();
+
+            $tabStandDispo=Array();
+
+            //echo "<h3>Liste des stands</h3>";
             foreach ($resultat as $result)
             {
                 //var_dump($result);
-                echo "<div>".$result["Libelle_Stand"]."</div>";
+                array_push($tabStand,$result["Libelle_Stand"]);
+                //echo "<div>".$result["Libelle_Stand"]."</div>";
             }
 
             $resultat = $managerStand->selectStandsDispo();
             //var_dump($resultat);
             $resultat=$resultat->fetchAll();
             //var_dump($resultat);
-            echo "<h3>Liste des stands disponibles</h3>";
+            //echo "<h3>Liste des stands disponibles</h3>";
             foreach ($resultat as $result)
             {
                 //var_dump($result);
-                echo "<div>".$result["Libelle_Stand"]."</div>";
+                array_push($tabStandDispo,$result["Libelle_Stand"]);
+                //echo "<div>".$result["Libelle_Stand"]."</div>";
             }
+
+            $dom = new DOMDocument("1.00","iso-8859-1");
+            //echo "<h3>Document créé</h3>";
+            foreach ($tabStand as $stand)
+            {
+                //var_dump($stand);
+                if(in_array($stand, $tabStandDispo))
+                {
+                    $div = $dom->createElement("div");
+                    $h3 = $dom->createElement("h3",$stand);
+                    $button = $dom->createElement("button","Rejoindre la file d'attente");
+
+                    $div->appendChild($h3);
+                    $div->appendChild($button);
+
+                    $dom->appendChild($div);
+                }
+                else
+                {
+                    $div = $dom->createElement("div");
+                    $h3 = $dom->createElement("h3",$stand);
+
+                    $div->appendChild($h3);
+
+                    $dom->appendChild($div);
+                }
+            }
+            echo $dom->saveHTML();
         ?>
     <footer>
         <a href="Accueil.php">Deconnexion</a>
+        <?php
+            var_dump($_SESSION);
+        ?>
     </footer>
     </body>
 </html>

@@ -8,7 +8,8 @@ $_SESSION["stand_id"] = 11;
 //Rend le présentateur actuel disponible dans la base de données
 //ENTREE : N/A
 //SORTIE : Le présentateur qui est actuellement connecté est rendu disponible dans la base de données
-function Rendre_Le_Presentateur_Disponible(){
+function Rendre_Le_Presentateur_Disponible()
+{
     $query_setPresDispo = 'UPDATE DB_SALON_Presentateur SET ID_Activite = 2 WHERE Nom_Avatar LIKE "%'.$_SESSION['user_name'].'%" ; ';
     if ($connection->query($query_setPresDispo) === TRUE) {
         echo "You are now available. Users can join queue !";
@@ -20,7 +21,8 @@ function Rendre_Le_Presentateur_Disponible(){
 //Redirige sur la page avec la réunion en transmettant les paramètres du présentateur connecté
 //ENTREE : N/A
 //SORTIE : Redirection sur la page de réunion avec les bonnes infos
-function Demarrer_La_Reunion(){
+function Demarrer_La_Reunion()
+{
 
     $urlReunion = "Reunion.php?role=1&stand=".$_SESSION["stand_id"]."&ID_Pres=".Recuperer_ID_Presentateur_Actuellement_Connecte()."&ID_User=".Recuperer_Le_Premier_Utilisateur_De_La_File_Pour_Un_Stand($_SESSION["stand_id"]);
 
@@ -30,7 +32,8 @@ function Demarrer_La_Reunion(){
 //Recupère l'ID du premier utilisateur pour un stand donné
 //ENTREE : ID du stand du présentateur
 //SORTIE : ID de l'avatar du premier utilisateur du stand
-function Recuperer_Le_Premier_Utilisateur_De_La_File_Pour_Un_Stand($numeroStand){
+function Recuperer_Le_Premier_Utilisateur_De_La_File_Pour_Un_Stand($numeroStand)
+{
     $querry = "SELECT ID_Avatar, MIN(Heure_Arrivee), ID_Avatar_Presentateur FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$numeroStand.";";
     if($result = mysqli_query($connection,$querry)) {
         while($rows = mysqli_fetch_assoc($result)){
@@ -45,7 +48,8 @@ function Recuperer_Le_Premier_Utilisateur_De_La_File_Pour_Un_Stand($numeroStand)
 //Recupère le nombre total d'utilisateur dans une file d'attente pour un stand donné
 //ENTREE : ID du stand du présentateur
 //SORTIE : Le nombre d'utilisateurs dans la file bla bla
-function Recuperer_Le_Nombre_Total_De_Personnes_Qui_Attendent_Dans_La_File_D_Attente_Pour_Un_Stand($numeroStand){
+function Recuperer_Le_Nombre_Total_De_Personnes_Qui_Attendent_Dans_La_File_D_Attente_Pour_Un_Stand($numeroStand)
+{
     $querry_file_length = "SELECT COUNT(DB_SALON_Reunions.ID_Avatar) AS total FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$numeroStand.";";
 
     if($result = mysqli_query($connection,$querry_file_length)) {
@@ -58,7 +62,8 @@ function Recuperer_Le_Nombre_Total_De_Personnes_Qui_Attendent_Dans_La_File_D_Att
 
 }
 
-function Recuperer_ID_Presentateur_Actuellement_Connecte(){
+function Recuperer_ID_Presentateur_Actuellement_Connecte()
+{
     $queryMyID = 'SELECT * FROM DB_SALON_Presentateur WHERE DB_SALON_Presentateur.Nom_Avatar LIKE "'. $_SESSION['user_name'].'";';
     if($result = mysqli_query($connection,$queryMyID)) {
         
