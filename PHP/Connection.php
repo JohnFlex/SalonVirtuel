@@ -56,16 +56,24 @@
 		<link rel="shortcut icon" type="image/x-icon" href="">     
 	</HEAD>
 	<BODY>
+		<header>
+			<div id="createAc">
+				<h2>Pas encore inscrit ?</h2>
+        		<a href="Inscription.php">Inscription</a>
+        	</div>
+        	<div id="date">
+				<h2>Salon Virtuel</h2>
+        		<?php setlocale(LC_TIME, 'fra_fra'); echo  strftime('%Y-%m-%d %H:%M:%S');; ?>
+        	</div>
+		</header>
 		<form method="POST" action="#">
-			<label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" onchange="" required><span class="desc">ne pas utiliser de caracter spécial</span><br>
-			<label for="mdp"> Mot de Passe : </label><input type="password" id="pass" name="mdp" placeholder="password"   required><span class="desc">doit au moins contenir 1 Majuscule, 1 Minuscule et 1 Chiffre</span><br>
+			<h2>Connection</h2>
+			<label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" onchange="" required>
+			<label for="mdp"> Mot de Passe : </label><input type="password" id="pass" name="mdp" placeholder="password"   required>
 			<input type="submit" name="sub" id="sup" value="Connection">
 		</form>
 	</BODY>
     <footer>
-		<div>
-        	<a href="Inscription.php">Inscription</a>
-        </div>
         <a href="Accueil.php">Retour Accueil</a>
     </footer>
 </HTML>
