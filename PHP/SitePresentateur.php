@@ -5,15 +5,45 @@
     $conn = connect_bd();
 
     session_start();
+
+    $dom = new DOMDocument('1.0', 'iso-8859-1');
 ?>
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="../CSS/style.css">
         <title>Ici c'est le site présentateur</title>
         <meta charset="utf-8">
     </head>
     <body>
-        <h1>Site présentateur</h1>
+        <header>
+        <div class="navbar">
+            <h1>Titre du site</h1>
+            <h2 class="titre1">Site présentateur</h2>
+            <div>
+                <a href="Accueil.php">Deconnexion</a>
+                <?php
+                    if(isset($_SESSION['user_name']))
+                    {
+                        $link = $dom->createElement('a');
+
+                        $noeudTexteLink = $dom->createTextNode("Compte : ".$_SESSION['user_name']);
+
+                        $link->appendChild($noeudTexteLink);
+
+                        $dom->appendChild($link);
+
+                        echo $dom->saveHTML();
+
+                        $dom->removeChild($link);
+
+                        //echo "<a href=''>".$_SESSION['user_name']."</a>";
+                    }      
+                ?>
+            </div>
+        </div>
+    </header>
+        
         <div>
             <?php
                 $mP = new managerPresentateur($conn);
@@ -30,15 +60,7 @@
             ?>
         </div>
     <footer>
-		<?php
-			if(isset($_SESSION['user_name'])){
-				echo "vous êtes : ".$_SESSION['user_name'];
-			}
-            //Set la session du stand du presentateur.
-            //$_SESSION["stand_id"];
-		?>
-        <a href="SitePresentateurStand.php">Stand</a>
-        <a href="Accueil.php">Deconnexion</a>
+		
     </footer>
     </body>
 </html>
