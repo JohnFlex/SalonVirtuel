@@ -43,8 +43,7 @@ form
     text-align: center;
 }
 
-form input[type ="text"], form input[type = "password"], form input[type = "number"], form input[type = "email"], form input[type ="tel"]
-{
+form input[type ="text"], form input[type = "password"], form input[type = "number"], form input[type = "email"], form input[type ="tel"]{
     border:0;
     background: none;
     display: block;
@@ -61,16 +60,14 @@ form input[type ="text"], form input[type = "password"], form input[type = "numb
 
 }
 
+form label
+{
+    font-weight: bold;
+}
+
 form h1
 {
     color: white;
-    text-transform: uppercase;    
-    font-weight: 500px;
-}
-
-form label
-{
-    color: #00cec9;
     text-transform: uppercase;    
     font-weight: 500px;
     font-weight: bold;
@@ -104,11 +101,41 @@ form input[type = "submit"]:hover
     background: #2ed573;
 }
 
+.desc
+{
+    position: relative;  /* les .infobulle deviennent référents */
+    cursor: help;
+    color: white;
+    font-size: 9px;
+    margin-bottom: 100px;
+}
+
 a
 {
     font-family: Calibri;
     font-size: 100%;
     color: white;
+}
+
+#date
+{
+    position: absolute;
+    left: 90%;
+    top: 0;
+}
+
+#createAc a
+{
+    position: relative;
+    left: 10px;
+}
+
+footer
+{
+    position: absolute;
+    bottom: 10;
+    left :10;
+    width: 90%;
 }
 
 div.navbar
