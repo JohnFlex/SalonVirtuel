@@ -1,11 +1,16 @@
 body
 {
+<<<<<<< HEAD
     margin: 0;
+=======
+    margin :0;
+>>>>>>> f3a74937a5fd350af55ac5582048519f7f8d51d2
     padding: 0;
     background-color: #34495e;
     font-family: sans-serif;
 }
 
+<<<<<<< HEAD
 h1
 {
     color: white;
@@ -31,6 +36,8 @@ p
     color: white;
 }
 
+=======
+>>>>>>> f3a74937a5fd350af55ac5582048519f7f8d51d2
 form
 {
     width: 300px;
@@ -42,9 +49,13 @@ form
     background-color: #2f3640;
     text-align: center;
 }
+<<<<<<< HEAD
 
 form input[type ="text"], form input[type = "password"], form input[type = "number"], form input[type = "email"], form input[type ="tel"]
 {
+=======
+form input[type ="text"], form input[type = "password"], form input[type = "number"], form input[type = "email"], form input[type ="tel"]{
+>>>>>>> f3a74937a5fd350af55ac5582048519f7f8d51d2
     border:0;
     background: none;
     display: block;
@@ -60,12 +71,21 @@ form input[type ="text"], form input[type = "password"], form input[type = "numb
     transition: 0.25s;
 
 }
+<<<<<<< HEAD
 
 form h1
 {
     color: white;
     text-transform: uppercase;    
     font-weight: 500px;
+=======
+form label
+{
+    color: #00cec9;
+    text-transform: uppercase;    
+    font-weight: 500px;
+    font-weight: bold;
+>>>>>>> f3a74937a5fd350af55ac5582048519f7f8d51d2
 }
 
 form input[type ="text"]:focus, form input[type = "password"]:focus, form input[type = "number"]:focus, form input[type = "email"]:focus, form input[type ="tel"]:focus
@@ -90,12 +110,16 @@ form input[type = "Submit"]
     transition: 0.25s;
 
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> f3a74937a5fd350af55ac5582048519f7f8d51d2
 form input[type = "submit"]:hover
 {
     background: #2ed573;
 }
 
+<<<<<<< HEAD
 a
 {
     font-family: Calibri;
@@ -135,4 +159,55 @@ div.navbar
 label
 {
     color: white;
+=======
+.desc
+{
+    position: relative;  /* les .infobulle deviennent référents */
+    cursor: help;
+    color: white;
+    font-size: 9px;
+    margin-bottom: 100px;
+}
+
+a
+{
+    outline: none;
+    text-decoration: none;
+    display: inline-block;
+    width: 10%;
+    margin-right: 0.625%;
+    text-align: center;
+    line-height: 3;
+    color: black;
+
+}
+a:link, a:visited, a:focus {
+  background: #16a085;
+}
+
+#date
+{
+    position: absolute;
+    left: 90%;
+    top: 0;
+}
+
+#createAc a
+{
+    position: relative;
+    left: 10px;
+}
+
+footer
+{
+    position: absolute;
+    bottom: 10;
+    left :10;
+    width: 90%;
+}
+
+a:hover
+{
+    background: #2ecc71;    
+>>>>>>> f3a74937a5fd350af55ac5582048519f7f8d51d2
 }
