@@ -41,10 +41,59 @@
         #CaseFileAttend
         {
             position:fixed;
-            height: 100px;
-            width: 100px;
+            height: 500px;
+            width: 300px;
             border: black 1px solid;
-            margin-left: 90%;
+            margin-left: 80%;
+            display: grid;
+            grid-template-columns: 100px 100px 100px;
+            grid-template-rows: 50px 50px 1fr 1fr 1fr 1fr 1fr;
+        }
+        .caseFile
+        {
+            height: 50px;
+            width: 300px;
+            border: black 1px solid;
+            grid-column-start: 1 span 3;
+            
+        }
+        #TempsEstime
+        {
+            grid-row-start: 3;
+        }
+        #PlusInfo
+        {
+            grid-row-start: 4;
+        }
+        .ButtonFile
+        {
+            grid-row-start: 7;
+            height: 25px;
+            width: 100px;
+            background-color: cadetblue;
+        }
+        #JouerJeu
+        {
+            grid-column-start: 1;
+        }
+        #QuitterFile
+        {
+            grid-column-start: 3;
+        }
+        #TitreFile
+        {
+            grid-row-start: 2;
+            grid-column-start: 2;
+        }
+        #nomStand
+        {
+            grid-column-start: 3;
+        }
+        #nbPersonne
+        {
+            border: black 1px solid;
+            height: 25px;
+            width: 110px;
         }
 </style>
 
@@ -522,22 +571,50 @@ function Information ()
     fil.id= "CaseFileAttend";
     document.body.appendChild(fil);
 
+    var PersFil = document.createElement("div");
+    PersFil.id = "nbPersonne";
+    PersFil.innerHTML = "Perso/MaxPerso";
+    document.getElementById("CaseFileAttend").appendChild(PersFil);
+
+    var PersNomStand = document.createElement("div");
+    PersNomStand.id = "nomStand";
+    PersNomStand.innerHTML = "Nom du stand";
+    document.getElementById("CaseFileAttend").appendChild(PersNomStand);
+
     var filnom = document.createElement("h4");
-    filnom.id= "filnomAttend";
+    filnom.id= "TitreFile";
     filnom.innerHTML = "File Attente";
     document.getElementById("CaseFileAttend").appendChild(filnom);
 
     var filTemps= document.createElement("div");
-    filTemps.id= "filTemps";
+    filTemps.id= "TempsEstime";
+    filTemps.className="caseFile";
+    filTemps.innerHTML="Temps estime";
     document.getElementById("CaseFileAttend").appendChild(filTemps);
 
+    var filplusinfo= document.createElement("div");
+    filplusinfo.id= "PlusInfo";
+    filplusinfo.className="caseFile";
+    filplusinfo.innerHTML = "Plus d'info sur le stand";
+    document.getElementById("CaseFileAttend").appendChild(filplusinfo);
+
     var filQuitter= document.createElement("button"); //creation bouton pour quitter la file d'attente
-    filQuitter.id= "filQuitter";
+    filQuitter.id= "QuitterFile";
+    filQuitter.className="ButtonFile";
     filQuitter.innerHTML = "Quitter la file"; 
     
     filQuitter.addEventListener("click", QuitterFileAtt);
     
     document.getElementById("CaseFileAttend").appendChild(filQuitter);
+
+    var filJeu= document.createElement("button"); //creation bouton pour jouer au jeu
+    filJeu.id= "JouerJeu";
+    filJeu.className="ButtonFile";
+    filJeu.innerHTML = "Jouer au jeu"; 
+    
+    filJeu.addEventListener("click", Lejeu);
+    
+    document.getElementById("CaseFileAttend").appendChild(filJeu);
     function QuitterFileAtt ()//fonction pour quitter la file d'attente
     {
         console.log("normalement j'ai quitté fdp");
@@ -546,8 +623,14 @@ function Information ()
 
     }
     
+    
 }
 
+//Fonction pour le jeu si on a le temps
+function Lejeu()
+{
+    console.log("Je joue !");
+}
 
 //il rentre pas la la fonction et je sais pas pourquoi
 
