@@ -1,10 +1,11 @@
 body
 {
-    margin: 0;
+    margin :0;
     padding: 0;
     background-color: #34495e;
     font-family: sans-serif;
 }
+
 
 h1
 {
@@ -25,6 +26,7 @@ p
     color: white;
 }
 
+
 form
 {
     width: 300px;
@@ -37,8 +39,7 @@ form
     text-align: center;
 }
 
-form input[type ="text"], form input[type = "password"], form input[type = "number"], form input[type = "email"], form input[type ="tel"]
-{
+form input[type ="text"], form input[type = "password"], form input[type = "number"], form input[type = "email"], form input[type ="tel"]{
     border:0;
     background: none;
     display: block;
@@ -53,6 +54,13 @@ form input[type ="text"], form input[type = "password"], form input[type = "numb
     color: white;    
     transition: 0.25s;
 
+}
+
+{
+    color: #00cec9;
+    text-transform: uppercase;    
+    font-weight: 500px;
+    font-weight: bold;
 }
 
 form h1
@@ -90,6 +98,45 @@ form input[type = "submit"]:hover
     background: #2ed573;
 }
 
+.desc
+{
+    position: relative;  /* les .infobulle deviennent référents */
+    cursor: help;
+    color: white;
+    font-size: 9px;
+    margin-bottom: 100px;
+}
+
+
+a:link, a:visited, a:focus {
+  background: #16a085;
+}
+
+#date
+{
+    position: absolute;
+    left: 90%;
+    top: 0;
+}
+
+#createAc a
+{
+    position: relative;
+    left: 10px;
+}
+
+footer
+{
+    position: absolute;
+    bottom: 10;
+    left :10;
+    width: 90%;
+}
+
+a:hover
+{
+    background: #2ecc71;    
+}
 a
 {
     font-family: Calibri;
