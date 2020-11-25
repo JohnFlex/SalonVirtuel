@@ -4,27 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salon Vituel</title>
-    <link href="../CSS/style_salon.css" rel="stylesheet" />
+<style>
+     body
+        {
+            margin: 0px;
+            display: grid;
+            grid-template-columns: 250px 500px 250px;
+        }
+        #salon
+        {
+            border: black 1px solid;
+            /*height: 500px;
+            width: 500px;*/
+            /*transform: rotateX(40deg) rotateZ(45deg);*/
+            
+        }
+        .InfoStand
+        {
+            height: 500px;
+            width: 250px;
+            border: darkgreen solid 1px;
+        }
+        #Palette
+        {
+            border: black 1px solid;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            
+        }
+        .couleurs
+        {
+            border: black 1px solid;
+            width: 50px;
+            height: 50px;
+        }
+        #CaseFileAttend
+        {
+            position:fixed;
+            height: 500px;
+            width: 300px;
+            border: black 1px solid;
+            margin-left: 80%;
+            display: grid;
+            grid-template-columns: 100px 100px 100px;
+            grid-template-rows: 50px 50px 1fr 1fr 1fr 1fr 1fr;
+        }
+        .caseFile
+        {
+            height: 50px;
+            width: 300px;
+            border: black 1px solid;
+            grid-column-start: 1 span 3;
+            
+        }
+        #TempsEstime
+        {
+            grid-row-start: 3;
+        }
+        #PlusInfo
+        {
+            grid-row-start: 4;
+        }
+        .ButtonFile
+        {
+            grid-row-start: 7;
+            height: 25px;
+            width: 100px;
+            background-color: cadetblue;
+        }
+        #JouerJeu
+        {
+            grid-column-start: 1;
+        }
+        #QuitterFile
+        {
+            grid-column-start: 3;
+        }
+        #TitreFile
+        {
+            grid-row-start: 2;
+            grid-column-start: 2;
+        }
+        #nomStand
+        {
+            grid-column-start: 3;
+        }
+        #nbPersonne
+        {
+            border: black 1px solid;
+            height: 25px;
+            width: 110px;
+        }
+</style>
+
 </head>
 <body>
     <div id="test"></div>
-    <canvas id="salon"></canvas>
+    <canvas id="salon" width="500" height="500"></canvas>
    <!--<div id="test2"></div>
     <div id="test3"></div>
     <div id="test4"></div>--> 
 </body>
 <script>
+    setInterval(update,1000/10);
     var MonCanvas = document.getElementById("salon");
     MonCanvas.addEventListener("click", ClickStand);
     MonCanvas.addEventListener("click", ClickPerso);
     var ctx2d = MonCanvas.getContext("2d");
+    var ctx2dtxt = MonCanvas.getContext("2d");
+    ctx2dtxt.font ="25px serif";
+    //ctx2dtxt.fillStyle =  "rgb(0,0,0)";
+    
     var player = document.getElementById("player");
-    setInterval(update,1000/10);
+    
 
-    var positionX = 40;
-    var positionY = 45;
-    var positionCliquerX = positionX+690;
-    var positionCliquerY = positionY+115;
+
+    var souris = MonCanvas.addEventListener("mousemove", positionsouris); 
+    var sourisX;
+    var sourisY;
+    
+    
+    var positionX = 150;
+    var positionY = 150;
+    var positionCliquerX = positionX+250;
+    var positionCliquerY = positionY;
     document.addEventListener("keydown",OnGameDown);
     document.addEventListener("keyup",OnGameUp);
     var Condi1 = true;
@@ -38,15 +141,17 @@
     function update()
     {
         ctx2d.clearRect(0,0,500,500);
-        ctx2d.fillStyle =  "rgb(0,0,0)"
+        ctx2d.fillStyle =  "rgb(0,0,0)";
         ctx2d.fillRect(0,0,500,500);
+        
+
 
         LesSalon();
         colisionStand();
         //console.log("X: ",positionX+400," Y: ",positionY+100);
 
         ctx2d.fillStyle = currentColor;
-        ctx2d.fillRect(positionX,positionY,20,10);
+        ctx2d.fillRect(positionX,positionY,40,40);
         deplacement();
         console.log()
         //var testPosition = document.getElementById("test");
@@ -66,30 +171,32 @@ function OnGameDown (e){
             case 37:if(Condi1)
                     {
                     deplacementGauche = true;
-                    Condi1=false; 
+                   // Condi1=false; 
                     } 
             break;
             case 39:if(Condi1)
                     {
                     deplacementDroite = true; 
-                    Condi1=false;
+                   // Condi1=false;
                     }
             break;
             case 38:if(Condi2)
                     {
                     deplacementHaut = true; 
-                    Condi2=false;
+                   // Condi2=false;
                     }
             break;
             case 40:if(Condi2)
                     {
                     deplacementBas = true;
-                    Condi2=false;
+                    //Condi2=false;
                     }  
             break;
         }
     
 }
+
+
 function OnGameUp (e){
     switch (e.keyCode) {
             case 37: deplacementGauche = false;
@@ -111,100 +218,149 @@ function deplacement ()
 {
         if(deplacementBas)
         {
-            positionY= positionY +5;
-            positionCliquerY = positionCliquerY +15;
+            positionY= positionY +10;
+            positionCliquerY = positionCliquerY +10;
         }
         if(deplacementHaut)
         {
-            positionY= positionY -5;
-            positionCliquerY= positionCliquerY -15;
+            positionY= positionY -10;
+            positionCliquerY= positionCliquerY -10;
         }
         if(deplacementDroite)
         {
-            positionX = positionX +5;
+            positionX = positionX +10;
             positionCliquerX = positionCliquerX +10;
         }
         if(deplacementGauche)
         {
-            positionX = positionX -5;
+            positionX = positionX -10;
             positionCliquerX = positionCliquerX -10;
         }
         //console.log("Perso X: ", positionX," Perso Y: ",positionY);
+        //console.log("Perso X clic: ", positionCliquerX," Perso Y clic: ",positionCliquerY);
+        //console.log("Perso X souris: ", sourisX," Perso Y clic: ",sourisY);
+
 }
+
+var Stand =[
+    {nom: "nom 1",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "white"},
+    {nom: "nom 2",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "purple"},
+    {nom: "nom 3",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "Blue"},
+    {nom: "nom 4",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "yellow"},
+    {nom: "nom 5",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "green"},
+    {nom: "nom 6",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "gray"},
+    {nom: "nom 7",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "burlywood"},
+    {nom: "nom 8",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "darkblue"},
+    {nom: "nom 9",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "red"},
+];
 
 
 function LesSalon ()
 {
     for(var i = 0; i<500;i++)
         {
+            
             for(var j = 0; j<500; j++)
             {
-                if (i<15 && j<7)
+                if (i==0 && j==0)
                 {
                     ctx2d.fillStyle =  Stand[0].Background;
-                    ctx2d.fillRect(i,j,50,25);
+                    ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[0].nom,0,50);
+                    //console.log(Stand[0].nom);
                 }
-                if ((i>115 && j<7)&&(i<140 && j<7))
+                if (i==200 && j==0)
                 {
                     ctx2d.fillStyle =  Stand[1].Background;
-                    ctx2d.fillRect(i,j,50,25);
+                    ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[1].nom,200,50);
                 }
-                if ((i>215 && j<7)&&(i<240 && j<7))
+                if (i==400 && j==0)
                 {
                     ctx2d.fillStyle =  Stand[2].Background;
-                    ctx2d.fillRect(i,j,50,25);
+                    ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[2].nom,400,50);
                 }
 
-                if ((j>55) && (i<15 && j<65))
+                if (i==0 && j==200)
                 {
                     ctx2d.fillStyle =  Stand[3].Background;
-                    ctx2d.fillRect(i,j,50,25);
+                    ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[3].nom,0,250);
+                    
                 }
-                if ((i>115 &&j>55)&&(i<140 && j<65 ))
+                if (i==200 && j==200)
                 {
                     ctx2d.fillStyle =  Stand[4].Background;
-                    ctx2d.fillRect(i,j,50,25);
+                    ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[4].nom,200,250);
                 }
-                if ((i>215 &&j>55)&&(i<240 && j<65 ))
+                if (i==400 && j==200)
                 {
                     ctx2d.fillStyle =  Stand[5].Background;
-                    ctx2d.fillRect(i,j,50,25);
+                    ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[5].nom,400,250);
                 }
 
-
-                if ((j>120) && (i<15 && j<150))
+                if (i==0 && j==400)
                 {
                     ctx2d.fillStyle =  Stand[6].Background;
-                    ctx2d.fillRect(i,j,50,25);
+                    ctx2d.fillRect(i,j,100,100);
+
+                   ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                   ctx2dtxt.fillText(Stand[6].nom,0,450);
+                    
                 }
-                if ((i>115 &&j>120)&&(i<140 && j<150 ))
+                if (i==200 && j==400)
                 {
                     ctx2d.fillStyle =  Stand[7].Background;
-                    ctx2d.fillRect(i,j,50,25);
+                    ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[7].nom,200,450);
                 }
-                if ((i>215 &&j>120)&&(i<240 && j<150 ))
+                if (i==400 && j==400)
                 {
                     ctx2d.fillStyle =  Stand[8].Background;
-                    ctx2d.fillRect(i,j,50,25);
+                    ctx2d.fillRect(i,j,100,100);
+
+                    ctx2dtxt.fillStyle = "rgb(0,0,0)";
+                    ctx2dtxt.fillText(Stand[8].nom,400,450);
                 }
             }
         }
 }
 
-
+var unseul = 0;
 function colisionStand ()
 {
+    
 
     if (Clicker == false)
     {
-        if(positionX < 65 && positionY < 35)
+        
+        if((positionX < 101 && positionY < 101) || (positionX+40 < 101 && positionY < 101) || (positionX < 101 && positionY+40 < 101)|| (positionX+40 < 101 && positionY+40 < 101))
         {
             console.log("Hola");
             P = 0;
-            if (Stand[P].cree == true)
+            if (Stand[P].cree == true && unseul==0)
             {
-                Stand[P].InfoActive == true
+                Stand[P].InfoActive = true;
+                uneseulepageinfo=1;
                 Information();
+                unseul =1;
             }
             
         }
@@ -214,17 +370,20 @@ function colisionStand ()
             {
                 console.log("Fermé?");
                 fermerfenetre();
+                
             }
         }   
         
-        if((positionX > 115) && (positionX < 190 && positionY < 35))
+        if((positionX > 199 && positionX < 301 && positionY < 101)||(positionX+40 > 199 && positionX+40 < 301 && positionY < 101)||(positionX > 199 && positionX < 301 && positionY+40 < 101)||(positionX+40 > 199 && positionX+40 < 301 && positionY+40 < 101))
         {
             //console.log("jf");
             P = 1;
-            if (Stand[P].cree == true)
+            if (Stand[P].cree == true && unseul==0)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
+            unseul=1;
             }
         }
         else
@@ -235,14 +394,16 @@ function colisionStand ()
                 fermerfenetre();
             }
         } 
-        if((positionX > 215) && (positionX < 290 && positionY < 35))
+        if((positionX > 399 && positionX < 501 && positionY < 101)||(positionX+40 > 399 && positionX+40 < 501 && positionY < 101)||(positionX > 399 && positionX < 501 && positionY+40 < 101)||(positionX+40 > 399 && positionX+40 < 501 && positionY+40 < 101))
         {
             //console.log("Biquette");
             P = 2;
-            if (Stand[P].cree == true)
+            if (Stand[P].cree == true && unseul==0)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
+            unseul =1;
             }
         }
         else
@@ -253,32 +414,39 @@ function colisionStand ()
                 fermerfenetre();
             }
         } 
-        if((positionY > 55) && (positionX < 65 && positionY < 80))
+        if((positionX < 101 && positionY > 199 && positionY < 301)||(positionX+40 < 101 && positionY+40 > 199 && positionY < 301)||(positionX < 101 && positionY+40 > 199 && positionY+40 < 301)||(positionX+40 < 101 && positionY+40 > 199 && positionY+40 < 301))
         {
             //console.log("Chausette");
+            console.log(unseul);
             P = 3;
-            if (Stand[P].cree == true)
+            if (Stand[P].cree == true && unseul == 0)//
             {
-            Stand[P].InfoActive == true
+                console.log("Chausette2");
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
+            unseul=1;
             }
         }
         else
         {
-             if (Stand[3].InfoActive == true)
+             if (Stand[3].InfoActive == true )
             {
                 console.log("Fermé?");
                 fermerfenetre();
+                
             }
         } 
-        if((positionX > 115 && positionY > 55) && (positionX < 190 && positionY < 80))
+        if((positionX > 199  && positionX < 301 && positionY > 199 && positionY < 301) || (positionX+40 > 199  && positionX+40 < 301 && positionY > 199 && positionY < 301)||(positionX > 199  && positionX < 301 && positionY+40 > 199 && positionY+40 < 301)||(positionX+40 > 199  && positionX+40 < 301 && positionY+40 > 199 && positionY+40 < 301))
         {
             //console.log("Poke");
             P = 4;
-            if (Stand[P].cree == true)
+            if (Stand[P].cree == true && unseul==0)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
+            unseul=1;
             }
         }
         else
@@ -289,14 +457,16 @@ function colisionStand ()
                 fermerfenetre();
             }
         } 
-        if((positionX > 215 && positionY > 55) && (positionX < 290 && positionY < 80))
+        if((positionX > 399  && positionX < 501 && positionY > 199 && positionY < 301)||(positionX+40 > 399  && positionX+40 < 501 && positionY > 199 && positionY < 301)||(positionX > 399  && positionX < 501 && positionY+40 > 199 && positionY+40 < 301)|| (positionX+40 > 399  && positionX+40 < 501 && positionY+40 > 199 && positionY+40 < 301))
         {
             //console.log("Patates");
             P = 5;
-            if (Stand[P].cree == true)
+            if (Stand[P].cree == true && unseul==0)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
+            unseul=1;
             }
         }
         else
@@ -307,14 +477,16 @@ function colisionStand ()
                 fermerfenetre();
             }
         } 
-        if((positionY > 120) && (positionX < 65 && positionY < 150))
+        if((positionX < 101 && positionY > 399 && positionY < 501)||(positionX+40 < 101 && positionY > 399 && positionY < 501)||(positionX < 101 && positionY+40 > 399 && positionY+40 < 501)||(positionX+40 < 101 && positionY+40 > 399 && positionY+40 < 501))
         {
             //console.log("Dark");
             P = 6;
-            if (Stand[P].cree == true)
+            if (Stand[P].cree == true && unseul==0)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
+            unseul=1;
             }
         }
         else
@@ -325,14 +497,16 @@ function colisionStand ()
                 fermerfenetre();
             }
         } 
-        if((positionX > 115 && positionY > 120) && (positionX < 190 && positionY < 150))
+        if((positionX > 199  && positionX < 301 && positionY > 399 && positionY < 501)||(positionX+40 > 199  && positionX+40 < 301 && positionY > 399 && positionY < 501)||(positionX > 199  && positionX < 301 && positionY+40 > 399 && positionY+40 < 501)||(positionX+40 > 199  && positionX+40 < 301 && positionY+40 > 399 && positionY+40 < 501))
         {
             //console.log("Diable");
             P = 7;
-            if (Stand[P].cree == true)
+            if (Stand[P].cree == true && unseul==0)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
+            unseul=1;
             }
         }
         else
@@ -343,14 +517,16 @@ function colisionStand ()
                 fermerfenetre();
             }
         } 
-        if((positionX > 215 && positionY > 120) && (positionX < 290 && positionY < 150))
+        if((positionX > 399  && positionX < 501 && positionY > 399 && positionY < 501)||(positionX+40 > 399  && positionX+40 < 501 && positionY > 399 && positionY < 501)||(positionX > 399  && positionX < 501 && positionY+40 > 399 && positionY+40 < 501)||(positionX+40 > 399  && positionX+40 < 501 && positionY+40 > 399 && positionY+40 < 501))
         {
             //console.log("Abysse");
             P = 8;
-            if (Stand[P].cree == true)
+            if (Stand[P].cree == true && unseul==0)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
+            unseul=1;
             }
         }
         else
@@ -365,66 +541,143 @@ function colisionStand ()
         
 }
 
-var Stand =[
-    {nom: "nom 1",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:true,InfoActive:false,Resume:"blabla",Background: "white"},
-    {nom: "nom 2",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
-    {nom: "nom 3",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
-    {nom: "nom 4",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
-    {nom: "nom 5",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
-    {nom: "nom 6",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
-    {nom: "nom 7",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
-    {nom: "nom 8",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
-    {nom: "nom 9",categorie:"Pokemom",organisateur: "Bat Man",nbPersonne: 0,placemax:0,cree:false,InfoActive:false,Resume:"blabla",Background: "Blue"},
-];
 
 
 
 function Information ()
     {
-        var fennetre = false
+        var fennetre = false;
         for(var i=0;i<9;i++)
         {
             if(Stand[i].InfoActive == true)
             {   
                 //console.log("biquette");
-                fennetre = true;
-            }
-        }
-            if (fennetre == false)
+                if (fennetre == false)
             {
             var info = document.createElement("div");
             info.className = "InfoStand";
             info.id = "Info";
             document.body.appendChild(info);
+            
             var titre = document.createElement("h1");
             titre.innerHTML = Stand[P].nom;
             document.getElementById("Info").appendChild(titre);
+            
             var phrase =document.createElement("p");
             phrase.innerHTML = Stand[P].categorie;
             document.getElementById("Info").appendChild(phrase);
+
             var phrase =document.createElement("p");
             phrase.innerHTML = Stand[P].organisateur;
             document.getElementById("Info").appendChild(phrase);
+
             var phrase =document.createElement("p");
             phrase.innerHTML = Stand[P].Resume;
             document.getElementById("Info").appendChild(phrase);
+
             var phrase =document.createElement("p");
             phrase.innerHTML = Stand[P].nbPersonne;
             document.getElementById("Info").appendChild(phrase);
+
             var phrase =document.createElement("p");
-            phrase.innerHTML = Stand[P].placemax;
+            phrase.innerHTML = Stand[P].placemax;           
             document.getElementById("Info").appendChild(phrase);
+
             var fermer = document.createElement("button");
             fermer.id = "Fermeture";
             fermer.innerHTML = "Fermer";
             fermer.addEventListener("click",fermerfenetre);
             document.getElementById("Info").appendChild(fermer);
+
+            var filAttend = document.createElement("button"); //bouton pour rentrer dans la file d'attente
+            filAttend.id = "Attend";
+            filAttend.innerHTML = "Entrée dans la file d'attente";
+            filAttend.addEventListener("click",FileAttente);
+            document.getElementById("Info").appendChild(filAttend);
             Stand[P].InfoActive = true;
             saveInfo = P;
             }
+                fennetre = true;
+            }
+        }
+           
         
     }
-      
+
+    //fonction event click sur bouton liste d'attente (pour entrer dans la file)  
+    function FileAttente ()
+{
+    console.log("Hola je suis dans la file");
+
+    var fil = document.createElement("div");
+    fil.id= "CaseFileAttend";
+    document.body.appendChild(fil);
+
+    var PersFil = document.createElement("div");
+    PersFil.id = "nbPersonne";
+    PersFil.innerHTML = "Perso/MaxPerso";
+    document.getElementById("CaseFileAttend").appendChild(PersFil);
+
+    var PersNomStand = document.createElement("div");
+    PersNomStand.id = "nomStand";
+    PersNomStand.innerHTML = "Nom du stand";
+    document.getElementById("CaseFileAttend").appendChild(PersNomStand);
+
+    var filnom = document.createElement("h4");
+    filnom.id= "TitreFile";
+    filnom.innerHTML = "File Attente";
+    document.getElementById("CaseFileAttend").appendChild(filnom);
+
+    var filTemps= document.createElement("div");
+    filTemps.id= "TempsEstime";
+    filTemps.className="caseFile";
+    filTemps.innerHTML="Temps estime";
+    document.getElementById("CaseFileAttend").appendChild(filTemps);
+
+    var filplusinfo= document.createElement("div");
+    filplusinfo.id= "PlusInfo";
+    filplusinfo.className="caseFile";
+    filplusinfo.innerHTML = "Plus d'info sur le stand";
+    document.getElementById("CaseFileAttend").appendChild(filplusinfo);
+
+    var filQuitter= document.createElement("button"); //creation bouton pour quitter la file d'attente
+    filQuitter.id= "QuitterFile";
+    filQuitter.className="ButtonFile";
+    filQuitter.innerHTML = "Quitter la file"; 
+    
+    filQuitter.addEventListener("click", QuitterFileAtt);
+    
+    document.getElementById("CaseFileAttend").appendChild(filQuitter);
+
+    var filJeu= document.createElement("button"); //creation bouton pour jouer au jeu
+    filJeu.id= "JouerJeu";
+    filJeu.className="ButtonFile";
+    filJeu.innerHTML = "Jouer au jeu"; 
+    
+    filJeu.addEventListener("click", Lejeu);
+    
+    document.getElementById("CaseFileAttend").appendChild(filJeu);
+    function QuitterFileAtt ()//fonction pour quitter la file d'attente
+    {
+        console.log("normalement j'ai quitté fdp");
+        effacer = document.getElementById("CaseFileAttend");
+        effacer.parentElement.removeChild(effacer);
+
+    }
+    
+    
+}
+
+//Fonction pour le jeu si on a le temps
+function Lejeu()
+{
+    console.log("Je joue !");
+}
+
+//il rentre pas la la fonction et je sais pas pourquoi
+
+
+//fonction pour quitter la file et quitter la page
 
         
     
@@ -434,112 +687,125 @@ function Information ()
         effacer.parentElement.removeChild(effacer);
         Stand[saveInfo].InfoActive = false;
         Clicker = false;
+        uneseulepageinfo=0;
+        unseul = 0;
     }
-    var souris = document.addEventListener("mousemove", positionsouris); 
-    var sourisX;
-    var sourisY;
+    
     function positionsouris (e)
     {
         //console.log( e.clientX, e.clientY);//position de la souris
         sourisX = e.clientX;
         sourisY = e.clientY;
-        console.log("Souris X: ", sourisX, " Souris Y: " ,sourisY);
+        //console.log("Souris X: ", sourisX, " Souris Y: " ,sourisY);
     }
+
+    var uneseulepageinfo=0;
 
 var Clicker = false
     function ClickStand()
     {
-        
+        if (uneseulepageinfo == 0){
+        //alert("mousex: "+sourisX+" mousey: "+sourisY);
         //console.log("Bat");
-        if ((sourisX > 710 && sourisY > 0) && (sourisX < 820 && sourisY < 110))
+        if ((sourisX > 249 && sourisY > 0) && (sourisX < 351 && sourisY < 101))
         {
             P = 0;
             if (Stand[P].cree == true)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
         }
-        if ((sourisX > 590 && sourisY > 0) && (sourisX < 690 && sourisY < 110))
+        if ((sourisX > 459 && sourisY > 0) && (sourisX < 551 && sourisY < 101))
         {
             P = 1;
             if (Stand[P].cree == true)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
         }
-        if ((sourisX > 730 && sourisY > 0) && (sourisX < 850 && sourisY < 110))
+        if ((sourisX > 649 && sourisY > 0) && (sourisX < 751 && sourisY < 101))
         {
             P = 2;
             if (Stand[P].cree == true)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
         }
-        if ((sourisX > 370 && sourisY > 200) && (sourisX < 480 && sourisY < 300))
+        if ((sourisX > 249 && sourisY >199 ) && (sourisX < 351 && sourisY < 301))
         {
             P = 3;
             if (Stand[P].cree == true)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
         }
-        if ((sourisX > 590 && sourisY > 200) && (sourisX < 690 && sourisY < 300))
+        if ((sourisX > 449 && sourisY >199 ) && (sourisX < 551 && sourisY < 301))
         {
             P = 4;
             if (Stand[P].cree == true)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
         }
-        if ((sourisX > 730 && sourisY > 200) && (sourisX < 850 && sourisY < 300))
+        if ((sourisX > 649 && sourisY >199 ) && (sourisX < 751 && sourisY < 301))
         {
             P = 5;
             if (Stand[P].cree == true)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
         }
-        if ((sourisX > 370 && sourisY > 410) && (sourisX < 480 && sourisY < 500))
+        if ((sourisX > 249 && sourisY >399 ) && (sourisX < 351 && sourisY < 501))
         {
             P = 6;
             if (Stand[P].cree == true)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
         }
-        if ((sourisX > 590 && sourisY > 410) && (sourisX < 690 && sourisY < 500))
+        if ((sourisX > 449 && sourisY >399 ) && (sourisX < 551 && sourisY < 501))
         {
             P = 7;
             if (Stand[P].cree == true)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
         }
-        if ((sourisX > 730 && sourisY > 410) && (sourisX < 850 && sourisY < 500))
+        if ((sourisX > 649 && sourisY >399 ) && (sourisX < 751 && sourisY < 501))
         {
             P = 8;
             if (Stand[P].cree == true)
             {
-            Stand[P].InfoActive == true
+            Stand[P].InfoActive = true;
+            uneseulepageinfo=1;
             Information();
             Clicker = true;
             }
+        }
         }
         
     }
@@ -560,7 +826,7 @@ var Clicker = false
             couleurs.style.background =Tcolors[i];
             couleurs.addEventListener('click',coloringChoice);
         }
-        console.log("Palette fini")
+        console.log("Palette fini");
     }
     function ClickPerso()
     {
