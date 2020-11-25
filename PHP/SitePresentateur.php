@@ -11,18 +11,30 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="../CSS/style.css">
-        <title>Ici c'est le site prÈsentateur</title>
         <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="../CSS/style.css">
+        <title>Ici c'est le site pr√©sentateur</title>
     </head>
     <body>
         <header>
         <div class="navbar">
             <h1>Titre du site</h1>
-            <h2 class="titre1">Site prÈsentateur</h2>
+            <h2 class="titre1">Site pr√©sentateur</h2>
             <div>
                 <a href="Accueil.php">Deconnexion</a>
                 <?php
+                    $mP = new managerPresentateur($conn);
+
+                    $X = $mP->issetStand($_SESSION['user_name']);
+
+                    if($X < 1)
+                    {
+                        echo"<a href='creerStand.php'>Cr√©ation d'un Stand</a>";
+                    }
+                    else{
+                        echo"<a href='modifierStand.php'>Gestion d'un Stand</a>";
+                    }
+
                     if(isset($_SESSION['user_name']))
                     {
                         $link = $dom->createElement('a');
@@ -36,15 +48,13 @@
                         echo $dom->saveHTML();
 
                         $dom->removeChild($link);
-
-                        //echo "<a href=''>".$_SESSION['user_name']."</a>";
-                    }      
+                    }
                 ?>
             </div>
         </div>
     </header>
         
-        <div>
+        <div id="container" class="container">
             <?php
                 $mP = new managerPresentateur($conn);
 
@@ -52,10 +62,10 @@
 
                 if($X < 1)
                 {
-                    echo"<a href='creerStand.php'>CrÈation d'un Stand</a>";
+                    echo"<a href='creerStand.php'><img src='../Contenus/images/STANDS/Stand02_RotateA.png' alt='Image de Stand'>Cr√©ation d'un Stand</a>";
                 }
                 else{
-                    echo"<a href='Accueil.php'>Oui</a>";
+                    echo"<a href='modifierStand.php'><img src='../Contenus/images/STANDS/Stand02_RotateA.png' alt='Image de Stand'>Gestion d'un Stand</a>";
                 }
             ?>
         </div>
