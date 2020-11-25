@@ -1,22 +1,31 @@
 <?php 
+    session_start();
     require_once ("PDO_Connect/PDO_Connect.php");
     require_once ("Objets/managerStand.php");
-    session_start();
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Ici c'est le site</title>
         <meta charset="utf-8">
+        <script type="text/javascript" src="../JS/ScriptAJAXCommunicationUtilisateurPresentateur.js"></script>
     </head>
     <body>
     <header>
         <?php
-            if(isset($_SESSION['user_name'])){
+            if(isset($_SESSION['user_name']))
+            {
                 echo "vous êtes : ".$_SESSION['user_name'];
+                if (isset($_SESSION['user_id']))
+                {
+                    //echo $_SESSION['user_id'];
+                    echo '<input type="hidden" name="id" id="id"  value="'.$_SESSION['user_id'].'">';
+                    //echo '<script type="text/javascript">console.log('.$_SESSION["user_id"].');</script>';
+                }
             }      
         ?>
     </header>
+
         <h1>Site</h1>
         <?php
             $managerStand = new managerStand(connect_bd());
@@ -59,6 +68,7 @@
                     $div = $dom->createElement("div");
                     $h3 = $dom->createElement("h3",$stand);
                     $button = $dom->createElement("button","Rejoindre la file d'attente");
+                    $button->setAttribute("onclick","rentrerEnFile('".$stand."','".$_SESSION['user_name']."');");
 
                     $div->appendChild($h3);
                     $div->appendChild($button);
@@ -79,9 +89,6 @@
         ?>
     <footer>
         <a href="Accueil.php">Deconnexion</a>
-        <?php
-            var_dump($_SESSION);
-        ?>
     </footer>
     </body>
 </html>
