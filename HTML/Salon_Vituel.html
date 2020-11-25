@@ -84,6 +84,7 @@
     //Creation du salon
     var cree = document.getElementById("creation");
     cree.addEventListener("click",BuildSalon);
+    var unseul=0;
     
     var InfoActive = false;
     function BuildSalon ()
@@ -99,6 +100,7 @@
         var j = 0;
         var k = 6;
         var l = 8;
+       
         // 6 8 16 18 
         for(i=0;i<25;i++)
         {
@@ -107,14 +109,20 @@
         //console.log("i :", i);
         //console.log("l :", l);
         var sol = document.createElement("div");
-        if (i == j && i != k&& i != l)
+        if (i == j && i != k&& i != l )
         {
             //console.log("Stand");
             sol.className = "Stand";
             sol.id = "build"
             j = j+2;
-            sol.addEventListener("click", CreationStand);
+
             sol.addEventListener("click", Information);
+           
+
+            sol.addEventListener("click", CreationStand);
+           
+            
+            
 
         }
         else
@@ -157,10 +165,13 @@ var Stand =[
 ];
     function CreationStand(e)
     {
+        console.log("unseul = ",unseul);
         //console.log("Bonjour Jojo");
         for(var i=0;i<9;i++){
-        if(e.target== build[i] && Stand[i].cree == false)
+        if(e.target== build[i] /*&& (Stand[i].cree == false||Stand[i].cree == true)*/ && unseul==0)
         {
+            unseul=1;
+            pasafficher=0;
             test = i;
             //Stand[i].nom = prompt("Le nom du stand");
             
@@ -218,6 +229,7 @@ var Stand =[
 
     function Information (e)
     {
+        
         var fennetre = false
         for(var i=0;i<9;i++){
             console.log(Stand[i].InfoActive);
@@ -229,8 +241,9 @@ var Stand =[
         }
         //console.log(fennetre);
         for(var i=0;i<9;i++){
-        if(e.target== build[i] && Stand[i].cree == true && fennetre == false)
+        if(e.target== build[i] && Stand[i].cree == true && fennetre == false && pasafficher==0)
         {
+            unseul=1;
             console.log("J'ai les infos de ",i);
             var info = document.createElement("div");
             info.className = "InfoStand";
@@ -269,20 +282,39 @@ var Stand =[
             document.getElementById("Info").appendChild(fermer);
             Stand[i].InfoActive = true;
             saveInfo = i;
-            
+
+            var changer = document.createElement("button");
+            changer.id = "Modifier";
+            changer.innerHTML = "Modifier";
+            changer.addEventListener("click",fermerfenetremodif);
+            document.getElementById("Info").appendChild(changer);
         }
+        
         }
       
 
         
     }
 
+    var pasafficher = 0; //variable pour éviter d'afficher les infos quand on veut modifier le stand
     var saveInfo = 0;
+    function fermerfenetremodif ()
+    {
+        console.log("clic");
+        effacer =document.getElementById("Info");
+        effacer.parentElement.removeChild(effacer);
+        Stand[saveInfo].InfoActive = false;
+        unseul=0;
+        pasafficher=1;
+        CreationStand();
+
+    }
     function fermerfenetre ()
     {
         effacer =document.getElementById("Info");
         effacer.parentElement.removeChild(effacer);
         Stand[saveInfo].InfoActive = false;
+        
 
     }
 
@@ -297,6 +329,7 @@ var Stand =[
         var max = document.getElementById("maxplace");
         var resum = document.getElementById("resume_stand");
         var CouleurStand = document.getElementById("CouleurStand");
+        unseul=0;
         Stand[test].nom = nomform.value;
         Stand[test].placemax = max.value;
         Stand[test].organisateur = orgaform.value;
