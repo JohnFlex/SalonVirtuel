@@ -23,6 +23,7 @@
     <head>
         <title>Création d'un stand</title>
         <meta charset="utf-8">
+        <link href="../CSS/style.css" rel="stylesheet" />
     </head>
     <body>
         <form id="creation_stand" class="" method="post" action="#">
