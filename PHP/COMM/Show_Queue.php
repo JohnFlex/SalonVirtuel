@@ -3,6 +3,7 @@
 include 'ConnexionBD.php';
 session_start();
 
+
 $_SESSION["stand_id"] = 11;
 
 //Rend le présentateur actuel disponible dans la base de données

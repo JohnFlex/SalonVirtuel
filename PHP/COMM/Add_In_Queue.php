@@ -4,8 +4,6 @@ session_start();
 
 include 'ConnexionBD.php';
 
-Rejoindre_File_D_Attente(11);
-
 //Permet de rejoindre une file d'attente
 //ENTREE : Numéro du stand à rejoindre par l'utilisateur qui est connecté en ce moment
 //SORTIE : Entrée dans la table "Réunions"
