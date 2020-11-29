@@ -7,6 +7,7 @@
     session_start();
 
     $dom = new DOMDocument('1.0', 'iso-8859-1');
+    
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,6 +24,7 @@
             <div>
                 <a href="Accueil.php">Deconnexion</a>
                 <?php
+
                     $mP = new managerPresentateur($conn);
 
                     $X = $mP->issetStand($_SESSION['user_name']);
@@ -66,11 +68,15 @@
                 }
                 else{
                     echo"<a href='modifierStand.php'><img src='../Contenus/images/STANDS/Stand02_RotateA.png' alt='Image de Stand'>Gestion d'un Stand</a>";
+                    $_SESSION['stand_id']=$X;
+                    echo '<div><a href="COMM/Show_Queue.php">Menu de réunion</a></div>';
                 }
+
+                var_dump($_SESSION['user_name']);
+                var_dump($_SESSION["stand_id"]);
             ?>
         </div>
     <footer>
-		
     </footer>
     </body>
 </html>
