@@ -1,61 +1,49 @@
 <?php 
-session_start();
 
 include 'ConnexionBD.php';
+session_start();
 
-$query_API = 'SELECT * FROM DB_SALON_Presentateur WHERE ID_Avatar = "'. $_GET['ID_Pres'].'";';
+//Si on est présentateur, on s'ajoute à la base de données de la réunion,
+//Sinon on crée juste la requete pour prendre les clés de l'api
+if ($_GET['role'] = 1) {
+	$Grole = 1;
 
+	$queryAjoutPresentateur = 'UPDATE DB_SALON_Reunions SET ID_Avatar_Presentateur ="'.$_GET['ID_Pres'].'" WHERE ID_Avatar = "'.$_GET['ID_User'].'";';
+
+	if ($connection->query($queryAjoutPresentateur) === TRUE) {
+		echo "Record updated successfully";
+	}
+	else{
+		echo "Error updating record: " . $connection->error;
+	}
+
+	$query_API = 'SELECT API_Visible_Key, API_Hidden_Key, Numero_Reunion, Nom_Avatar AS nom FROM DB_SALON_Presentateur WHERE ID_Avatar = "'. $_GET['ID_Pres'].'";';
+}
+else{
+
+	$query_API = 'SELECT API_Visible_Key, API_Hidden_Key, Numero_Reunion, DB_SALON_Utilisateur.Nom_Avatar AS nom FROM DB_SALON_Presentateur, DB_SALON_Reunions, DB_SALON_Utilisateur WHERE DB_SALON_Utilisateur.ID_Avatar = DB_SALON_Reunions.ID_Avatar AND DB_SALON_Presentateur.ID_Avatar = DB_SALON_Reunions.ID_Avatar_Presentateur AND DB_SALON_Reunions.ID_Avatar = "'. $_GET['ID_User'].'";';
+
+}
+
+//On prends les clés de l'api selon la requete de qui on est
 if($result = mysqli_query($connection,$query_API)) {
     while($rows = mysqli_fetch_assoc($result)){
 		$Gapi_key = $rows['API_Visible_Key'];
 		$Gapi_secret = $rows['API_Hidden_Key'];
 		$Gmeeting_number = $rows['Numero_Reunion'];
+		$UserName = $rows['nom'];
     }
     
     mysqli_free_result($result);
-}else echo "Fail connection 1";
-
-echo $_GET['ID_Pres']." ".$_GET['ID_User'];
-
-$queryAjoutPresentateur = 'UPDATE DB_SALON_Reunions SET ID_Avatar_Presentateur ="'.$_GET['ID_Pres'].'" WHERE ID_Avatar = "'.$_GET['ID_User'].'";';
-
-if ($connection->query($queryAjoutPresentateur) === TRUE) {
-  echo "Record updated successfully";
 }else {
-  echo "Error updating record: " . $connection->error;
+	echo "Fail api code request";
+	exit();
 }
 
 $connection->close();
 
-//if(mysqli_query($connection,$queryAjoutPresentateur))
-//{
-//    echo "c'est ajouté";
-//}
-//else
-//{
-//    echo "c'est pas ajouté"
-//}
-//
-//mysqli_close($connection);
-
-
-/*
-$Gapi_secret = '1ja0rXBkPuD5BAnGZ49IzSnurEHdW8koC97k';
-$Gapi_key = 'H5lLtUUVTWq2BTw-ICNX9g';
-$Gmeeting_number = 2412265718;
-*/
-
-if(isset($_GET["role"])){
-	$Grole = $_GET["role"];
-}
-else {
-	$Grole = 0;
-}
-
-
+//Generation de la signature pour la réunion
 $signatureFinal = generate_signature($Gapi_key,$Gapi_secret,$Gmeeting_number,$Grole);
-
-
 
 function generate_signature ( $api_key, $api_secret, $meeting_number, $role){
 
@@ -107,28 +95,22 @@ function generate_signature ( $api_key, $api_secret, $meeting_number, $role){
 
 		function GetSignature(){
 			
-			var signature = '<?php echo $signatureFinal;?>';
-
 			ZoomMtg.init(
 				{
 					debug: true, 
     				leaveUrl: 'https://2orm.com/SALON/PHP/COMM/QuitterFile.php'}
 			);
 			ZoomMtg.join({
-    			meetingNumber: 2412265718,
-    			userName: 'User name',
+    			meetingNumber: '<?php echo $meeting_number?>',
+    			userName: '<?php echo $UserName?>',
     			userEmail: '',
     			passWord: 'CACA',
-    			apiKey: 'H5lLtUUVTWq2BTw-ICNX9g',
-    			signature: signature,
+    			apiKey: '<?php echo $api_key?>',
+    			signature: '<?php echo $signatureFinal;?>',
     			success: function(res){console.log(res)},
     			error: function(res){console.log(res)}
- 		});
+ 			});
 		}
-
-		
-		
-
 	</script>
 
 	
