@@ -6,6 +6,7 @@ Rendre_Le_Presentateur_Disponible(2);
 //echo Recuperer_Le_Nombre_Total_De_Personnes_Qui_Attendent_Dans_La_File_D_Attente_Pour_Un_Stand($_SESSION["stand_id"]);
 Demarrer_La_Reunion();
 
+
 //$_SESSION["stand_id"] = 11;
 
 //Rend le présentateur actuel disponible dans la base de données

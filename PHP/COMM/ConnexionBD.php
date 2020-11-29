@@ -1,4 +1,4 @@
-<?php 
+<?php
 
  //Connection vers la Base de données
 function Connexion()
