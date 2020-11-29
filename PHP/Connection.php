@@ -4,6 +4,33 @@
 	require_once("Objets/managerPresentateur.php");
 	require_once("Objets/managerAdministrateur.php");
 
+	function Recup_ID_Utilisateur($nomUtilisateur)
+	{
+	    $querry = "SELECT ID_Avatar FROM DB_SALON_Utilisateur WHERE Nom_Avatar = '". $nomUtilisateur."' ; ";
+	    
+	    try
+	    {
+	    	$connexion = connect_bd();
+
+	    	$stmt = $connexion->prepare($querry);
+   			
+   			$stmt->execute();
+
+   			$result = $stmt->fetchAll();
+
+   			foreach ($result as $row)
+   			{
+   				return $row["ID_Avatar"];
+   			}	    	
+	    }
+	    catch(Exception $e)
+	    {
+	    	echo $e->getMessage();
+	    	return -1;
+	    }
+	}
+
+
 
 	$conn = connect_bd();
 	if(isset($_POST["nom"]) && isset($_POST["mdp"]))
@@ -22,6 +49,8 @@
 			session_start();
 			$_SESSION['user_name']=$_POST["nom"];
 			$_SESSION['user_type']="Utilisateur";
+			$_SESSION['user_id']=Recup_ID_Utilisateur($_POST["nom"]);
+			//echo "User ID : ".$_SESSION['user_id'];
 			header("Location: Site.php");
 		}
 		elseif ($managerPresentateur->existPresentateurByName($_POST["nom"], $_POST["mdp"]))

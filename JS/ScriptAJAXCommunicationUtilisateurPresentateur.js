@@ -1,12 +1,14 @@
 // Variables globales
 
-//let utilisateurId = 7;
+let utilisateurId;
 let boolEnAttente = false;
 
 // On attend le chargement du document
 window.onload = () =>{
     // On charge les nouveaux messages
     setInterval(chargeReunion, 1000);
+    utilisateurId = document.getElementById('id').value;
+    //console.log(utilisateurId);
 }
 
 /**
@@ -26,25 +28,29 @@ function chargeReunion()
             {
                 if(this.status == 200)
                 {
+                    boolEnAttente=false;
                     // On a une réponse
                     // On convertit la réponse en objet JS
-                    console.log(this.response);
+                    //console.log(this.response);
                     let Reponses = JSON.parse(this.response);
 
-                    //Reponse.reverse();
+                    //Reponse.reverse();7
 
                     for(let Reponse of Reponses)
                     {
                         //Ici on peut récupérer les informations reçues.
                         console.log("ID Presentateur : "+Reponse.ID_Avatar_Presentateur);
                         console.log("ID Stand : "+Reponse.ID_Stand);
+                        console.log("Reunion.php?stand="+Reponse.ID_Stand+"&ID_Pres="+Reponse.ID_Avatar_Presentateur+"&ID_User="+utilisateurId);
+                        window.location.href =("COMM/Reunion.php?stand="+Reponse.ID_Stand+"&ID_Pres=25"+/*Reponse.ID_Avatar_Presentateur+*/"&ID_User="+utilisateurId);
                     }
                 }
                 else
                 {
                     // On gère les erreurs
-                    let erreur = JSON.parse("erreur"+this.response);
-                    alert(erreur.message);
+                    /*let erreur = JSON.parse(this.response);
+                    alert(erreur.message);*/
+                    console.log(this.response);
                 }
             }
         }
@@ -56,4 +62,32 @@ function chargeReunion()
     }
 }
 
-function rentrerEnFile()
+function rentrerEnFile(stand_name,user_name)
+{
+    // On instancie XMLHttpRequest
+    
+    let xmlhttp = new XMLHttpRequest()
+
+    // On gère la réponse
+    xmlhttp.onreadystatechange = function()
+    {
+        // On vérifie si la requête est terminée
+        if(this.readyState == 4)
+        {
+            if(this.status == 200)
+            {
+                console.log("L'enregistrement a réussi");
+                boolEnAttente=true;
+            }
+            else
+            {
+                console.log("L'enregistrement a échoué");
+            }
+        }
+    }
+
+    xmlhttp.open("GET", "ajax/ajoutFileAttente.php?Stand="+stand_name+"&UserName="+user_name);
+
+    // On envoie
+    xmlhttp.send();
+}
