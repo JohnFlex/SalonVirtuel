@@ -9,13 +9,18 @@
     require_once("./Objets/managerStand.php");
     require_once("./Objets/managerRessource.php");
     require_once("./Objets/managerEmplacement.php");
+    require_once("./Objets/managerPresentateur.php");
 
     $db = connect_bd();
+
+    $managerPres = new managerPresentateur($db);
+
+
+    $id_stand = $managerPres->selectPresentateurByName($_SESSION['user_name'])->getIdStand();
+
     $managerStand = new managerStand($db);
     $managerRes = new managerRessource($db);
     $managerEmplacement = new managerEmplacement($db);
-
-    $id_stand = 1; //A changer avec la session
 
     $standToUpdate = $managerStand->selectStandById($id_stand);
     $emplacement = $managerEmplacement->selectEmplacementById($standToUpdate->getPositionX(),$standToUpdate->getPositionY());
@@ -85,15 +90,44 @@
     header('Location: modifierStand.php');
     }
 
+    $dom = new DOMDocument('1.0', 'iso-8859-1');
 ?>
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="../CSS/style.css">
         <title>Modifier un stand</title>
         <meta charset="utf-8">
     </head>
     <body>
-        <h1>Modifier un stand</h1>
+        <header>
+            <div class="navbar">
+                <h1>Titre du site</h1>
+                <h2 class="titre1">Modifier un stand</h2>
+                <div>
+                    <a href="Accueil.php">Deconnexion</a>
+                    <a href="SitePresentateur.php">Retour Gestion</a>
+                    <?php
+                        if(isset($_SESSION['user_name']))
+                        {
+                            $link = $dom->createElement('a');
+
+                            $noeudTexteLink = $dom->createTextNode("Compte : ".$_SESSION['user_name']);
+
+                            $link->appendChild($noeudTexteLink);
+
+                            $dom->appendChild($link);
+
+                            echo $dom->saveHTML();
+
+                            $dom->removeChild($link);
+
+                            //echo "<a href=''>".$_SESSION['user_name']."</a>";
+                        }      
+                    ?>
+                </div>
+            </div>
+        </header>
         <form id="creation_stand" class="" method="post" action="#">
             <label for="nom">Nom du stand :</label>
             <input type="text" id="Libelle_Stand" name="Libelle_Stand" placeholder="Nom du stand" size="15" required value="<?php echo $standToUpdate->getLibelle(); ?>" />

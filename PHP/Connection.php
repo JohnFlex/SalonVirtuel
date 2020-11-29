@@ -78,47 +78,29 @@
 <HTML>
 	<HEAD>
 		<meta charset="utf-8"/>
-		<title>Inscription</title>
+		<title>Connexion</title>
 		<lang = fr/>
 		<style type="text/css"></style>
-<<<<<<< HEAD
 		<link rel="stylesheet" type="text/css" href="../CSS/style.css"> 
 		<link rel="shortcut icon" type="image/x-icon" href="">     
 	</HEAD>
 	<BODY>
-		<header>
-			<div id="createAc">
-				<h2>Pas encore inscrit ?</h2>
-        		<a href="Inscription.php">Inscription</a>
-        	</div>
-        	<div id="date">
-				<h2>Salon Virtuel</h2>
-        		<?php setlocale(LC_TIME, 'fra_fra'); echo  strftime('%Y-%m-%d %H:%M:%S');; ?>
-        	</div>
-		</header>
+		<div class="navbar">
+            <h1>Titre du site</h1>
+            <h2 class="titre1">Connexion</h2>
+            <div>
+            	<a href="Accueil.php">Retour accueil</a>
+                <a href="Inscription.php">Inscription</a>
+            </div>
+        </div>
+
 		<form method="POST" action="#">
-			<h2>Connection</h2>
-			<label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" onchange="" required>
-			<label for="mdp"> Mot de Passe : </label><input type="password" id="pass" name="mdp" placeholder="password"   required>
-=======
-		<link rel="stylesheet" type="text/css" href=""> 
-		<link rel="shortcut icon" type="image/x-icon" href="">     
-	</HEAD>
-	<BODY>
-		<form method="POST" action="#">
-			<label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" onchange="" required><span class="desc">ne pas utiliser de caracter spécial</span><br>
+			<label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" onchange="" required><span class="desc">ne pas utiliser de caracterès spéciaux</span><br><br>
 			<label for="mdp"> Mot de Passe : </label><input type="password" id="pass" name="mdp" placeholder="password"   required><span class="desc">doit au moins contenir 1 Majuscule, 1 Minuscule et 1 Chiffre</span><br>
->>>>>>> 21e5c148aa4de8b5f05c83ff1650fb14d93b7cee
 			<input type="submit" name="sub" id="sup" value="Connection">
 		</form>
 	</BODY>
     <footer>
-<<<<<<< HEAD
-=======
-		<div>
-        	<a href="Inscription.php">Inscription</a>
-        </div>
->>>>>>> 21e5c148aa4de8b5f05c83ff1650fb14d93b7cee
-        <a href="Accueil.php">Retour Accueil</a>
+		
     </footer>
 </HTML>

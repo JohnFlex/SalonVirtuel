@@ -61,6 +61,7 @@ class managerStand
 			$stmt->execute();
 
 			$lastId = $this->db->lastInsertId();
+
 			return $lastId;
 		}
 		catch(PDOException $error)

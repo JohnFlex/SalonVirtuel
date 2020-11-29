@@ -3,7 +3,32 @@ body
     margin :0;
     padding: 0;
     background-color: #34495e;
-    font-family: sans-serif;
+    font-family: Calibri;
+}
+
+h1
+{
+    color: white;
+    font-family: Calibri;
+    font-size: 1.2em;
+    text-decoration: underline;
+}
+
+h2
+{
+    color: white;
+    font-family: Calibri;
+}
+
+h3
+{
+    color: white;
+    font-family: Calibri;
+}
+
+p
+{
+    color: white;
 }
 
 form
@@ -17,6 +42,7 @@ form
     background-color: #2f3640;
     text-align: center;
 }
+
 form input[type ="text"], form input[type = "password"], form input[type = "number"], form input[type = "email"], form input[type ="tel"]{
     border:0;
     background: none;
@@ -33,9 +59,15 @@ form input[type ="text"], form input[type = "password"], form input[type = "numb
     transition: 0.25s;
 
 }
+
 form label
 {
-    color: #00cec9;
+    font-weight: bold;
+}
+
+form h1
+{
+    color: white;
     text-transform: uppercase;    
     font-weight: 500px;
     font-weight: bold;
@@ -63,6 +95,7 @@ form input[type = "Submit"]
     transition: 0.25s;
 
 }
+
 form input[type = "submit"]:hover
 {
     background: #2ed573;
@@ -79,18 +112,9 @@ form input[type = "submit"]:hover
 
 a
 {
-    outline: none;
-    text-decoration: none;
-    display: inline-block;
-    width: 10%;
-    margin-right: 0.625%;
-    text-align: center;
-    line-height: 3;
-    color: black;
-
-}
-a:link, a:visited, a:focus {
-  background: #16a085;
+    font-family: Calibri;
+    font-size: 100%;
+    color: white;
 }
 
 #date
@@ -114,7 +138,83 @@ footer
     width: 90%;
 }
 
-a:hover
+div.navbar
 {
-    background: #2ecc71;    
+    overflow: hidden;
+    background-color: #2f3640;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.navbar a
+{
+    float: right;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 100%;
+}
+
+.navbar a:hover
+{
+    background-color: #00a8ff;
+}
+
+.navbar h2.titre1
+{
+    font-size: 1.1em;
+}
+
+label
+{
+    color: white;
+}
+
+.desc
+{
+    position: relative;  /* les .infobulle deviennent référents */
+    cursor: help;
+    color: white;
+    font-size: 9px;
+    margin-bottom: 100px;
+}
+
+#date
+{
+    position: absolute;
+    left: 90%;
+    top: 0;
+}
+
+#createAc a
+{
+    position: relative;
+    left: 10px;
+}
+
+footer
+{
+    position: absolute;
+    bottom: 10;
+    left :10;
+    width: 90%;
+}
+
+#container
+{
+   width: 10%;
+   height: 10%;
+}
+
+.container
+{
+    margin: 1%;
+    text-align: center;
+}
+
+#container img
+{
+   width: 100%;
 }

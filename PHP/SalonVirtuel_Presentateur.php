@@ -14,7 +14,8 @@
 
     $emplacements = $managerEmplacement->selectEmplacements();
     $emplacements->setFetchMode(PDO::FETCH_ASSOC);
-    $emplacements = $emplacements->fetchAll();    
+    $emplacements = $emplacements->fetchAll();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,6 +23,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Salon Virtuel</title>
+    <link href="../CSS/style.css" rel="stylesheet" />
     <link href="../CSS/style_salon.css" rel="stylesheet" />
 </head>
 <body>
@@ -40,15 +42,17 @@
                 categorie:'<?php echo $stand->getCategorie() ?>',
                 Resume:'<?php echo $stand->getInformation() ?>',
                 InfoActive:false,
-                Background:"Blue",
-                organisateur:"temp",
+                Background:"<?php echo $emplacement['Couleur_Element'] ?>",
+                organisateur:"Organisateur",
                 nbPersonne:0,
+                X:<?php echo $emplacement['Position_X_Emplacement'] ?>,
+                Y:<?php echo $emplacement['Position_Y_Emplacement'] ?>,
             
-            cree:<?php echo !empty($stand->getPositionX())? "true" : "false"; ?>
+                cree:<?php echo !empty($stand->getPositionX())? "true" : "false"; ?>
         });
     <?php endforeach ?>
 
-    console.log(Stand);
+
 
 
     //Creation du salon
@@ -82,13 +86,21 @@
         if (i == j && i != k&& i != l)
         {
             //console.log("Stand");
+            var findStand = Stand.find(element => element.X == standX && element.Y == standY);
             sol.className = "Stand";
             sol.id = "build";
             sol.setAttribute("x",standX);
             sol.setAttribute("y",standY);
+            sol.style.background = findStand.Background;
+            sol.innerHTML = findStand.nom;
+            sol.setAttribute("cree",findStand.cree);
             j = j+2;
-            sol.addEventListener("click", CreationStand);
-            sol.addEventListener("click", Information);
+            if(!findStand.cree) {
+                sol.addEventListener("click", CreationStand);
+            } else {
+                sol.addEventListener("click", Information);
+            }
+            
             standX++;
             if (standX > 3) {
                 standX = 1;
@@ -124,50 +136,15 @@
     function CreationStand(e)
     {
         //console.log("Bonjour Jojo");
-        let build = document.getElementsByClassName("Stand");
-        for(var i=0;i<9;i++){
-           
-        if(e.target == build[i] && Stand[i].cree == false)
+        if(e.target.getAttribute("cree") == "false")
         {
-            test = i;
-            //Stand[i].nom = prompt("Le nom du stand");
-            
-            //console.log("Stand : ",i);
+
             var crea = document.createElement("form");
             crea.id = "creation_stand";
             crea.method = "POST";
             crea.action = "creerStand.php";
             document.body.appendChild(crea);
 
-            /*
-            var input = document.createElement("input");
-            input.type = "text";
-            input.id = "nom_stand";
-            input.name ="Libelle_Stand";
-            input.placeholder = "Le nom du stand";
-            crea.appendChild(input);
-
-            var input = document.createElement("input");
-            input.type = "text";
-            input.id = "categorie_stand";
-            input.name ="Categorie_Stand";
-            input.placeholder = "La catégorie du stand";
-            crea.appendChild(input);
-
-            var input = document.createElement("input");
-            input.type = "text";
-            input.id = "resume_stand";
-            input.name ="Information_Stand";
-            input.placeholder = "Le résumé du stand";
-            crea.appendChild(input);
-
-            var input = document.createElement("input");
-            input.type = "color";
-            input.id = "CouleurStand";
-            input.name ="Couleur_Stand";
-            input.placeholder = "Couleur du Stand";
-            crea.appendChild(input);
-            */
             var input = document.createElement("input");
             input.type = "hidden";
             input.id = "PositionX";
@@ -181,63 +158,39 @@
             input.name ="Position_Y_Emplacement";
             input.value = e.target.getAttribute("y");
             crea.appendChild(input);
-            /*
-            var btn = document.createElement("button");
-            btn.id = "validation";
-            btn.innerHTML = "Validation";
-            btn.addEventListener("click",onValidation);
-            crea.appendChild(btn);
-            */
+
             crea.submit();
         }
+    
     }
-        //console.log(build);<input type="file">
-    }
-
+    fenetre = false
     function Information (e)
     {
-        var fennetre = false
-        for(var i=0;i<Stand.length;i++){
-            console.log(Stand[i].InfoActive);
-            if(Stand[i].InfoActive == true)
-            {   
-                console.log("biquette");
-                fennetre = true;
-            }
-        }
-        //console.log(fennetre);
-        for(var i=0;i<9;i++){
-        if(e.target== build[i] && Stand[i].cree == true && fennetre == false)
+        
+        if(e.target.getAttribute("cree") == "true" && fenetre == false)
         {
-            console.log("J'ai les infos de ",i);
+            var findStand = Stand.find(element => element.X == e.target.getAttribute("x") && element.Y == e.target.getAttribute("y"));
+            //console.log("J'ai les infos de ",i);
             var info = document.createElement("div");
             info.className = "InfoStand";
             info.id = "Info";
             document.body.appendChild(info);
             var titre = document.createElement("h1");
-            titre.innerHTML = Stand[i].nom;
+            titre.innerHTML = findStand.nom;
             document.getElementById("Info").appendChild(titre);
-            //-----------------------------------------------------
-            /*for (var j =0;j<5;j++)
-            {
-                var phrase =document.createElement("p");
-                phrase.innerHTML = "Info "+ (j+1);
-                document.getElementById("Info").appendChild(phrase);
-            }*/
+
+            console.log(findStand);
             var phrase =document.createElement("p");
-            phrase.innerHTML = Stand[i].categorie;
+            phrase.innerHTML = findStand.categorie;
             document.getElementById("Info").appendChild(phrase);
             var phrase =document.createElement("p");
-            phrase.innerHTML = Stand[i].organisateur;
+            phrase.innerHTML = findStand.organisateur;
             document.getElementById("Info").appendChild(phrase);
             var phrase =document.createElement("p");
-            phrase.innerHTML = Stand[i].Resume;
+            phrase.innerHTML = findStand.Resume;
             document.getElementById("Info").appendChild(phrase);
             var phrase =document.createElement("p");
-            phrase.innerHTML = Stand[i].nbPersonne;
-            document.getElementById("Info").appendChild(phrase);
-            var phrase =document.createElement("p");
-            phrase.innerHTML = Stand[i].placemax;
+            phrase.innerHTML = findStand.nbPersonne;
             document.getElementById("Info").appendChild(phrase);
             //------------------------------------------------------
             var fermer = document.createElement("button");
@@ -245,14 +198,14 @@
             fermer.innerHTML = "Fermer";
             fermer.addEventListener("click",fermerfenetre);
             document.getElementById("Info").appendChild(fermer);
-            Stand[i].InfoActive = true;
+            findStand.InfoActive = true;
             saveInfo = i;
-            
-        }
+            fenetre = true;
+        } else {
+            fermerfenetre();
+            Information(e);
         }
       
-
-        
     }
 
     var saveInfo = 0;
@@ -260,32 +213,8 @@
     {
         effacer =document.getElementById("Info");
         effacer.parentElement.removeChild(effacer);
-        Stand[saveInfo].InfoActive = false;
-
-    }
-
-
-    //var formulaire = document.getElementById("formulaire");
-    
-    var test = 0;
-    function onValidation() {
-        var nomform = document.getElementById("nom_stand");
-        var orgaform = document.getElementById("orgarnisateur_stand");
-        var cateform = document.getElementById("categorie_stand");
-        var max = document.getElementById("maxplace");
-        var resum = document.getElementById("resume_stand");
-        var CouleurStand = document.getElementById("CouleurStand");
-        Stand[test].nom = nomform.value;
-        Stand[test].placemax = max.value;
-        Stand[test].organisateur = orgaform.value;
-        Stand[test].categorie = cateform.value;
-        Stand[test].Resume = resum.value;//
-        Stand[test].cree = true;
-        Stand[test].Background = CouleurStand.value;
-        crea =document.getElementById("creation_stand");
-        crea.parentElement.removeChild(crea);
-        build[test].innerHTML = Stand[test].nom;
-        build[test].style.background = Stand[test].Background;
+        //Stand[saveInfo].InfoActive = false;
+        fenetre = false;
     }
     
 BuildSalon();
