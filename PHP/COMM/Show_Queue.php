@@ -2,6 +2,8 @@
 
 include 'ConnexionBD.php';
 session_start();
+Rendre_Le_Presentateur_Disponible();
+Demarrer_La_Reunion();
 
 //$_SESSION["stand_id"] = 11;
 
