@@ -124,9 +124,9 @@ class managerUtilisateur
 			if($stmt->rowCount() > 0)
 			{
 				$valueStmt = $stmt->fetchAll()[0];
-				var_dump(password_verify($MDP, $valueStmt["MDP"]));
+				/*var_dump(password_verify($MDP, $valueStmt["MDP"]));
 				var_dump($valueStmt["MDP"]);
-				var_dump($MDP);
+				var_dump($MDP);*/
 				return password_verify($MDP, $valueStmt["MDP_Utilisateur"]);
 			}else{
 				return false;

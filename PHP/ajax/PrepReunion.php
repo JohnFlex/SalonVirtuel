@@ -5,9 +5,6 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // On vérifie si on a reçu un id
     if(isset($_GET['ID_Utilisateur']))
     {
-        // On récupère l'id et on le nettoie
-        $lastId = (int)strip_tags($_GET['lastId']);
-
         // On se connecte à la base
         require_once('ConnexionALaBDD.php');
         $db = ConnexionBDD();
