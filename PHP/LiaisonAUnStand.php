@@ -6,12 +6,12 @@
 //		//mise en place du script de connexion
 //			$dsn="mysql:dbname=".BASE.";host=".SERVEUR;
 //			
-//		//tentative de connexion à la base de données
+//		//tentative de connexion ï¿½ la base de donnï¿½es
 //			try{
 //				$connexion=new PDO($dsn,USER,PASSWD);
 //			}
 //			
-//		//affichage d'éventuelles erreurs
+//		//affichage d'ï¿½ventuelles erreurs
 //			catch(PDOExecption $e){
 //				printf("Echec de la connexion : %s\n", $e->getMessage());
 //				exit();
@@ -24,7 +24,7 @@
 //	//nom du serveur
 //		define('SERVEUR',"ormcomcplh778.mysql.db");
 //
-//	//nom de la base de données
+//	//nom de la base de donnï¿½es
 //		define('BASE',"ormcomcplh778");
 //
 //	//nom de l'utisateur
@@ -70,6 +70,7 @@
                     <a href="Accueil.php">Deconnexion</a>
                 
                     <a href="SwitchPresentateurUtilisateur.php"> Administration des roles</a>
+                    <a href="ChangerEmplacement.php">Changer l'emplacement d'un stand</a>
                     
                     
                 </div>
@@ -78,7 +79,7 @@
       
     
     <div class="LiaisonPresentStand"> 
-        <h1>Lié un présentateur à un stand</h1>
+        <h1>Liï¿½ un prï¿½sentateur ï¿½ un stand</h1>
 
         <form action="#" method="post" id="LIAISONPRESENTATEURSTAND" name="LiasonPresentateurStand">
 
