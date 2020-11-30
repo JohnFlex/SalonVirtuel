@@ -6,23 +6,33 @@
     <head>
         <title>Ici c'est le site administrateur</title>
         <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="../CSS/style.css">
     </head>
     <body>
-        <h1>Site administrateur</h1>
-               
-        <div>
-            <a href="SwitchPresentateurUtilisateur.php">Page Administrateur quant au passage d'un utilisateur en présentateur</a>
-            <a href="LiaisonAUnStand.php">Liaison au stand</a>
-        </div>
-    <footer>
-		<?php
-            session_start();
-			if(isset($_SESSION['user_name'])){
-				echo "vous êtes : ".$_SESSION['user_name'];
-			}
+        
+           
+        <header>
+            <div class="navbar">
+                <h1>Titre du site</h1>
+                <h2 class="titre3">Site administrateur</h2>
+                
+                <div class="cssAdmin">
+                    <a href="Accueil.php">Deconnexion</a>
+                
+                    <a href="SwitchPresentateurUtilisateur.php"> Administration des roles</a>
+                    <a href="LiaisonAUnStand.php">Liaison au stand</a>
+                </div>
+            </div>
+        </header>
+        <footer>
+		  <?php
+                //session_start();
+			 if(isset($_SESSION['user_name'])){
+				    echo "vous êtes : ".$_SESSION['user_name'];
+			 }
 				
-		?>
-        <a href="Accueil.php">Deconnexion</a>
-    </footer>
+		  ?>
+           
+        </footer>
     </body>
 </html>
