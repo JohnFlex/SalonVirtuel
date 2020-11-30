@@ -68,7 +68,7 @@ class managerUtilisateur
 	//ENTREE : /
 	//SORTIE : Un objet utilisateur
 	{
-		$req = "INSERT INTO DB_SALON_Avatar() VALUES(); 
+		$req = "INSERT INTO DB_SALON_Avatar(ID_Element_Avatar) VALUES(1);
 
 				INSERT INTO DB_SALON_Utilisateur(ID_Avatar, Nom_Avatar, MDP_Utilisateur) 
 				VALUES (
