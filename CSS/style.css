@@ -194,8 +194,6 @@ div.navbar
 }
 
 .navbar a:not(.TitreSite)
-
-.navbar a
 {
     float: right;
     color: white;
@@ -221,8 +219,6 @@ div.navbar
 
 
 .navbar a:hover:not(.TitreSite)
-
-.navbar a:hover
 {
     background-color: #00a8ff;
 }
