@@ -36,7 +36,7 @@
 
 		            	$link->appendChild($noeudTexteLink);
 
-		            	$link->setAttribute("href", "site.php");
+		            	$link->setAttribute("href", "Site.php");
 
 		            	$dom->appendChild($link);
 
