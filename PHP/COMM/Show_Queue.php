@@ -6,7 +6,6 @@ Rendre_Le_Presentateur_Disponible(2);
 //echo Recuperer_Le_Nombre_Total_De_Personnes_Qui_Attendent_Dans_La_File_D_Attente_Pour_Un_Stand($_SESSION["stand_id"]);
 Demarrer_La_Reunion();
 
-
 //$_SESSION["stand_id"] = 11;
 
 //Rend le présentateur actuel disponible dans la base de données
@@ -105,6 +104,7 @@ function Recuperer_ID_Presentateur_Actuellement_Connecte()
 //Arrête la possibilité de réunion si les clés API ne sont pas renseignées
 function Verifier_Si_Les_Cles_De_L_API_Sont_Rentrees(){
     $connection=Connexion();
+  
     $queryAPIInfos = 'SELECT * FROM DB_SALON_Presentateur WHERE ID_Avatar = '.Recuperer_ID_Presentateur_Actuellement_Connecte().';';
     if($result = mysqli_query($connection,$queryAPIInfos)) {
         while($rows = mysqli_fetch_assoc($result)){

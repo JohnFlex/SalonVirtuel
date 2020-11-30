@@ -1,9 +1,11 @@
 <?php 
 
+
 //require_once ('ConnexionBD.php');
 
 require_once("../ConnexionALaBDD.php");
 
+//Rejoindre_File_D_Attente(11);
 
 //Permet de rejoindre une file d'attente
 //ENTREE : Numéro du stand à rejoindre par l'utilisateur qui est connecté en ce moment

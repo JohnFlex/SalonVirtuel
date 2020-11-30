@@ -32,7 +32,7 @@
     <header>
     	<div class="navbar">
             <h1>Titre du site</h1>
-            <h2 class="titre1">Salon</h2>
+            <h2 class="titre2">Salon</h2>
             <div>
             	<a href="Accueil.php">Deconnexion</a>
                 <?php
@@ -147,12 +147,12 @@
 		}
 
 		function keyUpHandler(event) {
-		//Touche relachÃ©e
+		//Touche relachée
 		    keysPressed[event.code] = false;
 		}
 
 		function manage() {
-		//Gestion des touches pour dÃ©placer les blocks
+		//Gestion des touches pour déplacer les blocks
 		    if (keysPressed["ArrowDown"]) {
 		        moveTop(speed);
 		    }
@@ -216,7 +216,7 @@
 		    document.getElementById("Info").appendChild(titre);
 
 		    var phrase =document.createElement("p");
-		    phrase.innerHTML = "CatÃ©gorie : "+stand.categorie;
+		    phrase.innerHTML = "Catégorie : "+stand.categorie;
 		    document.getElementById("Info").appendChild(phrase);
 
 		    var phrase =document.createElement("p");
@@ -233,7 +233,7 @@
 
 		    var filAttend = document.createElement("button"); //bouton pour rentrer dans la file d'attente
 		    filAttend.id = "Attend";
-		    filAttend.innerHTML = "EntrÃ©e dans la file d'attente";
+		    filAttend.innerHTML = "Entrée dans la file d'attente";
 		    filAttend.addEventListener("click",FileAttente);
 		    document.getElementById("Info").appendChild(filAttend);
 
@@ -303,7 +303,7 @@
 		    document.getElementById("CaseFileAttend").appendChild(filJeu);
 		    function QuitterFileAtt ()//fonction pour quitter la file d'attente
 		    {
-		        console.log("normalement j'ai quittÃ© fdp");
+		        console.log("normalement j'ai quitté fdp");
 		        effacer = document.getElementById("CaseFileAttend");
 		        effacer.parentElement.removeChild(effacer);
 
@@ -326,84 +326,8 @@
 		        Clicker = false;
 		    }
 	</script>
+
     <footer>
-        <?php
-            if(isset($_SESSION['user_name']))
-            {
-                echo "vous êtes : ".$_SESSION['user_name'];
-                if (isset($_SESSION['user_id']))
-                {
-                    //echo $_SESSION['user_id'];
-                    echo '<input type="hidden" name="id" id="id"  value="'.$_SESSION['user_id'].'">';
-                    //echo '<script type="text/javascript">console.log('.$_SESSION["user_id"].');</script>';
-                }
-            }      
-        ?>
-    </header>
-
-        <h1>Site</h1>
-        <?php
-            $managerStand = new managerStand(connect_bd());
-            
-            $resultat = $managerStand->selectStands();
-            //var_dump($resultat);
-            $resultat=$resultat->fetchAll();
-
-            $tabStand=Array();
-
-            $tabStandDispo=Array();
-
-            //echo "<h3>Liste des stands</h3>";
-            foreach ($resultat as $result)
-            {
-                //var_dump($result);
-                array_push($tabStand,$result["Libelle_Stand"]);
-                //echo "<div>".$result["Libelle_Stand"]."</div>";
-            }
-
-            $resultat = $managerStand->selectStandsDispo();
-            //var_dump($resultat);
-            $resultat=$resultat->fetchAll();
-            //var_dump($resultat);
-            //echo "<h3>Liste des stands disponibles</h3>";
-            foreach ($resultat as $result)
-            {
-                //var_dump($result);
-                array_push($tabStandDispo,$result["Libelle_Stand"]);
-                //echo "<div>".$result["Libelle_Stand"]."</div>";
-            }
-
-            $dom = new DOMDocument("1.00","iso-8859-1");
-            //echo "<h3>Document créé</h3>";
-            foreach ($tabStand as $stand)
-            {
-                //var_dump($stand);
-                if(in_array($stand, $tabStandDispo))
-                {
-                    $div = $dom->createElement("div");
-                    $h3 = $dom->createElement("h3",$stand);
-                    $button = $dom->createElement("button","Rejoindre la file d'attente");
-                    $button->setAttribute("onclick","rentrerEnFile('".$stand."','".$_SESSION['user_name']."');");
-
-                    $div->appendChild($h3);
-                    $div->appendChild($button);
-
-                    $dom->appendChild($div);
-                }
-                else
-                {
-                    $div = $dom->createElement("div");
-                    $h3 = $dom->createElement("h3",$stand);
-
-                    $div->appendChild($h3);
-
-                    $dom->appendChild($div);
-                }
-            }
-            echo $dom->saveHTML();
-        ?>
-    <footer>
-        <a href="Accueil.php">Deconnexion</a>
     </footer>
     </body>
 </html>

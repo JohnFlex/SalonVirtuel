@@ -94,7 +94,8 @@
             </div>
         </div>
 
-		<form method="POST" action="#">
+		<form method="POST" action="#" class="Connexion">
+
 			<label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" onchange="" required><span class="desc">ne pas utiliser de caracterès spéciaux</span><br><br>
 			<label for="mdp"> Mot de Passe : </label><input type="password" id="pass" name="mdp" placeholder="password"   required><span class="desc">doit au moins contenir 1 Majuscule, 1 Minuscule et 1 Chiffre</span><br>
 			<input type="submit" name="sub" id="sup" value="Connection">

@@ -17,13 +17,15 @@
                 <a href="Connection.php">Connexion</a>
             </div>
         </div>
-
-		<form method="POST" action="finInscription.php">
-			<label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" oninput="verifNom(v1);v1=verifNom(v1);verifAllTrue(v1,v2,v3);" onchange="" required><span class="desc">ne pas utiliser de caracter spécial</span><br>
-			<label for="mdp"> Mot de Passe : </label><input type="password" id="pass" name="mdp" placeholder="password"  oninput="verifPassword(v2); v2 =verifPassword(v2);verifAllTrue(v1,v2,v3);" required><span class="desc">doit au moins contenir 1 Majuscule, 1 Minuscule et 1 Chiffre</span><br>
-			<label for="cmdp"> Confirmation Mot de Passe : </label><input type="password" id="cpass" name="cmdp" oninput="verifCPassword(v3); v3 = verifCPassword(v3);verifAllTrue(v1,v2,v3);" placeholder="password" required><br> 
-			<input type="submit" name="sub" id="sup" value="s'inscrire" disabled="true">
-		</form>
+    
+        <div class="Connexion">
+            <form method="POST" action="finInscription.php">
+                <label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" oninput="verifNom(v1);v1=verifNom(v1);verifAllTrue(v1,v2,v3);" onchange="" required><span class="desc">ne pas utiliser de caracter spécial</span><br>
+                <label for="mdp"> Mot de Passe : </label><input type="password" id="pass" name="mdp" placeholder="password"  oninput="verifPassword(v2); v2 =verifPassword(v2);verifAllTrue(v1,v2,v3);" required><span class="desc">doit au moins contenir 1 Majuscule, 1 Minuscule et 1 Chiffre</span><br>
+                <label for="cmdp"> Confirmation Mot de Passe : </label><input type="password" id="cpass" name="cmdp" oninput="verifCPassword(v3); v3 = verifCPassword(v3);verifAllTrue(v1,v2,v3);" placeholder="password" required><br> 
+                <input type="submit" name="sub" id="sup" value="s'inscrire" disabled="true">
+            </form>
+        </div>
 
 		<script type="text/javascript">
 			

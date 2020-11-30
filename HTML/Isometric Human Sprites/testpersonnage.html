@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="test" width="1500" height="1500" style="border:1px solid #d3d3d3;"></canvas>
+
+    <script>
+       const SCALE = 1;
+const WIDTH = 32;
+const HEIGHT = 48;
+const SCALED_WIDTH = SCALE * WIDTH;
+const SCALED_HEIGHT = SCALE * HEIGHT;
+const CYCLE_LOOP = [0, 1, 0, 2];
+const FACING_DOWN = 0;
+const FACING_UP = 1;
+const FACING_LEFT = 2;
+const FACING_RIGHT = 3;
+const FRAME_LIMIT = 12;
+const MOVEMENT_SPEED = 1;
+
+var canvas = document.getElementById('test');
+var ctx = canvas.getContext('2d');
+var keyPresses = {};
+var currentDirection = FACING_DOWN;
+var currentLoopIndex = 0;
+var frameCount = 0;
+var positionX = 0;
+var positionY = 0;
+var img = new Image();
+
+window.addEventListener('keydown', keyDownListener);
+function keyDownListener(event) {
+    keyPresses[event.key] = true;
+}
+
+window.addEventListener('keyup', keyUpListener);
+function keyUpListener(event) {
+    keyPresses[event.key] = false;
+}
+
+function loadImage() {
+  img.src = 'C:/Users/arnaud/Desktop/Isometric_Human_Sprites/Man.png';
+  img.onload = function() {
+    window.requestAnimationFrame(gameLoop);
+  };
+}
+
+function drawFrame(frameX, frameY, canvasX, canvasY) {
+  ctx.drawImage(img,
+                frameX * WIDTH, frameY * HEIGHT, WIDTH, HEIGHT,
+                canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
+}
+
+loadImage();
+
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  var hasMoved = false;
+
+  if (keyPresses.z) {
+    moveCharacter(0, -MOVEMENT_SPEED, FACING_UP);
+    hasMoved = true;
+  } else if (keyPresses.s) {
+    moveCharacter(0, MOVEMENT_SPEED, FACING_DOWN);
+    hasMoved = true;
+  }
+
+  if (keyPresses.q) {
+    moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT);
+    hasMoved = true;
+  } else if (keyPresses.d) {
+    moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT);
+    hasMoved = true;
+  }
+
+  if (hasMoved) {
+    frameCount++;
+    if (frameCount >= FRAME_LIMIT) {
+      frameCount = 0;
+      currentLoopIndex++;
+      if (currentLoopIndex >= CYCLE_LOOP.length) {
+        currentLoopIndex = 0;
+      }
+    }
+  }
+  
+  if (!hasMoved) {
+    currentLoopIndex = 0;
+  }
+
+  drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, positionX, positionY);
+  window.requestAnimationFrame(gameLoop);
+}
+
+function moveCharacter(deltaX, deltaY, direction) {
+  if (positionX + deltaX > 0 && positionX + SCALED_WIDTH + deltaX < canvas.width) {
+    positionX += deltaX;
+  }
+  if (positionY + deltaY > 0 && positionY + SCALED_HEIGHT + deltaY < canvas.height) {
+    positionY += deltaY;
+  }
+  currentDirection = direction;
+}
+       
+
+
+    </script>
+</body>
+</html>

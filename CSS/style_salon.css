@@ -50,10 +50,15 @@
     height: 500px;
     width: 250px;
     text-align:center;
+/*
     margin-left:-80%;
+    margin-top:10%;
+*/
+    margin-left: 5%;
     margin-top:10%;
     background-color:#5d8ab7;
     border-radius : 20px;
+    float: right;
 }
 
 .canvaStand
@@ -75,8 +80,15 @@
  {
      border: black 1px solid;
      /*transform: rotateX(40deg) rotateZ(45deg);*/
+/*
      margin-left:-60%;
      margin-top:10%;
+     
+*/
+     
+    margin-top:10%;
+    float: left;
+    
  }
 
  #Palette

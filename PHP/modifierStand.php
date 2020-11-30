@@ -102,8 +102,8 @@
     <body>
         <header>
             <div class="navbar">
-                <h1>Titre du site</h1>
-                <h2 class="titre1">Modifier un stand</h2>
+                <h1><a href="SitePresentateur.php" class="TitreSite" >Titre du site</a></h1>
+                <h2 class="titre3">Modifier un stand</h2>
                 <div>
                     <a href="Accueil.php">Deconnexion</a>
                     <a href="SitePresentateur.php">Retour Gestion</a>
@@ -128,6 +128,7 @@
                 </div>
             </div>
         </header>
+        <div class="ModifStand">
         <form id="creation_stand" class="" method="post" action="#">
             <label for="nom">Nom du stand :</label>
             <input type="text" id="Libelle_Stand" name="Libelle_Stand" placeholder="Nom du stand" size="15" required value="<?php echo $standToUpdate->getLibelle(); ?>" />
@@ -211,6 +212,7 @@
 
             <input type="submit" id="submit_button" name="submit_button"  class="" value="Modifier" />
         </form>
+        </div>
         <script>
             var i = <?php echo $i-1 ?>;
             function ajoutRessource() {

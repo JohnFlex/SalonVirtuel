@@ -39,54 +39,72 @@
 <html>
   <head>
     <meta charset="utf-8">
+      <link rel="stylesheet" type="text/css" href="../CSS/style.css">
     
   </head>
   <body>
-    
-	<h1>Changer un présentateur en utilisateur</h1>
+      
+       <header>
+            <div class="navbar">
+                <h1><a href="SiteAdministrateur.php" class="TitreSite" >Titre du site</a></h1>
+                <h2 class="titre2">Administration des roles</h2>
+                
+                <div >
+                    <a href="Accueil.php">Deconnexion</a>
+                
+                    <a href="LiaisonAUnStand.php">Liaison au stand</a>
+                    
+                </div>
+            </div>
+        </header>
+        <div>
+            <div class="formeT1">
+            <h1>Changer un présentateur en utilisateur</h1>
 
-	<form action="#" method="post" id="PRESENTATEURTOUTILISATEUR" name="PresentateurToUtilisateur">
+            <form action="#" method="post" id="PRESENTATEURTOUTILISATEUR" name="PresentateurToUtilisateur" >
 
-		<?php
-			
-			echo "<select name=\"SELECTPRESENTATEUR\">";
-			$sql="SELECT * FROM `DB_SALON_Presentateur` ";
-			foreach($conn->query($sql) as $row){
-				echo "<option value=\"".$row['ID_Avatar']."\">".$row['Nom_Avatar']."</option>";
-			}
-			echo "</select><br>";
-		?>
-		
-		<input type="submit" value="Valider" id="BOUTONPTU" name="BoutonPTU" />
+                <?php
 
-	</form><br>
+                    echo "<select name=\"SELECTPRESENTATEUR\">";
+                    $sql="SELECT * FROM `DB_SALON_Presentateur` ";
+                    foreach($conn->query($sql) as $row){
+                        echo "<option value=\"".$row['ID_Avatar']."\">".$row['Nom_Avatar']."</option>";
+                    }
+                    echo "</select><br>";
+                ?>
 
-	<h1>Changer un utilisateur en présentateur</h1>
+                <input type="submit" value="Valider" id="BOUTONPTU" name="BoutonPTU" />
 
-	<form action="#" method="post" id="UTILISATEURTOPRESENTATEUR" name="UtilisateurToPresentateur">
+            </form><br>
+        </div>
+              <div class="formeT2">
+            <h1>Changer un utilisateur en présentateur</h1>
 
-		<?php
-			
-			echo "<select name=\"SELECTUTILISATEUR\">";
-			$sql="SELECT * FROM `DB_SALON_Utilisateur` ";
-			foreach($conn->query($sql) as $row){
-				echo "<option value=\"".$row['ID_Avatar']."\">".$row['Nom_Avatar']."</option>";
-			}
-			echo "</select><br>";
-			echo "<select name=\"SELECTSTATUE\">";
-			$sql="SELECT * FROM `DB_SALON_Activite` ";
-			foreach($conn->query($sql) as $row){
-				echo "<option value=\"".$row['ID_Activite']."\">".$row['Libelle_Activite']."</option>";
-			}
-			echo "</select><br>";
-		?>
-		
-		<input type="submit" value="Valider" id="BOUTONUTP" name="BoutonUTP" />
+            <form action="#" method="post" id="UTILISATEURTOPRESENTATEUR" name="UtilisateurToPresentateur" >
 
-	</form><br>
-	
+                <?php
+
+                    echo "<select name=\"SELECTUTILISATEUR\">";
+                    $sql="SELECT * FROM `DB_SALON_Utilisateur` ";
+                    foreach($conn->query($sql) as $row){
+                        echo "<option value=\"".$row['ID_Avatar']."\">".$row['Nom_Avatar']."</option>";
+                    }
+                    echo "</select><br>";
+                    echo "<select name=\"SELECTSTATUE\">";
+                    $sql="SELECT * FROM `DB_SALON_Activite` ";
+                    foreach($conn->query($sql) as $row){
+                        echo "<option value=\"".$row['ID_Activite']."\">".$row['Libelle_Activite']."</option>";
+                    }
+                    echo "</select><br>";
+                ?>
+
+                <input type="submit" value="Valider" id="BOUTONUTP" name="BoutonUTP" />
+
+            </form><br>
+            </div>
+        </div>
     <footer>
-        <a href="Accueil.php">Retour Accueil</a>
+<!--        <a href="Accueil.php">Retour Accueil</a>-->
     </footer>
   </body>
 </html>

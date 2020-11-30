@@ -42,6 +42,47 @@ form
     background-color: #2f3640;
     text-align: center;
 }
+.formeT1
+{
+    text-align: center;
+    float: left;
+/*    transform: translate(40%,50%);*/
+    margin: 10em 1em 1em 10em;
+}
+
+.formeT2
+{
+    float: right;
+/*    transform: translate(-40%,43%);*/
+    margin: 10em 10em 1em 1em;
+    text-align: center;
+}
+
+.Connexion
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.LiaisonPresentStand
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.ModifStand
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+
 
 form input[type ="text"], form input[type = "password"], form input[type = "number"], form input[type = "email"], form input[type ="tel"]{
     border:0;
@@ -101,6 +142,10 @@ form input[type = "submit"]:hover
     background: #2ed573;
 }
 
+.LiaisonPresentStand h1
+{
+    text-align: center;
+}
 .desc
 {
     position: relative;  /* les .infobulle deviennent référents */
@@ -148,23 +193,61 @@ div.navbar
     width: 100%;
 }
 
+.navbar a:not(.TitreSite)
+
 .navbar a
 {
     float: right;
     color: white;
     text-align: center;
     padding: 14px 16px;
+/*    margin: 0em 1em 0em 1em;*/
+/*    padding: 2em 1em 2em 1em;*/
     font-size: 100%;
+    text-decoration: none;
 }
+
+.cssAdmin a
+{
+    float: right;
+    color: white;
+    text-align: center;
+/*    padding: 14px 16px;*/
+/*    margin: 0em 1em 0em 1em;*/
+    padding: 1em 1em 1em 1em;
+    font-size: 100%;
+    text-decoration: none;
+}
+
+
+.navbar a:hover:not(.TitreSite)
 
 .navbar a:hover
 {
     background-color: #00a8ff;
 }
 
+.navbar h2
+{
+    font-size: 1.1em; 
+}
+
 .navbar h2.titre1
 {
-    font-size: 1.1em;
+   
+    margin-left: 7.5em;
+}
+
+.navbar h2.titre2
+{
+    
+    margin-left: 9em;
+}
+
+.navbar h2.titre3
+{
+    
+    margin-left: 17em;
 }
 
 label
