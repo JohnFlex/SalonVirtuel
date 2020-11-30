@@ -21,6 +21,7 @@
                 
                     <a href="SwitchPresentateurUtilisateur.php"> Administration des roles</a>
                     <a href="LiaisonAUnStand.php">Liaison au stand</a>
+                    <a href="ChangerEmplacement.php">Changer l'emplacement d'un stand</a>
                 </div>
             </div>
         </header>
@@ -28,7 +29,7 @@
 		  <?php
                 //session_start();
 			 if(isset($_SESSION['user_name'])){
-				    echo "vous êtes : ".$_SESSION['user_name'];
+				    echo "vous ï¿½tes : ".$_SESSION['user_name'];
 			 }
 				
 		  ?>
