@@ -66,144 +66,177 @@
    
 
     <script>
-		var Stand = [];
+				var Stand = [];
 		  
-		<?php foreach ($emplacements as $emplacement): ?>
-		        
-		    <?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]) ?>
-		            Stand.push({
-		                Id:'<?php echo $stand->getId()?>',
-		                nom:'<?php echo $stand->getLibelle()?>',
-		                categorie:'<?php echo $stand->getCategorie() ?>',
-		                Resume:'<?php echo $stand->getInformation() ?>',
-		                InfoActive:false,
-		                Background:"<?php echo $emplacement['Couleur_Element'] ?>",
-		                organisateur:"Organisateur",
-		                nbPersonne:0,
-		                X:<?php echo $emplacement['Position_X_Emplacement'] ?>,
-		                Y:<?php echo $emplacement['Position_Y_Emplacement'] ?>,
-		            
-		                cree:<?php echo !empty($stand->getPositionX())? "true" : "false"; ?>
-		        });
-		    <?php endforeach ?>
-		    
-		    var MonCanvas = document.getElementById("salon");
-		    var Clicker = false;
-
-		    var ctx2d = MonCanvas.getContext("2d");
-		    var player = document.getElementById("player");
-		    setInterval(update,0);
-		    var speed = 1;
-
-		    var canvasSize = 500;
-		    let keysPressed = []; //Gestion des inputs
-
-		    var size = 4;
-
-		    var standWidth = canvasSize/size;
-		    var standHeight = canvasSize/size;
-
-		    var standCoordGridX = canvasSize/(size/1.5);
-		    var standCoordGridY = canvasSize/(size/1.5);
-
-		    var visiteur = {x:140,y:140,w:25,h:25};
-		    var positionX = 40;
-		    var positionY = 45;
-
-		    document.addEventListener("keydown",keyDownHandler);
-		    document.addEventListener("keyup",keyUpHandler);
-
-		    var currentColor = "red";
-		    var inter;
-
-		    function update()
-		    {
-		        ctx2d.clearRect(0,0,canvasSize,canvasSize);
-		        ctx2d.fillStyle =  "rgb(255,255,255)";
-		        ctx2d.fillRect(0,0,canvasSize,canvasSize);
-
-		        Stand.forEach(stand => {
-		            renderStand(stand);
-		            
-		        }); 
-		        renderVisiteur();
-		    }
-
-		function renderVisiteur() {
-		    ctx2d.fillStyle = "black";
-		    ctx2d.fillRect(visiteur.x-1,visiteur.y-1,visiteur.w+2,visiteur.h+2);
-		    ctx2d.fillStyle = currentColor;
-		    ctx2d.fillRect(visiteur.x,visiteur.y,visiteur.w,visiteur.h);
-		}
-
-
-		function keyDownHandler(event) {
-		//Pression sur une touche
-		//event.preventDefault();
-		    keysPressed[event.code] = true;
-		    if (inter) {
-		                
-		    } else {
-		        inter = setInterval(manage,1);
-		    }
-		}
-
-		function keyUpHandler(event) {
-		//Touche relachée
-		    keysPressed[event.code] = false;
-		}
-
-		function manage() {
-		//Gestion des touches pour déplacer les blocks
-		    if (keysPressed["ArrowDown"]) {
-		        moveTop(speed);
-		    }
-		    if (keysPressed["ArrowUp"]) {
-		        moveTop(-speed);
-		    }
-		    if (keysPressed["ArrowLeft"]) {
-		        moveLeft(-speed);
-		    }
-		    if (keysPressed["ArrowRight"]) {
-		        moveLeft(speed);
-		    }
-		    Stand.forEach(stand => {
-		        collisionStand(stand);
-		    });
-		}
-
-		function moveTop(speed) {
-		    if (visiteur.y+speed > 0 && visiteur.y+visiteur.h+speed < canvasSize) {
-		        visiteur.y += speed;
-		    }
-		}
-
-		function moveLeft(speed) {
-		    if (visiteur.x+speed > 0 && visiteur.x+visiteur.w+speed < canvasSize) {
-		        visiteur.x += speed;
-		    }
-		}
-
-		function renderStand(stand) {
-		    ctx2d.fillStyle = stand.Background;
-		    ctx2d.fillRect((stand.X-1)*standCoordGridX,(stand.Y-1)*standCoordGridY,standWidth,standHeight);
-		}
-
-		function collisionStand(stand) {
-		    if (Clicker == false) {
-		        if((visiteur.x+visiteur.w >= (stand.X-1)*standCoordGridX) && (visiteur.x <= (stand.X-1)*standCoordGridX+standWidth) && (visiteur.y+visiteur.h >= (stand.Y-1)*standCoordGridY) && (visiteur.y <= (stand.Y-1)*standCoordGridY+standHeight)) {
-		            if (stand.cree && !stand.InfoActive) {
-		                stand.InfoActive == true;
-		                Information(stand);
-		            }
-		        } else {
-		            if (stand.InfoActive) {
-		                fermerfenetre(stand);
-		            }
-		        }
-		    }
-		}
-
+		  <?php foreach ($emplacements as $emplacement): ?>
+				  
+			  <?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]) ?>
+					  Stand.push({
+						  Id:'<?php echo $stand->getId()?>',
+						  nom:'<?php echo $stand->getLibelle()?>',
+						  categorie:'<?php echo $stand->getCategorie() ?>',
+						  Resume:'<?php echo $stand->getInformation() ?>',
+						  InfoActive:false,
+						  Background:"<?php echo $emplacement['Couleur_Element'] ?>",
+						  organisateur:"Organisateur",
+						  nbPersonne:0,
+						  X:<?php echo $emplacement['Position_X_Emplacement'] ?>,
+						  Y:<?php echo $emplacement['Position_Y_Emplacement'] ?>,
+					  
+						  cree:<?php echo !empty($stand->getPositionX())? "true" : "false"; ?>
+				  });
+			  <?php endforeach ?>
+			  
+			  const SCALE = 1;
+			  const WIDTH = 32;
+			  const HEIGHT = 48;
+			  const SCALED_WIDTH = SCALE * WIDTH;
+			  const SCALED_HEIGHT = SCALE * HEIGHT;
+			  const CYCLE_LOOP = [0, 1, 0, 2];
+			  const FACING_DOWN = 1;
+			  const FACING_UP = 1;
+			  const FACING_LEFT = 0;
+			  const FACING_RIGHT = 1;
+			  const FRAME_LIMIT = 12;
+			  const MOVEMENT_SPEED = 1;
+			  const COLLISION_OFFSET = 10
+  
+			  var keyPresses = {};
+			  var currentDirection = FACING_DOWN;
+			  var currentLoopIndex = 0;
+			  var frameCount = 0;
+			  var img = new Image();
+  
+  
+			  var canvas = document.getElementById("salon");
+			  var Clicker = false;
+  
+			  var ctx2d = canvas.getContext("2d");
+			  var player = document.getElementById("player");
+  
+			  var size = 4;
+  
+			  var standWidth = canvas.width/size;
+			  var standHeight = canvas.height/size;
+  
+			  var standCoordGridX = canvas.width/(size/1.5);
+			  var standCoordGridY = canvas.height/(size/1.5);
+  
+			  var visiteur = {x:140,y:140,w:WIDTH,h:HEIGHT};
+  
+			  var currentColor = "red";
+			  var inter;
+  
+		  function renderStand(stand) {
+			  ctx2d.fillStyle = stand.Background;
+			  ctx2d.fillRect((stand.X-1)*standCoordGridX,(stand.Y-1)*standCoordGridY,standWidth,standHeight);
+  
+			  ctx2d.font = '12px serif';
+			  ctx2d.fillStyle = "white";
+			  ctx2d.fillText(stand.nom, (stand.X-1)*standCoordGridX+5, (stand.Y-1)*standCoordGridY+15,100);
+		  }
+  
+		  function collisionStand(stand) {
+			  if (Clicker == false) {
+				  if((visiteur.x+visiteur.w-COLLISION_OFFSET >= (stand.X-1)*standCoordGridX) && (visiteur.x+COLLISION_OFFSET <= (stand.X-1)*standCoordGridX+standWidth) && (visiteur.y+visiteur.h-COLLISION_OFFSET >= (stand.Y-1)*standCoordGridY) && (visiteur.y+COLLISION_OFFSET <= (stand.Y-1)*standCoordGridY+standHeight)) {
+					  if (stand.cree && !stand.InfoActive) {
+						  stand.InfoActive == true;
+						  Information(stand);
+					  }
+				  } else {
+					  if (stand.InfoActive) {
+						  fermerfenetre(stand);
+					  }
+				  }
+			  }
+		  }
+  
+		  window.addEventListener('keydown', keyDownListener);
+			  function keyDownListener(event) {
+				  keyPresses[event.key] = true;
+			  }
+  
+			  window.addEventListener('keyup', keyUpListener);
+			  function keyUpListener(event) {
+				  keyPresses[event.key] = false;
+			  }
+  
+			  function loadImage() {
+				  img.src = '../Contenus/images/AVATAR/Man.png';
+				  img.onload = function() {
+					  window.requestAnimationFrame(gameLoop);
+				  };
+			  }
+  
+			  function drawFrame(frameX, frameY, canvasX, canvasY) {
+				  ctx2d.drawImage(img,
+								  frameX * WIDTH, frameY * HEIGHT, WIDTH, HEIGHT,
+								  canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
+			  }
+  
+			  loadImage();
+  
+			  function gameLoop() {
+				  ctx2d.clearRect(0, 0, canvas.width, canvas.height);
+				  ctx2d.fillStyle =  "rgb(255,255,255)";
+				  ctx2d.fillRect(0,0,canvas.width,canvas.height);
+  
+				  Stand.forEach(stand => {
+					  renderStand(stand);
+					  
+				  }); 
+  
+				  var hasMoved = false;
+  
+				  if (keyPresses.z || keyPresses.ArrowUp) {
+					  moveCharacter(0, -MOVEMENT_SPEED, FACING_UP);
+					  hasMoved = true;
+				  } else if (keyPresses.s || keyPresses.ArrowDown) {
+					  moveCharacter(0, MOVEMENT_SPEED, FACING_DOWN);
+					  hasMoved = true;
+				  }
+  
+				  if (keyPresses.q || keyPresses.ArrowLeft) {
+					  moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT);
+					  hasMoved = true;
+				  } else if (keyPresses.d || keyPresses.ArrowRight) {
+					  moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT);
+					  hasMoved = true;
+				  }
+  
+				  if (hasMoved) {
+					  frameCount++;
+					  if (frameCount >= FRAME_LIMIT) {
+						  frameCount = 0;
+						  currentLoopIndex++;
+						  if (currentLoopIndex >= CYCLE_LOOP.length) {
+							  currentLoopIndex = 0;
+						  }
+					  }
+					  Stand.forEach(stand => {
+						  collisionStand(stand);
+					  })
+				  }
+				  
+				  if (!hasMoved) {
+					  currentLoopIndex = 0;
+				  }
+  
+				  drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, visiteur.x, visiteur.y);
+  
+				  window.requestAnimationFrame(gameLoop);
+			  }
+  
+			  function moveCharacter(deltaX, deltaY, direction) {
+				  if (visiteur.x + deltaX > 0 && visiteur.x + SCALED_WIDTH + deltaX < canvas.width) {
+					  visiteur.x += deltaX;
+				  }
+				  if (visiteur.y + deltaY > 0 && visiteur.y + SCALED_HEIGHT + deltaY < canvas.height) {
+					  visiteur.y += deltaY;
+				  }
+				  currentDirection = direction;
+			  }
+			  
 		function Information (stand)
 		{
 		    var info = document.createElement("div");
