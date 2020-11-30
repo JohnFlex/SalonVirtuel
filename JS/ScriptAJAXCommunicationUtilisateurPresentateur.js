@@ -41,8 +41,8 @@ function chargeReunion()
                         //Ici on peut récupérer les informations reçues.
                         console.log("ID Presentateur : "+Reponse.ID_Avatar_Presentateur);
                         console.log("ID Stand : "+Reponse.ID_Stand);
-                        console.log("Reunion.php?stand="+Reponse.ID_Stand+"&ID_Pres="+Reponse.ID_Avatar_Presentateur+"&ID_User="+utilisateurId);
-                        window.location.href =("COMM/Reunion.php?stand="+Reponse.ID_Stand+"&ID_Pres=25"+/*Reponse.ID_Avatar_Presentateur+*/"&ID_User="+utilisateurId);
+                        console.log("Reunion.php?stand="+Reponse.ID_Stand+/*"&ID_Pres="+Reponse.ID_Avatar_Presentateur+*/"&ID_User="+utilisateurId);
+                        window.location.href =("COMM/Reunion.php?stand="+Reponse.ID_Stand/*+"&ID_Pres=25"*/+/*Reponse.ID_Avatar_Presentateur+*/"&ID_User="+utilisateurId);
                     }
                 }
                 else

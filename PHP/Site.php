@@ -18,6 +18,8 @@
 
     session_start();
     $dom = new DOMDocument('1.0', 'iso-8859-1');
+    echo '<input type="hidden" id="id" value="'.$_SESSION['user_id'].'">';
+    echo '<input type="hidden" id="name" value="'.$_SESSION['user_name'].'">';
 ?>
 <!DOCTYPE html>
 <html>
@@ -234,7 +236,7 @@
 		    var filAttend = document.createElement("button"); //bouton pour rentrer dans la file d'attente
 		    filAttend.id = "Attend";
 		    filAttend.innerHTML = "Entrée dans la file d'attente";
-		    filAttend.addEventListener("click",FileAttente);
+		    filAttend.addEventListener("click",function(){FileAttente(stand.nom)});
 		    document.getElementById("Info").appendChild(filAttend);
 
 		    /*
@@ -247,8 +249,11 @@
 		    stand.InfoActive = true;
 		}
 
-		function FileAttente ()
+		function FileAttente (stand)
 		{
+			//rentrerEnFile(,);
+			console.log(stand);	
+			rentrerEnFile(stand,document.getElementById('name').value);
 		    console.log("Hola je suis dans la file");
 
 		    var fil = document.createElement("div");

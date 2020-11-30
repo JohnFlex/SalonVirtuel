@@ -3,6 +3,9 @@
 	require_once("Objets/managerUtilisateur.php");
 	require_once("Objets/managerPresentateur.php");
 	require_once("Objets/managerAdministrateur.php");
+	
+	if (session_status()!=PHP_SESSION_NONE)
+		session_destroy();
 
 	function Recup_ID_Utilisateur($nomUtilisateur)
 	{
