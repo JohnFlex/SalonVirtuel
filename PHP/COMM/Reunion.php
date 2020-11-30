@@ -21,11 +21,11 @@ if ($_GET['role'] == 1) {
 		echo "<script>console.log('Error updating record: ". $connection->error."')</script>";
 	}
 
-	$query_API = 'SELECT API_Visible_Key, API_Hidden_Key, Numero_Reunion, Nom_Avatar AS nom FROM DB_SALON_Presentateur WHERE ID_Avatar = "'. $_GET['ID_Pres'].'";';
+	$query_API = 'SELECT API_Visible_Key, API_Hidden_Key, Numero_Reunion, MDP, Nom_Avatar AS nom FROM DB_SALON_Presentateur WHERE ID_Avatar = "'. $_GET['ID_Pres'].'";';
 }
 else{
 
-	$query_API = 'SELECT API_Visible_Key, API_Hidden_Key, Numero_Reunion, DB_SALON_Utilisateur.Nom_Avatar AS nom FROM DB_SALON_Presentateur, DB_SALON_Reunions, DB_SALON_Utilisateur WHERE DB_SALON_Utilisateur.ID_Avatar = DB_SALON_Reunions.ID_Avatar AND DB_SALON_Presentateur.ID_Avatar = DB_SALON_Reunions.ID_Avatar_Presentateur AND DB_SALON_Reunions.ID_Avatar = "'. $_GET['ID_User'].'";';
+	$query_API = 'SELECT API_Visible_Key, API_Hidden_Key, Numero_Reunion, MDP, DB_SALON_Utilisateur.Nom_Avatar AS nom FROM DB_SALON_Presentateur, DB_SALON_Reunions, DB_SALON_Utilisateur WHERE DB_SALON_Utilisateur.ID_Avatar = DB_SALON_Reunions.ID_Avatar AND DB_SALON_Presentateur.ID_Avatar = DB_SALON_Reunions.ID_Avatar_Presentateur AND DB_SALON_Reunions.ID_Avatar = "'. $_GET['ID_User'].'";';
 	
 	$Grole = 0;
 }
@@ -50,6 +50,7 @@ $connection=connect_bd();
 			$Gapi_secret = $rows['API_Hidden_Key'];
 			$Gmeeting_number = $rows['Numero_Reunion'];
 			$UserName = $rows['nom'];
+			$mdpReunion = $rows['MDP'];
     	}
 
     }
@@ -119,7 +120,7 @@ function generate_signature ( $api_key, $api_secret, $meeting_number, $role){
     			meetingNumber: '<?php echo $Gmeeting_number;?>',
     			userName: '<?php echo $UserName;?>',
     			userEmail: '',
-    			passWord: '1819',
+    			passWord: '<?php echo $mdpReunion;?>',
     			apiKey: '<?php echo $Gapi_key;?>',
     			signature: '<?php echo $signatureFinal;?>',
     			success: function(res){console.log(res)},
