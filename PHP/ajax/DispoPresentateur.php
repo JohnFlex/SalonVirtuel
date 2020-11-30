@@ -10,7 +10,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
         $db = ConnexionBDD();
 
         $ID_Activite=2;
-        if($_GET['Disponible']!="True")
+        if($_GET['Disponible']=="True")
         {
             $ID_Activite=3;
         }

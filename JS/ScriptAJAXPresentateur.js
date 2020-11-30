@@ -28,7 +28,7 @@ window.onload = () =>{
     let spanDisponible = document.createElement("span");
     spanDisponible.setAttribute("name","spandispo");
     spanDisponible.setAttribute("id","spandispo");
-    spanDisponible.innerHTML("Indisponible");
+    spanDisponible.innerHTML="Indisponible";
 
     divDisponible.appendChild(labelDisponible);
     divDisponible.appendChild(spanDisponible);
@@ -36,8 +36,8 @@ window.onload = () =>{
     let divBoutonDisponible = document.createElement("div");
     let BoutonDisponible = document.createElement("button");
     BoutonDisponible.setAttribute("id","BoutonDisponible");
-    BoutonDisponible.setAttribute("onClick","changeDispo");
-    BoutonDisponible.innerHTML("Devenir Disponible");
+    BoutonDisponible.setAttribute("onclick","changeDispo();");
+    BoutonDisponible.innerHTML="Devenir Disponible";
     divBoutonDisponible.appendChild(BoutonDisponible);
     divDisponible.appendChild(divBoutonDisponible);
 
@@ -51,23 +51,29 @@ window.onload = () =>{
     let spanFile = document.createElement("span");
     spanFile.setAttribute("name","spanfile");
     spanFile.setAttribute("id","spanfile");
-    spanFile.innerHTML("0");
+    spanFile.innerHTML="0";
 
     divFile.appendChild(labelFile);
     divFile.appendChild(spanFile);
 
-    boutonReunion = document.createElement("button");
+    boutonReunion = document.createElement("a");
     boutonReunion.setAttribute("id","boutonreunion");
-    boutonreunion.innerHTML("Lancer la Réunion");
+    boutonReunion.setAttribute("href","COMM/Show_Queue.php");
+    boutonReunion.innerHTML="Lancer la Réunion";
     boutonReunion.disabled=true;
 
     monConteneur.appendChild(divDisponible);
-    monConteneur.appendChild(boutonDisponible);
-    monConteneur.appendChild(divfile);
+    monConteneur.appendChild(BoutonDisponible);
+    monConteneur.appendChild(divFile);
     monConteneur.appendChild(boutonReunion);
     DIVcontainer.appendChild(monConteneur);
 
     setInterval(nbUtilisateurFile, 1000);
+}
+
+function LancerLaReunion()
+{
+    document.location.href="https://2orm.com/SALON/PHP/COMM/Show_Queue.php"
 }
 
 
@@ -90,7 +96,7 @@ function nbUtilisateurFile()
 
                 for(let Reponse of Reponses)
                 {
-                    document.getElementById('spanfile')=Reponse.nbUtilisateur;
+                    document.getElementById('spanfile').innerHTML=Reponse.nbUtilisateur;
                     if (Reponse.nbUtilisateur>0)
                     {
                         document.getElementById('boutonreunion').disabled=false;
@@ -133,16 +139,16 @@ function changeDispo()
 
                 for(let Reponse of Reponses)
                 {
-                    console.log(Reponse.ID_Activite);
-                    if (Id_Activite==2)
+                    //console.log(Reponse.ID_Activite);
+                    if (Reponse.ID_Activite==2)
                     {
-                        document.getElementById("spandispo").innerHTML("Disponible");
-                        document.getElementById("BoutonDisponible").innerHTML("Devenir Indisponible");
+                        document.getElementById("spandispo").innerHTML="Disponible";
+                        document.getElementById("BoutonDisponible").innerHTML="Devenir Indisponible";
                     }
                     else
                     {
-                        document.getElementById("spandispo").innerHTML("Indisponible");
-                        document.getElementById("BoutonDisponible").innerHTML("Devenir Disponible");
+                        document.getElementById("spandispo").innerHTML="Indisponible";
+                        document.getElementById("BoutonDisponible").innerHTML="Devenir Disponible";
                     }
                 }
             }
@@ -153,6 +159,7 @@ function changeDispo()
         }
     }
 
+    //console.log(document.getElementById("spandispo").innerHTML=="Disponible");
     // On ouvre la requête
     if (document.getElementById("spandispo").innerHTML=="Disponible")
     {

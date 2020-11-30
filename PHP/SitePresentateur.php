@@ -5,7 +5,7 @@
     $conn = connect_bd();
 
     session_start();
-    if isset($_SESSION["user_id"])
+    if (isset($_SESSION["user_id"]))
     {
         echo '<input type="hidden" id="id" value="'.$_SESSION["user_id"].'"/>';
     }
@@ -61,7 +61,7 @@
 
                     $_SESSION['stand_id']=$X;
 
-                    <echo '<script type="text/javascript" src="../JS/ScriptAJAXPresentateur.js"></script>';
+                    echo '<script type="text/javascript" src="../JS/ScriptAJAXPresentateur.js"></script>';
                 }
 
                 /*var_dump($_SESSION['user_name']);
