@@ -5,6 +5,10 @@
     $conn = connect_bd();
 
     session_start();
+    if isset($_SESSION["user_id"])
+    {
+        echo '<input type="hidden" id="id" value="'.$_SESSION["user_id"].'"/>';
+    }
 
     $dom = new DOMDocument('1.0', 'iso-8859-1');
 ?>
@@ -17,43 +21,30 @@
     </head>
     <body>
         <header>
-        <div class="navbar">
-            <h1>Titre du site</h1>
-            <h2 class="titre3">Site présentateur</h2>
-            <div class="cssAdmin">
-                <a href="Accueil.php">Deconnexion</a>
-                <?php
-                    $mP = new managerPresentateur($conn);
+            <div class="navbar">
+                <h1>Titre du site</h1>
+                <h2 class="titre3">Site présentateur</h2>
+                <div class="cssAdmin">
+                    <a href="Accueil.php">Deconnexion</a>
+                    <?php
+                        if(isset($_SESSION['user_name']))
+                        {
+                            $link = $dom->createElement('a');
 
-                    $X = $mP->issetStand($_SESSION['user_name']);
+                            $noeudTexteLink = $dom->createTextNode("Compte : ".$_SESSION['user_name']);
 
-                    if($X < 1)
-                    {
-                        echo"<a href='creerStand.php'>Création d'un Stand</a>";
-                    }
-                    else{
-                        echo"<a href='modifierStand.php'>Gestion d'un Stand</a>";
-                    }
+                            $link->appendChild($noeudTexteLink);
 
-                    if(isset($_SESSION['user_name']))
-                    {
-                        $link = $dom->createElement('a');
+                            $dom->appendChild($link);
 
-                        $noeudTexteLink = $dom->createTextNode("Compte : ".$_SESSION['user_name']);
+                            echo $dom->saveHTML();
 
-                        $link->appendChild($noeudTexteLink);
-
-                        $dom->appendChild($link);
-
-                        echo $dom->saveHTML();
-
-                        $dom->removeChild($link);
-                    }
-                ?>
+                            $dom->removeChild($link);
+                        }
+                    ?>
+                </div>
             </div>
-        </div>
-    </header>
-        
+        </header>
         <div id="container" class="container">
             <?php
                 $mP = new managerPresentateur($conn);
@@ -64,15 +55,17 @@
                 {
                     echo"<a href='creerStand.php'><img src='../Contenus/images/STANDS/Stand02_RotateA.png' alt='Image de Stand'>Création d'un Stand</a>";
                 }
-                else{
+                else
+                {
                     echo"<a href='modifierStand.php'><img src='../Contenus/images/STANDS/Stand02_RotateA.png' alt='Image de Stand'>Gestion d'un Stand</a>";
 
                     $_SESSION['stand_id']=$X;
-                    echo '<div><a href="COMM/Show_Queue.php">Menu de réunion</a></div>';
+
+                    <echo '<script type="text/javascript" src="../JS/ScriptAJAXPresentateur.js"></script>';
                 }
 
-                var_dump($_SESSION['user_name']);
-                var_dump($_SESSION["stand_id"]);
+                /*var_dump($_SESSION['user_name']);
+                var_dump($_SESSION["stand_id"]);*/
             ?>
         </div>
     <footer>
