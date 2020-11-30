@@ -33,3 +33,18 @@ ALTER TABLE DB_SALON_Reunions ADD Numero_Reunion varchar(25) Unique;
 ALTER TABLE DB_SALON_Presentateur ADD API_Visible_Key varchar(30);
 ALTER TABLE DB_SALON_Presentateur ADD API_Hidden_Key varchar(50);
 ALTER TABLE DB_SALON_Presentateur ADD Numero_Reunion varchar(100);
+
+
+DROP TABLE IF EXISTS DB_SALON_Composer;
+ALTER TABLE DB_SALON_Avatar ADD ID_Element_Avatar int;
+ALTER TABLE DB_SALON_Avatar
+ADD CONSTRAINT ID_Element_Avatar FOREIGN KEY (ID_Element_Avatar) REFERENCES DB_SALON_Element_Avatar(ID_Element_Avatar);
+
+INSERT INTO DB_SALON_Element_Avatar(Lien_Avatar)
+VALUES
+	("Contenus/images/AVATAR/Man.png"),
+	("Contenus/images/AVATAR/Man2.png"),
+	("Contenus/images/AVATAR/Man3.png"),
+	("Contenus/images/AVATAR/Woman.png"),
+	("Contenus/images/AVATAR/Woman2.png"),
+	("Contenus/images/AVATAR/Woman3.png");

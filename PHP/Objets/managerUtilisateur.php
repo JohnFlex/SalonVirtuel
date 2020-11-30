@@ -44,7 +44,7 @@ class managerUtilisateur
 	//ENTREE : Un objet utilisateur
 	//SORTIE : /
 	{
-		$req = "INSERT INTO DB_SALON_Avatar() VALUES(); INSERT INTO DB_SALON_Utilisateur(ID_Avatar, Nom_Avatar, MDP_Utilisateur) VALUES ((Select MAX(ID_Avatar) FROM DB_SALON_Avatar), :NOM, :MDP)";
+		$req = "INSERT INTO DB_SALON_Avatar(ID_Element_Avatar) VALUES(1); INSERT INTO DB_SALON_Utilisateur(ID_Avatar, Nom_Avatar, MDP_Utilisateur) VALUES ((Select MAX(ID_Avatar) FROM DB_SALON_Avatar), :NOM, :MDP)";
 
 		//Envoie de la requête à la base
 		try
@@ -280,6 +280,27 @@ class managerUtilisateur
 			$U->hydrate($tab);
 
 			return $U;
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
+
+	public function changeSkin($name, $num)
+	{
+		$req = "UPDATE DB_SALON_Avatar SET ID_Element_Avatar = :NUM WHERE ID_Avatar = (SELECT ID_Avatar FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM)";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":NUM", $num, PDO::PARAM_INT);
+			$stmt->bindValue(":NOM", $name, PDO::PARAM_STR);
+
+			$stmt->execute();
 		}
 		catch(PDOException $error)
 		{

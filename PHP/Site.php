@@ -46,6 +46,8 @@
 
 		            	$link->appendChild($noeudTexteLink);
 
+		            	$link->setAttribute("href", "compteUtilisateur.php");
+
 		            	$dom->appendChild($link);
 
 		            	echo $dom->saveHTML();
