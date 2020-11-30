@@ -4,7 +4,7 @@ define('SERVER','ormcomcplh778.mysql.db');
 define('USER','ormcomcplh778');
 define('PASSWD','R8frzgZzN5S8');
 
-/*define('BASE','testdb');
+/*define('BASE','db_salon');
 define('SERVER','localhost');
 define('USER','root');
 define('PASSWD','');*/

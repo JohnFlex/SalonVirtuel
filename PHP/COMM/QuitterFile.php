@@ -27,7 +27,7 @@ if($_SESSION['user_type'] == "Presentateur")
     $reponse->closeCursor();
 
     //changer vers la file d'attente quand elle existera
-    header("Location:../Site.php");
+    header("Location:../SitePresentateur.php");
     
 }
 else

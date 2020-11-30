@@ -121,6 +121,7 @@
             <div>
             	<a href="Accueil.php">Retour accueil</a>
                 <a href="Inscription.php">Inscription</a>
+                <a href="GuestConnect.php">Connexion direct</a>
             </div>
         </div>
 
