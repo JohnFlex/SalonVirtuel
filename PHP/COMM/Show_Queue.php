@@ -1,20 +1,29 @@
 <?php
 
-include 'ConnexionBD.php';
+require 'ConnexionBD.php';
 session_start();
+Rendre_Le_Presentateur_Disponible(2);
+//echo Recuperer_Le_Nombre_Total_De_Personnes_Qui_Attendent_Dans_La_File_D_Attente_Pour_Un_Stand($_SESSION["stand_id"]);
+Demarrer_La_Reunion();
 
-$_SESSION["stand_id"] = 11;
+//$_SESSION["stand_id"] = 11;
 
 //Rend le présentateur actuel disponible dans la base de données
 //ENTREE : N/A
 //SORTIE : Le présentateur qui est actuellement connecté est rendu disponible dans la base de données
-function Rendre_Le_Presentateur_Disponible()
+function Rendre_Le_Presentateur_Disponible($disponible = 2)
 {
-    $query_setPresDispo = 'UPDATE DB_SALON_Presentateur SET ID_Activite = 2 WHERE Nom_Avatar LIKE "%'.$_SESSION['user_name'].'%" ; ';
-    if ($connection->query($query_setPresDispo) === TRUE) {
+    $connection=Connexion();
+    $query_setPresDispo = 'UPDATE DB_SALON_Presentateur SET ID_Activite = '.$disponible.' WHERE Nom_Avatar = "'.$_SESSION["user_name"].'"';
+    //var_dump($connection->query($query_setPresDispo));
+    if ($connection->query($query_setPresDispo))
+    {
         echo "You are now available. Users can join queue !";
     }
-    else echo "Error updating record: " . $connection->error;
+    else
+    {
+        echo "Error updating record: ";// . $connection->error;
+    }
     
 }
 
@@ -26,9 +35,17 @@ function Demarrer_La_Reunion()
 
     Verifier_Si_Les_Cles_De_L_API_Sont_Rentrees();
 
-    $urlReunion = "Reunion.php?role=1&stand=".$_SESSION["stand_id"]."&ID_Pres=".Recuperer_ID_Presentateur_Actuellement_Connecte()."&ID_User=".Recuperer_Le_Premier_Utilisateur_De_La_File_Pour_Un_Stand($_SESSION["stand_id"]);
+    if(Recuperer_Le_Nombre_Total_De_Personnes_Qui_Attendent_Dans_La_File_D_Attente_Pour_Un_Stand($_SESSION["stand_id"])>0)
+    {
+        $urlReunion = "Reunion.php?role=1&stand=".$_SESSION["stand_id"]."&ID_Pres=".Recuperer_ID_Presentateur_Actuellement_Connecte()."&ID_User=".Recuperer_Le_Premier_Utilisateur_De_La_File_Pour_Un_Stand($_SESSION["stand_id"]);
 
-    header("Location : ".$urlReunion);
+        header("Location : ".$urlReunion);
+    }
+    else
+    {
+        sleep(1);
+        Demarrer_La_Reunion();
+    }
 }
 
 //Recupère l'ID du premier utilisateur pour un stand donné
@@ -36,6 +53,7 @@ function Demarrer_La_Reunion()
 //SORTIE : ID de l'avatar du premier utilisateur du stand
 function Recuperer_Le_Premier_Utilisateur_De_La_File_Pour_Un_Stand($numeroStand)
 {
+    $connection=Connexion();
     $querry = "SELECT ID_Avatar, MIN(Heure_Arrivee), ID_Avatar_Presentateur FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$numeroStand.";";
     if($result = mysqli_query($connection,$querry)) {
         while($rows = mysqli_fetch_assoc($result)){
@@ -52,6 +70,8 @@ function Recuperer_Le_Premier_Utilisateur_De_La_File_Pour_Un_Stand($numeroStand)
 //SORTIE : Le nombre d'utilisateurs dans la file bla bla
 function Recuperer_Le_Nombre_Total_De_Personnes_Qui_Attendent_Dans_La_File_D_Attente_Pour_Un_Stand($numeroStand)
 {
+    $connection=Connexion();
+
     $querry_file_length = "SELECT COUNT(DB_SALON_Reunions.ID_Avatar) AS total FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$numeroStand.";";
 
     if($result = mysqli_query($connection,$querry_file_length)) {
@@ -66,6 +86,7 @@ function Recuperer_Le_Nombre_Total_De_Personnes_Qui_Attendent_Dans_La_File_D_Att
 
 function Recuperer_ID_Presentateur_Actuellement_Connecte()
 {
+    $connection=Connexion();
     $queryMyID = 'SELECT * FROM DB_SALON_Presentateur WHERE DB_SALON_Presentateur.Nom_Avatar LIKE "'. $_SESSION['user_name'].'";';
     if($result = mysqli_query($connection,$queryMyID)) {
         
@@ -82,6 +103,8 @@ function Recuperer_ID_Presentateur_Actuellement_Connecte()
 
 //Arrête la possibilité de réunion si les clés API ne sont pas renseignées
 function Verifier_Si_Les_Cles_De_L_API_Sont_Rentrees(){
+    $connection=Connexion();
+  
     $queryAPIInfos = 'SELECT * FROM DB_SALON_Presentateur WHERE ID_Avatar = '.Recuperer_ID_Presentateur_Actuellement_Connecte().';';
     if($result = mysqli_query($connection,$queryAPIInfos)) {
         while($rows = mysqli_fetch_assoc($result)){

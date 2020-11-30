@@ -35,13 +35,10 @@ form
 {
     width: 300px;
     padding: 40px;
-/*
     position: absolute;
     top: 50%;
     left: 50%;
-*/
-/*    transform: translate(-50%,-50%);*/
-    
+    transform: translate(-50%,-50%);
     background-color: #2f3640;
     text-align: center;
 }
@@ -84,6 +81,8 @@ form
     left: 50%;
     transform: translate(-50%,-50%);
 }
+
+
 
 form input[type ="text"], form input[type = "password"], form input[type = "number"], form input[type = "email"], form input[type ="tel"]{
     border:0;
@@ -147,7 +146,6 @@ form input[type = "submit"]:hover
 {
     text-align: center;
 }
-
 .desc
 {
     position: relative;  /* les .infobulle deviennent référents */
@@ -196,6 +194,8 @@ div.navbar
 }
 
 .navbar a:not(.TitreSite)
+
+.navbar a
 {
     float: right;
     color: white;
@@ -221,6 +221,8 @@ div.navbar
 
 
 .navbar a:hover:not(.TitreSite)
+
+.navbar a:hover
 {
     background-color: #00a8ff;
 }
@@ -247,7 +249,6 @@ div.navbar
     
     margin-left: 17em;
 }
-
 
 label
 {
@@ -300,4 +301,3 @@ footer
 {
    width: 100%;
 }
-

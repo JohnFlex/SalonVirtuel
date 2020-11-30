@@ -1,30 +1,35 @@
 <?php 
 
-session_start();
 
-include 'ConnexionBD.php';
+//require_once ('ConnexionBD.php');
 
-Rejoindre_File_D_Attente(11);
+require_once("../ConnexionALaBDD.php");
+
+//Rejoindre_File_D_Attente(11);
 
 //Permet de rejoindre une file d'attente
 //ENTREE : Numéro du stand à rejoindre par l'utilisateur qui est connecté en ce moment
 //SORTIE : Entrée dans la table "Réunions"
-function Rejoindre_File_D_Attente($numeroStandARejoindre)
+function Rejoindre_File_D_Attente($nomStandARejoindre,$nomUtilisateur)
 {
-    $temps_arrive = date("His");
+	$connexion = ConnexionBDD();
 
-    if(Verifier_Si_Utilisateur_Est_Deja_En_File_D_Attente(Recup_ID_Utilisateur_En_Cours(),$numeroStandARejoindre)){
-        exit();
-    }
+    $requete = "DELETE FROM DB_SALON_Reunions WHERE ID_Avatar=(SELECT ID_Avatar FROM DB_SALON_Utilisateur WHERE Nom_Avatar='".$nomUtilisateur."')";
 
-    $requete = "INSERT INTO DB_SALON_Reunions(ID_Avatar, ID_Stand, Heure_Arrivee) VALUES (".Recup_ID_Utilisateur_En_Cours()."," .$numeroStandARejoindre.",".$temps_arrive.");";
-   
-    //Check la connection a la file
-    if(mysqli_query( $connection, $requete))
-    {
-        echo "Vous etes ajouté a la file d'attente";    
-    }
-    else echo "Erreur d'ajout à la file d'attente";
+    try
+   	{
+   		$stmt = $connexion->prepare($requete);
+   		$stmt->execute();
+	}
+   	catch(Exception $e)
+   	{
+   		//return $e->getMessage();
+   	}
+
+    $requete = "INSERT INTO DB_SALON_Reunions(ID_Avatar, ID_Stand, Heure_Arrivee) VALUES ((SELECT ID_Avatar FROM DB_SALON_Utilisateur WHERE Nom_Avatar='".$nomUtilisateur."'),(SELECT ID_Stand FROM DB_SALON_Stand WHERE Libelle_Stand = '".$nomStandARejoindre."'),NOW());";
+
+	$stmt = $connexion->prepare($requete);
+	$stmt->execute();
 }
 
 //Permet de quitter une réunion
@@ -82,9 +87,9 @@ function Verifier_Si_Utilisateur_Est_Deja_En_File_D_Attente($id_stand_actuel)
 //Récupère l'ID de l'utilisateur en récupérant la variable $_SESSION['user_name'] (l'utilisateur connecté en cours)
 //ENTREE : N/A
 //SORTIE : L'ID de l'utilisateur de la session
-function Recup_ID_Utilisateur_En_Cours()
+function Recup_ID_Utilisateur_En_Cours($nomUtilisateur)//= $_SESSION['user_name'])
 {
-    $querry = "SELECT * FROM DB_SALON_Utilisateur WHERE DB_SALON_Utilisateur.Nom_Avatar LIKE '". $_SESSION['user_name']."' ; ";
+    $querry = "SELECT ID_Avatar FROM DB_SALON_Utilisateur WHERE DB_SALON_Utilisateur.Nom_Avatar LIKE '". $nomUtilisateur."' ; ";
     
     if($querry_run = mysqli_query($connection, $querry))
     {

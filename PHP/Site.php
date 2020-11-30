@@ -26,6 +26,7 @@
     	<link href="../CSS/style_salon.css" rel="stylesheet">
         <title>Ici c'est le site</title>
         <meta charset="utf-8">
+        <script type="text/javascript" src="../JS/ScriptAJAXCommunicationUtilisateurPresentateur.js"></script>
     </head>
     <body>
     <header>
@@ -325,6 +326,7 @@
 		        Clicker = false;
 		    }
 	</script>
+
     <footer>
     </footer>
     </body>

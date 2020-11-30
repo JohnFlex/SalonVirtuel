@@ -17,6 +17,7 @@
                 <a href="Connection.php">Connexion</a>
             </div>
         </div>
+    
         <div class="Connexion">
             <form method="POST" action="finInscription.php">
                 <label for="nom">Pseudo : </label><input type="text"  id="pseudo" name="nom" placeholder="Pseudo" oninput="verifNom(v1);v1=verifNom(v1);verifAllTrue(v1,v2,v3);" onchange="" required><span class="desc">ne pas utiliser de caracter spécial</span><br>
@@ -25,6 +26,7 @@
                 <input type="submit" name="sub" id="sup" value="s'inscrire" disabled="true">
             </form>
         </div>
+
 		<script type="text/javascript">
 			
 			let v1 = false;

@@ -66,11 +66,16 @@
                 }
                 else{
                     echo"<a href='modifierStand.php'><img src='../Contenus/images/STANDS/Stand02_RotateA.png' alt='Image de Stand'>Gestion d'un Stand</a>";
+
+                    $_SESSION['stand_id']=$X;
+                    echo '<div><a href="COMM/Show_Queue.php">Menu de réunion</a></div>';
                 }
+
+                var_dump($_SESSION['user_name']);
+                var_dump($_SESSION["stand_id"]);
             ?>
         </div>
     <footer>
-		
     </footer>
     </body>
 </html>

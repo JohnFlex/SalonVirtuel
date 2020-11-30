@@ -1,4 +1,9 @@
 <?php
+	/*define("SERVERNAME", "localhost"); //Nom du serveur.
+	define("USERNAME", "root"); //Nom d'utilisateur.
+	define("PASSWORD", ""); //Mot de Passe.
+	define("DBNAME", "DB_SALON"); //Nom de la Base de Donnée.*/
+
 	define("SERVERNAME", "ormcomcplh778.mysql.db"); //Nom du serveur.
 	define("USERNAME", "ormcomcplh778"); //Nom d'utilisateur.
 	define("PASSWORD", "R8frzgZzN5S8"); //Mot de Passe.
