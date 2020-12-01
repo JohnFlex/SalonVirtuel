@@ -416,7 +416,6 @@
 				close.style.display = "block";
 				jeu.focus();
 		    }
-
 		}
 
 
