@@ -63,9 +63,9 @@
 
 		<label for="ID">Skin : </label>
 		<div>
-			<label>HOMME 1 : </label><input type="radio" name="ID" value="1"> <img src="../Contenus/images/AVATAR/man.png" class="imgAvatar">
-			<label>HOMME 2 : </label><input type="radio" name="ID" value="2"> <img src="../Contenus/images/AVATAR/man2.png" class="imgAvatar">
-			<label>HOMME 3 : </label><input type="radio" name="ID" value="3"> <img src="../Contenus/images/AVATAR/man3.png" class="imgAvatar">
+			<label>HOMME 1 : </label><input type="radio" name="ID" value="1"> <img src="../Contenus/images/AVATAR/Man.png" class="imgAvatar">
+			<label>HOMME 2 : </label><input type="radio" name="ID" value="2"> <img src="../Contenus/images/AVATAR/Man2.png" class="imgAvatar">
+			<label>HOMME 3 : </label><input type="radio" name="ID" value="3"> <img src="../Contenus/images/AVATAR/Man3.png" class="imgAvatar">
 			<label>FEMME 1 : </label><input type="radio" name="ID" value="4"> <img src="../Contenus/images/AVATAR/Woman.png" class="imgAvatar">
 			<label>FEMME 2 : </label><input type="radio" name="ID" value="5"> <img src="../Contenus/images/AVATAR/Woman2.png" class="imgAvatar">
 			<label>FEMME 3 : </label><input type="radio" name="ID" value="6"> <img src="../Contenus/images/AVATAR/Woman3.png" class="imgAvatar">
