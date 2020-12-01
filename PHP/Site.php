@@ -65,7 +65,15 @@
     	<div id="test"></div>
     	<canvas id="salon" width="500" height="500"></canvas>
 	</div>
-   
+	<?php include 'Content_Game/Fenetre_fille_dattente.html'; 
+	$file_pointer = 'Content_Game/Fenetre_fille_dattente.html';
+	if (file_exists($file_pointer)) {
+		echo "The file $file_pointer exists";
+	}else {
+		echo "The file $file_pointer does not exists";
+	}
+	
+	?>
 
     <script>
 				var Stand = [];
