@@ -68,7 +68,16 @@
     	<div id="test"></div>
     	<canvas id="salon" width="500" height="500"></canvas>
 	</div>
-   
+
+	<?php 
+	$file_pointer = 'Content_Game/Fenetre_file_attente.html';
+	if (file_exists($file_pointer)) {
+		echo "The file $file_pointer exists";
+	}else {
+		echo "The file $file_pointer does not exists";
+	}
+	
+	?>
 
     <script>
 				var Stand = [];
@@ -276,7 +285,7 @@
 		    var filAttend = document.createElement("button"); //bouton pour rentrer dans la file d'attente
 		    filAttend.id = "Attend";
 		    filAttend.innerHTML = "Entrée dans la file d'attente";
-		    filAttend.addEventListener("click",function(){FileAttente(stand.nom)});
+		    filAttend.addEventListener("click",function(){FileAttentePopUp(stand.nom)});
 		    document.getElementById("Info").appendChild(filAttend);
 
 		    /*
@@ -288,13 +297,15 @@
 		    */
 		    stand.InfoActive = true;
 		}
-
+		function FileAttentePopUp(stand){
+			include 'Content_Game/Fenetre_file_attente.html'; 
+		}
 		function FileAttente (stand)
 		{
 			//rentrerEnFile(,);
-			console.log(stand);	
+			//console.log(stand);	
 			rentrerEnFile(stand,document.getElementById('name').value);
-		    console.log("Hola je suis dans la file");
+		    //console.log("Hola je suis dans la file");
 
 		    var fil = document.createElement("div");
 		    var corps = document.getElementById("corps");
@@ -348,15 +359,18 @@
 		    document.getElementById("CaseFileAttend").appendChild(filJeu);
 		    function QuitterFileAtt ()//fonction pour quitter la file d'attente
 		    {
-		        console.log("normalement j'ai quitté fdp");
+		        //console.log("normalement j'ai quitté fdp");
 		        effacer = document.getElementById("CaseFileAttend");
 		        effacer.parentElement.removeChild(effacer);
+
+		        //NOTE R.S. : Appeler la fonction quitter la file.
+		        quitterFile();
 
 		    }
 		    
 		    function Lejeu()
 		    {
-		        console.log("Je joue !");
+		        //console.log("Je joue !");
 		    }
 		    
 		}
