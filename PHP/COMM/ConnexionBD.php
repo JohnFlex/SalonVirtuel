@@ -3,15 +3,15 @@
  //Connection vers la Base de données
 function Connexion()
 {
-	$servername = "localhost";
+	/*$servername = "localhost";
 	$username = "root";
 	$password = "";
-	$dbname = "DB_SALON";
+	$dbname = "DB_SALON";*/
 
-	/*$servername = "ormcomcplh778.mysql.db";
+	$servername = "ormcomcplh778.mysql.db";
 	$username = "ormcomcplh778";
 	$password = "R8frzgZzN5S8";
-	$dbname = "ormcomcplh778";*/
+	$dbname = "ormcomcplh778";
 
 
 	$connection = mysqli_connect($servername,$username,$password,$dbname);
