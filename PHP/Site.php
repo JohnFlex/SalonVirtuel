@@ -66,7 +66,7 @@
     	<canvas id="salon" width="500" height="500"></canvas>
 	</div>
 
-	<?php include 'Content_Game/Fenetre_file_attente.html'; 
+	<?php 
 	$file_pointer = 'Content_Game/Fenetre_file_attente.html';
 	if (file_exists($file_pointer)) {
 		echo "The file $file_pointer exists";
@@ -292,7 +292,9 @@
 		    */
 		    stand.InfoActive = true;
 		}
-
+		function FileAttentePopUp(stand){
+			include 'Content_Game/Fenetre_file_attente.html'; 
+		}
 		function FileAttente (stand)
 		{
 			//rentrerEnFile(,);
