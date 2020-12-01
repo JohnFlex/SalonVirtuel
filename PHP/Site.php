@@ -280,7 +280,7 @@
 		    var filAttend = document.createElement("button"); //bouton pour rentrer dans la file d'attente
 		    filAttend.id = "Attend";
 		    filAttend.innerHTML = "Entrée dans la file d'attente";
-		    filAttend.addEventListener("click",function(){FileAttente(stand.nom)});
+		    filAttend.addEventListener("click",function(){FileAttentePopUp(stand.nom)});
 		    document.getElementById("Info").appendChild(filAttend);
 
 		    /*
