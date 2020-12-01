@@ -289,6 +289,9 @@ class managerUtilisateur
 	}
 
 	public function changeSkin($name, $num)
+	//BUT : Changer l'apparence d'un utilisateur
+	//ENTREE : Le nom et l'ID du skin
+	//SORTIE : Un booleen pour savoir si il y a eu une erreur
 	{
 		$req = "UPDATE DB_SALON_Avatar SET ID_Element_Avatar = :NUM WHERE ID_Avatar = (SELECT ID_Avatar FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM)";
 
@@ -301,11 +304,40 @@ class managerUtilisateur
 			$stmt->bindValue(":NOM", $name, PDO::PARAM_STR);
 
 			$stmt->execute();
+
+			return true;
 		}
 		catch(PDOException $error)
 		{
 			echo "<script>console.log('".$error->getMessage()."')</script>";
-			exit();
+			return false;
+		}
+	}
+
+	public function selectSkin($name)
+	{
+		$req = "SELECT Lien_Avatar FROM DB_SALON_Element_Avatar EA, DB_SALON_Avatar A WHERE EA.ID_Element_Avatar = A.ID_Element_Avatar AND A.ID_Avatar = (SELECT ID_Avatar FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM)";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":NOM", $name, PDO::PARAM_STR);
+
+			$stmt->execute();
+
+			if($stmt->rowCount() > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+
+				return $valueStmt["Lien_Avatar"];
+			}
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			return false;
 		}
 	}
 
