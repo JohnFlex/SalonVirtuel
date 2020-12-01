@@ -95,23 +95,25 @@
 		  foreach ($emplacements as $emplacement): ?>
 
 				<?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]); ?>
-				<?php $stmt = $managerRes->selectRessourceByStandId($stand->getId());
-					$stmt->setFetchMode(PDO::FETCH_ASSOC);
-					if($stmt->rowCount() > 0) {
-						$result = $stmt->fetchAll();
-						$img = "";
-						foreach ($result as $row) {
-							$img = $row["Lien_Ressource"];
-						}
-						if ((strpos($img, '.png') !== false)||(strpos($img, '.jpg') !== false)(strpos($img, '.bmp') !== false)) {
-
-						} else {
-							$img = "null";
-						}
-					} else {
-						$img = "null";
-					}
-				?>
+				<?php 
+				
+                $stmt = $managerRes->selectRessourceByStandId($stand->getId());
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                if($stmt->rowCount() > 0) {
+                    $result = $stmt->fetchAll();
+                    $img = "";
+                    foreach ($result as $row) {
+                        $img = $row["Lien_Ressource"];
+                    }
+                    if ((strpos($img, '.png') !== false)||(strpos($img, '.jpg') !== false) || (strpos($img, '.bmp') !== false)) {
+                       
+                    } else {
+                        $img = "null";
+                    }
+                } else {
+                    $img = "null";
+                }
+        		?>
 
 					  Stand.push({
 						  Id:'<?php echo $stand->getId()?>',
