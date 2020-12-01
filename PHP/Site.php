@@ -31,7 +31,25 @@
     	<link href="../CSS/style_salon.css" rel="stylesheet">
         <title>Ici c'est le site</title>
         <meta charset="utf-8">
-        <script type="text/javascript" src="../JS/ScriptAJAXCommunicationUtilisateurPresentateur.js"></script>
+		<script type="text/javascript" src="../JS/ScriptAJAXCommunicationUtilisateurPresentateur.js"></script>
+
+		<style>
+			* {
+				z-index:0;
+			}
+			iframe {
+				z-index:1;
+				position: absolute;
+				margin : 1%;
+			}
+
+			#closebutton {
+				z-index:2;
+				position:absolute;
+				top:62;
+				left:412;
+			}
+		</style>
     </head>
     <body>
     <header>
@@ -57,34 +75,53 @@
 
 		            	$dom->removeChild($link);
 		                //echo "<a href=''>".$_SESSION['user_name']."</a>";
-		            }   
+		            }
 		        ?>
             </div>
         </div>
     </header>
-
     <div class="corps" id="corps">
-    	<div id="test"></div>
-    	<canvas id="salon" width="500" height="500"></canvas>
+		<div id="test"></div>
+		<iframe id="jeu" width="500" height="500" style="display:none"></iframe>
+		<button id="closebutton" style="display:none" onclick="fermerJeu();">Fermer le jeu</button>
+		<canvas id="salon" width="500" height="500"></canvas>
 	</div>
 
-	<!--<?php 
+	<!--<?php
 	//$file_pointer = 'Content_Game/Fenetre_file_attente.html';
 	/*if (file_exists($file_pointer)) {
 		echo "The file $file_pointer exists";
 	}else {
 		echo "The file $file_pointer does not exists";
 	}*/
-	
+
 	?>-->
 
     <script>
 			var Stand = [];
-		  
-		  <?php 
+
+		  <?php
 		  foreach ($emplacements as $emplacement): ?>
-				  
-			  <?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]) ?>
+
+				<?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]); ?>
+				<?php $stmt = $managerRes->selectRessourceByStandId($stand->getId());
+					$stmt->setFetchMode(PDO::FETCH_ASSOC);
+					if($stmt->rowCount() > 0) {
+						$result = $stmt->fetchAll();
+						$img = "";
+						foreach ($result as $row) {
+							$img = $row["Lien_Ressource"];
+						}
+						if ((strpos($img, '.png') !== false)||(strpos($img, '.jpg') !== false)(strpos($img, '.bmp') !== false)) {
+
+						} else {
+							$img = "null";
+						}
+					} else {
+						$img = "null";
+					}
+				?>
+
 					  Stand.push({
 						  Id:'<?php echo $stand->getId()?>',
 						  nom:'<?php echo $stand->getLibelle()?>',
@@ -96,11 +133,10 @@
 						  nbPersonne:0,
 						  X:<?php echo $emplacement['Position_X_Emplacement'] ?>,
 						  Y:<?php echo $emplacement['Position_Y_Emplacement'] ?>,
-					  
+						  image: '<?php echo $img ?>',
 						  cree:<?php echo !empty($stand->getPositionX())? "true" : "false"; ?>
 				  });
 			  <?php endforeach ?>
-			  
 			  const SCALE = 1;
 			  const WIDTH = 32;
 			  const HEIGHT = 48;
@@ -114,42 +150,42 @@
 			  const FRAME_LIMIT = 12;
 			  const MOVEMENT_SPEED = 1;
 			  const COLLISION_OFFSET = 10
-  
+
 			  var keyPresses = {};
 			  var currentDirection = FACING_DOWN;
 			  var currentLoopIndex = 0;
 			  var frameCount = 0;
 			  var img = new Image();
-  
-  
+
+
 			  var canvas = document.getElementById("salon");
 			  var Clicker = false;
-  
+
 			  var ctx2d = canvas.getContext("2d");
 			  var player = document.getElementById("player");
-  
+
 			  var size = 4;
-  
+
 			  var standWidth = canvas.width/size;
 			  var standHeight = canvas.height/size;
-  
+
 			  var standCoordGridX = canvas.width/(size/1.5);
 			  var standCoordGridY = canvas.height/(size/1.5);
-  
+
 			  var visiteur = {x:140,y:140,w:WIDTH,h:HEIGHT};
-  
+
 			  var currentColor = "red";
 			  var inter;
-  
+
 		  function renderStand(stand) {
 			  ctx2d.fillStyle = stand.Background;
 			  ctx2d.fillRect((stand.X-1)*standCoordGridX,(stand.Y-1)*standCoordGridY,standWidth,standHeight);
-  
+
 			  ctx2d.font = '12px serif';
 			  ctx2d.fillStyle = "white";
 			  ctx2d.fillText(stand.nom, (stand.X-1)*standCoordGridX+5, (stand.Y-1)*standCoordGridY+15,100);
 		  }
-  
+
 		  function collisionStand(stand) {
 			  if (Clicker == false) {
 				  if((visiteur.x+visiteur.w-COLLISION_OFFSET >= (stand.X-1)*standCoordGridX) && (visiteur.x+COLLISION_OFFSET <= (stand.X-1)*standCoordGridX+standWidth) && (visiteur.y+visiteur.h-COLLISION_OFFSET >= (stand.Y-1)*standCoordGridY) && (visiteur.y+COLLISION_OFFSET <= (stand.Y-1)*standCoordGridY+standHeight)) {
@@ -164,17 +200,17 @@
 				  }
 			  }
 		  }
-  
+
 		  window.addEventListener('keydown', keyDownListener);
 			  function keyDownListener(event) {
 				  keyPresses[event.key] = true;
 			  }
-  
+
 			  window.addEventListener('keyup', keyUpListener);
 			  function keyUpListener(event) {
 				  keyPresses[event.key] = false;
 			  }
-  
+
 			  function loadImage() {
 			  	  path = document.getElementById("skin").value;
 			  	  //console.log("Console.log de path : "+path);
@@ -183,27 +219,27 @@
 					  window.requestAnimationFrame(gameLoop);
 				  };
 			  }
-  
+
 			  function drawFrame(frameX, frameY, canvasX, canvasY) {
 				  ctx2d.drawImage(img,
 								  frameX * WIDTH, frameY * HEIGHT, WIDTH, HEIGHT,
 								  canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
 			  }
-  
+
 			  loadImage();
-  
+
 			  function gameLoop() {
 				  ctx2d.clearRect(0, 0, canvas.width, canvas.height);
 				  ctx2d.fillStyle =  "rgb(255,255,255)";
 				  ctx2d.fillRect(0,0,canvas.width,canvas.height);
-  
+
 				  Stand.forEach(stand => {
 					  renderStand(stand);
-					  
-				  }); 
-  
+
+				  });
+
 				  var hasMoved = false;
-  
+
 				  if (keyPresses.z || keyPresses.ArrowUp) {
 					  moveCharacter(0, -MOVEMENT_SPEED, FACING_UP);
 					  hasMoved = true;
@@ -211,7 +247,7 @@
 					  moveCharacter(0, MOVEMENT_SPEED, FACING_DOWN);
 					  hasMoved = true;
 				  }
-  
+
 				  if (keyPresses.q || keyPresses.ArrowLeft) {
 					  moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT);
 					  hasMoved = true;
@@ -219,7 +255,7 @@
 					  moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT);
 					  hasMoved = true;
 				  }
-  
+
 				  if (hasMoved) {
 					  frameCount++;
 					  if (frameCount >= FRAME_LIMIT) {
@@ -233,16 +269,16 @@
 						  collisionStand(stand);
 					  })
 				  }
-				  
+
 				  if (!hasMoved) {
 					  currentLoopIndex = 0;
 				  }
-  
+
 				  drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, visiteur.x, visiteur.y);
-  
+
 				  window.requestAnimationFrame(gameLoop);
 			  }
-  
+
 			  function moveCharacter(deltaX, deltaY, direction) {
 				  if (visiteur.x + deltaX > 0 && visiteur.x + SCALED_WIDTH + deltaX < canvas.width) {
 					  visiteur.x += deltaX;
@@ -252,7 +288,7 @@
 				  }
 				  currentDirection = direction;
 			  }
-			  
+
 		function Information (stand)
 		{
 		    var info = document.createElement("div");
@@ -298,19 +334,19 @@
 		    stand.InfoActive = true;
 		}
 		/*function FileAttentePopUp(stand){
-			include 'Content_Game/Fenetre_file_attente.html'; 
+			include 'Content_Game/Fenetre_file_attente.html';
 		}*/
 		function FileAttente (stand)
 		{
 			//rentrerEnFile(,);
-			//console.log(stand);	
+			//console.log(stand);
 			rentrerEnFile(stand.nom,document.getElementById('name').value);
 		    //console.log("Hola je suis dans la file");
 
 		    var fil = document.createElement("div");
 		    var corps = document.getElementById("corps");
 		    fil.id= "CaseFileAttend";
-		    
+
 		    corps.appendChild(fil);
 
 		    var PersFil = document.createElement("div");
@@ -343,19 +379,21 @@
 		    var filQuitter= document.createElement("button"); //creation bouton pour quitter la file d'attente
 		    filQuitter.id= "QuitterFile";
 		    filQuitter.className="ButtonFile";
-		    filQuitter.innerHTML = "Quitter la file"; 
-		    
+		    filQuitter.innerHTML = "Quitter la file";
+
 		    filQuitter.addEventListener("click", QuitterFileAtt);
-		    
+
 		    document.getElementById("CaseFileAttend").appendChild(filQuitter);
 
 		    var filJeu= document.createElement("button"); //creation bouton pour jouer au jeu
 		    filJeu.id= "JouerJeu";
 		    filJeu.className="ButtonFile";
-		    filJeu.innerHTML = "Jouer au jeu"; 
-		    
-		    filJeu.addEventListener("click", Lejeu);
-		    
+		    filJeu.innerHTML = "Jouer au jeu";
+
+		    filJeu.addEventListener("click", function() {
+				Lejeu(stand.image);
+			});
+
 		    document.getElementById("CaseFileAttend").appendChild(filJeu);
 		    function QuitterFileAtt ()//fonction pour quitter la file d'attente
 		    {
@@ -367,12 +405,17 @@
 		        quitterFile();
 
 		    }
-		    
-		    function Lejeu()
+
+		    function Lejeu(img)
 		    {
-		        //console.log("Je joue !");
+		        console.log("Je joue !");
+				jeu = document.getElementById("jeu");
+				jeu.style.display = "block";
+				jeu.setAttribute("src","../HTML/GameSnake.html?"+img);
+				close = document.getElementById("closebutton");
+				close.style.display = "block";
+				jeu.focus();
 		    }
-		    
 		}
 
 
@@ -384,8 +427,16 @@
 		        stand.InfoActive = false;
 		        Clicker = false;
 		    }
-	</script>
 
+			function fermerJeu()
+			{
+				jeu = document.getElementById("jeu");
+				jeu.style.display = "none";
+				jeu.setAttribute("src","");
+				close = document.getElementById("closebutton");
+				close.style.display = "none";
+			}
+	</script>
     <footer>
     </footer>
     </body>
