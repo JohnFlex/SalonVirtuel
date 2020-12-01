@@ -287,9 +287,9 @@
 		function FileAttente (stand)
 		{
 			//rentrerEnFile(,);
-			console.log(stand);	
+			//console.log(stand);	
 			rentrerEnFile(stand,document.getElementById('name').value);
-		    console.log("Hola je suis dans la file");
+		    //console.log("Hola je suis dans la file");
 
 		    var fil = document.createElement("div");
 		    var corps = document.getElementById("corps");
@@ -343,15 +343,18 @@
 		    document.getElementById("CaseFileAttend").appendChild(filJeu);
 		    function QuitterFileAtt ()//fonction pour quitter la file d'attente
 		    {
-		        console.log("normalement j'ai quitté fdp");
+		        //console.log("normalement j'ai quitté fdp");
 		        effacer = document.getElementById("CaseFileAttend");
 		        effacer.parentElement.removeChild(effacer);
+
+		        //NOTE R.S. : Appeler la fonction quitter la file.
+		        quitterFile();
 
 		    }
 		    
 		    function Lejeu()
 		    {
-		        console.log("Je joue !");
+		        //console.log("Je joue !");
 		    }
 		    
 		}
