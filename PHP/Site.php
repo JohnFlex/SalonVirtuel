@@ -3,11 +3,13 @@
     require_once("Objets/managerStand.php");
     require_once("Objets/managerRessource.php");
     require_once("Objets/managerEmplacement.php");
+    require_once("Objets/managerUtilisateur.php");
 
     $db = connect_bd();
     $managerStand = new managerStand($db);
     $managerRes = new managerRessource($db);
     $managerEmplacement = new managerEmplacement($db);
+    $managerUtilisateur = new managerUtilisateur($db);
 
     $stands = $managerStand->selectStands();
     $stands->setFetchMode(PDO::FETCH_ASSOC);
@@ -20,6 +22,7 @@
     $dom = new DOMDocument('1.0', 'iso-8859-1');
     echo '<input type="hidden" id="id" value="'.$_SESSION['user_id'].'">';
     echo '<input type="hidden" id="name" value="'.$_SESSION['user_name'].'">';
+    echo '<input type="hidden" id="skin" value="'.$managerUtilisateur->selectSkin($_SESSION['user_name']).'">';
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,9 +56,8 @@
 		            	echo $dom->saveHTML();
 
 		            	$dom->removeChild($link);
-
 		                //echo "<a href=''>".$_SESSION['user_name']."</a>";
-		            }      
+		            }   
 		        ?>
             </div>
         </div>
@@ -66,20 +68,21 @@
     	<canvas id="salon" width="500" height="500"></canvas>
 	</div>
 
-	<?php 
-	$file_pointer = 'Content_Game/Fenetre_file_attente.html';
-	if (file_exists($file_pointer)) {
+	<!--<?php 
+	//$file_pointer = 'Content_Game/Fenetre_file_attente.html';
+	/*if (file_exists($file_pointer)) {
 		echo "The file $file_pointer exists";
 	}else {
 		echo "The file $file_pointer does not exists";
-	}
+	}*/
 	
-	?>
+	?>-->
 
     <script>
-				var Stand = [];
+			var Stand = [];
 		  
-		  <?php foreach ($emplacements as $emplacement): ?>
+		  <?php 
+		  foreach ($emplacements as $emplacement): ?>
 				  
 			  <?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]) ?>
 					  Stand.push({
@@ -173,7 +176,9 @@
 			  }
   
 			  function loadImage() {
-				  img.src = '../Contenus/images/AVATAR/Man.png';
+			  	  path = document.getElementById("skin").value;
+			  	  //console.log("Console.log de path : "+path);
+				  img.src = '../'+path;
 				  img.onload = function() {
 					  window.requestAnimationFrame(gameLoop);
 				  };
@@ -280,7 +285,7 @@
 		    var filAttend = document.createElement("button"); //bouton pour rentrer dans la file d'attente
 		    filAttend.id = "Attend";
 		    filAttend.innerHTML = "Entrée dans la file d'attente";
-		    filAttend.addEventListener("click",function(){FileAttentePopUp(stand.nom)});
+		    filAttend.addEventListener("click",function(){FileAttente(stand)});
 		    document.getElementById("Info").appendChild(filAttend);
 
 		    /*
@@ -292,14 +297,14 @@
 		    */
 		    stand.InfoActive = true;
 		}
-		function FileAttentePopUp(stand){
+		/*function FileAttentePopUp(stand){
 			include 'Content_Game/Fenetre_file_attente.html'; 
-		}
+		}*/
 		function FileAttente (stand)
 		{
 			//rentrerEnFile(,);
 			//console.log(stand);	
-			rentrerEnFile(stand,document.getElementById('name').value);
+			rentrerEnFile(stand.nom,document.getElementById('name').value);
 		    //console.log("Hola je suis dans la file");
 
 		    var fil = document.createElement("div");
