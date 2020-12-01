@@ -56,9 +56,8 @@
 		            	echo $dom->saveHTML();
 
 		            	$dom->removeChild($link);
-
 		                //echo "<a href=''>".$_SESSION['user_name']."</a>";
-		            }      
+		            }   
 		        ?>
             </div>
         </div>
@@ -69,20 +68,21 @@
     	<canvas id="salon" width="500" height="500"></canvas>
 	</div>
 
-	<?php 
-	$file_pointer = 'Content_Game/Fenetre_file_attente.html';
+	<!--<?php 
+	//$file_pointer = 'Content_Game/Fenetre_file_attente.html';
 	/*if (file_exists($file_pointer)) {
 		echo "The file $file_pointer exists";
 	}else {
 		echo "The file $file_pointer does not exists";
 	}*/
 	
-	?>
+	?>-->
 
     <script>
-				var Stand = [];
+			var Stand = [];
 		  
-		  <?php foreach ($emplacements as $emplacement): ?>
+		  <?php 
+		  foreach ($emplacements as $emplacement): ?>
 				  
 			  <?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]) ?>
 					  Stand.push({
@@ -285,7 +285,7 @@
 		    var filAttend = document.createElement("button"); //bouton pour rentrer dans la file d'attente
 		    filAttend.id = "Attend";
 		    filAttend.innerHTML = "Entrée dans la file d'attente";
-		    filAttend.addEventListener("click",function(){FileAttente(stand.nom)});
+		    filAttend.addEventListener("click",function(){FileAttente(stand)});
 		    document.getElementById("Info").appendChild(filAttend);
 
 		    /*
@@ -304,7 +304,7 @@
 		{
 			//rentrerEnFile(,);
 			//console.log(stand);	
-			rentrerEnFile(stand,document.getElementById('name').value);
+			rentrerEnFile(stand.nom,document.getElementById('name').value);
 		    //console.log("Hola je suis dans la file");
 
 		    var fil = document.createElement("div");
