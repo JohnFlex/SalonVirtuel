@@ -71,11 +71,11 @@
 
 	<?php 
 	$file_pointer = 'Content_Game/Fenetre_file_attente.html';
-	if (file_exists($file_pointer)) {
+	/*if (file_exists($file_pointer)) {
 		echo "The file $file_pointer exists";
 	}else {
 		echo "The file $file_pointer does not exists";
-	}
+	}*/
 	
 	?>
 
@@ -285,7 +285,7 @@
 		    var filAttend = document.createElement("button"); //bouton pour rentrer dans la file d'attente
 		    filAttend.id = "Attend";
 		    filAttend.innerHTML = "Entrée dans la file d'attente";
-		    filAttend.addEventListener("click",function(){FileAttentePopUp(stand.nom)});
+		    filAttend.addEventListener("click",function(){FileAttente(stand.nom)});
 		    document.getElementById("Info").appendChild(filAttend);
 
 		    /*
@@ -297,9 +297,9 @@
 		    */
 		    stand.InfoActive = true;
 		}
-		function FileAttentePopUp(stand){
+		/*function FileAttentePopUp(stand){
 			include 'Content_Game/Fenetre_file_attente.html'; 
-		}
+		}*/
 		function FileAttente (stand)
 		{
 			//rentrerEnFile(,);
