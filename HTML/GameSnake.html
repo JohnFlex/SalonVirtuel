@@ -163,6 +163,12 @@ General
 
 
   <script>
+  var link = window.location.search.substring(1);
+  if (link != "null") {
+    var img = document.getElementById("ImgStand");
+    img.setAttribute("src",link);
+  }
+
 /*PARTIE SNAKE*/
 /*================================================
 

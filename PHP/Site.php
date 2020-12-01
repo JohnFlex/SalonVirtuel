@@ -28,7 +28,25 @@
     	<link href="../CSS/style_salon.css" rel="stylesheet">
         <title>Ici c'est le site</title>
         <meta charset="utf-8">
-        <script type="text/javascript" src="../JS/ScriptAJAXCommunicationUtilisateurPresentateur.js"></script>
+		<script type="text/javascript" src="../JS/ScriptAJAXCommunicationUtilisateurPresentateur.js"></script>
+		
+		<style>
+			* {
+				z-index:0;
+			}
+			iframe {
+				z-index:1;
+				position: absolute;
+				margin : 1%;
+			}
+
+			#closebutton {
+				z-index:2;
+				position:absolute;
+				top:62;
+				left:412;
+			}
+		</style>
     </head>
     <body>
     <header>
@@ -60,10 +78,11 @@
             </div>
         </div>
     </header>
-
     <div class="corps" id="corps">
-    	<div id="test"></div>
-    	<canvas id="salon" width="500" height="500"></canvas>
+		<div id="test"></div>
+		<iframe id="jeu" width="500" height="500" style="display:none"></iframe>
+		<button id="closebutton" style="display:none" onclick="fermerJeu();">Fermer le jeu</button>
+		<canvas id="salon" width="500" height="500"></canvas>
 	</div>
    
 
@@ -72,7 +91,25 @@
 		  
 		  <?php foreach ($emplacements as $emplacement): ?>
 				  
-			  <?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]) ?>
+				<?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]); ?>
+				<?php $stmt = $managerRes->selectRessourceByStandId($stand->getId()); 
+					$stmt->setFetchMode(PDO::FETCH_ASSOC);
+					if($stmt->rowCount() > 0) {
+						$result = $stmt->fetchAll();
+						$img = "";
+						foreach ($result as $row) {
+							$img = $row["Lien_Ressource"];
+						}
+						if ((strpos($img, '.png') !== false)||(strpos($img, '.jpg') !== false)(strpos($img, '.bmp') !== false)) {
+							
+						} else {
+							$img = "null";
+						}
+					} else {
+						$img = "null";
+					}
+				?>
+				
 					  Stand.push({
 						  Id:'<?php echo $stand->getId()?>',
 						  nom:'<?php echo $stand->getLibelle()?>',
@@ -84,11 +121,10 @@
 						  nbPersonne:0,
 						  X:<?php echo $emplacement['Position_X_Emplacement'] ?>,
 						  Y:<?php echo $emplacement['Position_Y_Emplacement'] ?>,
-					  
+						  image: '<?php echo $img ?>',
 						  cree:<?php echo !empty($stand->getPositionX())? "true" : "false"; ?>
 				  });
 			  <?php endforeach ?>
-			  
 			  const SCALE = 1;
 			  const WIDTH = 32;
 			  const HEIGHT = 48;
@@ -271,7 +307,7 @@
 		    var filAttend = document.createElement("button"); //bouton pour rentrer dans la file d'attente
 		    filAttend.id = "Attend";
 		    filAttend.innerHTML = "Entrée dans la file d'attente";
-		    filAttend.addEventListener("click",function(){FileAttente(stand.nom)});
+		    filAttend.addEventListener("click",function(){FileAttente(stand)});
 		    document.getElementById("Info").appendChild(filAttend);
 
 		    /*
@@ -288,7 +324,7 @@
 		{
 			//rentrerEnFile(,);
 			console.log(stand);	
-			rentrerEnFile(stand,document.getElementById('name').value);
+			rentrerEnFile(stand.nom,document.getElementById('name').value);
 		    console.log("Hola je suis dans la file");
 
 		    var fil = document.createElement("div");
@@ -338,7 +374,9 @@
 		    filJeu.className="ButtonFile";
 		    filJeu.innerHTML = "Jouer au jeu"; 
 		    
-		    filJeu.addEventListener("click", Lejeu);
+		    filJeu.addEventListener("click", function() {
+				Lejeu(stand.image);
+			});
 		    
 		    document.getElementById("CaseFileAttend").appendChild(filJeu);
 		    function QuitterFileAtt ()//fonction pour quitter la file d'attente
@@ -349,9 +387,15 @@
 
 		    }
 		    
-		    function Lejeu()
+		    function Lejeu(img)
 		    {
 		        console.log("Je joue !");
+				jeu = document.getElementById("jeu");
+				jeu.style.display = "block";
+				jeu.setAttribute("src","../HTML/GameSnake.html?"+img);
+				close = document.getElementById("closebutton");
+				close.style.display = "block";
+				jeu.focus();
 		    }
 		    
 		}
@@ -365,8 +409,16 @@
 		        stand.InfoActive = false;
 		        Clicker = false;
 		    }
-	</script>
 
+			function fermerJeu()
+			{
+				jeu = document.getElementById("jeu");
+				jeu.style.display = "none";
+				jeu.setAttribute("src","");
+				close = document.getElementById("closebutton");
+				close.style.display = "none";
+			}
+	</script>
     <footer>
     </footer>
     </body>
