@@ -3,11 +3,13 @@
     require_once("Objets/managerStand.php");
     require_once("Objets/managerRessource.php");
     require_once("Objets/managerEmplacement.php");
+    require_once("Objets/managerUtilisateur.php");
 
     $db = connect_bd();
     $managerStand = new managerStand($db);
     $managerRes = new managerRessource($db);
     $managerEmplacement = new managerEmplacement($db);
+    $managerUtilisateur = new managerUtilisateur($db);
 
     $stands = $managerStand->selectStands();
     $stands->setFetchMode(PDO::FETCH_ASSOC);
@@ -20,6 +22,7 @@
     $dom = new DOMDocument('1.0', 'iso-8859-1');
     echo '<input type="hidden" id="id" value="'.$_SESSION['user_id'].'">';
     echo '<input type="hidden" id="name" value="'.$_SESSION['user_name'].'">';
+    echo '<input type="hidden" id="skin" value="'.$managerUtilisateur->selectSkin($_SESSION['user_name']).'">';
 ?>
 <!DOCTYPE html>
 <html>
@@ -164,7 +167,9 @@
 			  }
   
 			  function loadImage() {
-				  img.src = '../Contenus/images/AVATAR/Man.png';
+			  	  path = document.getElementById("skin").value;
+			  	  //console.log("Console.log de path : "+path);
+				  img.src = '../'+path;
 				  img.onload = function() {
 					  window.requestAnimationFrame(gameLoop);
 				  };
