@@ -1,10 +1,12 @@
 <?php 
+    session_start();
+    
     require_once("PDO_Connect/PDO_Connect.php");
     require_once("Objets/managerStand.php");
     require_once("Objets/managerRessource.php");
     require_once("Objets/managerEmplacement.php");
     require_once("Objets/managerUtilisateur.php");
-
+	
     $db = connect_bd();
     $managerStand = new managerStand($db);
     $managerRes = new managerRessource($db);
@@ -18,7 +20,6 @@
     $emplacements->setFetchMode(PDO::FETCH_ASSOC);
     $emplacements = $emplacements->fetchAll();
 
-    session_start();
     $dom = new DOMDocument('1.0', 'iso-8859-1');
     echo '<input type="hidden" id="id" value="'.$_SESSION['user_id'].'">';
     echo '<input type="hidden" id="name" value="'.$_SESSION['user_name'].'">';
@@ -86,16 +87,6 @@
 		<button id="closebutton" style="display:none" onclick="fermerJeu();">Fermer le jeu</button>
 		<canvas id="salon" width="500" height="500"></canvas>
 	</div>
-
-	<!--<?php
-	//$file_pointer = 'Content_Game/Fenetre_file_attente.html';
-	/*if (file_exists($file_pointer)) {
-		echo "The file $file_pointer exists";
-	}else {
-		echo "The file $file_pointer does not exists";
-	}*/
-
-	?>-->
 
     <script>
 			var Stand = [];

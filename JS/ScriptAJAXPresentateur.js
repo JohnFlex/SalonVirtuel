@@ -92,18 +92,21 @@ function nbUtilisateurFile()
                 boolEnAttente=false;
                 // On a une réponse
                 // On convertit la réponse en objet JS
-                let Reponses = JSON.parse(this.response);
-
-                for(let Reponse of Reponses)
+                if (this.response!="")
                 {
-                    document.getElementById('spanfile').innerHTML=Reponse.nbUtilisateur;
-                    if (Reponse.nbUtilisateur>0)
+                    let Reponses = JSON.parse(this.response);
+
+                    for(let Reponse of Reponses)
                     {
-                        document.getElementById('boutonreunion').disabled=false;
-                    }
-                    else
-                    {
-                        document.getElementById('boutonreunion').disabled=true;
+                        document.getElementById('spanfile').innerHTML=Reponse.nbUtilisateur;
+                        if (Reponse.nbUtilisateur>0)
+                        {
+                            document.getElementById('boutonreunion').disabled=false;
+                        }
+                        else
+                        {
+                            document.getElementById('boutonreunion').disabled=true;
+                        }
                     }
                 }
             }
@@ -133,22 +136,25 @@ function changeDispo()
             if(this.status == 200)
             {
                 boolEnAttente=false;
-                // On a une réponse
-                // On convertit la réponse en objet JS
-                let Reponses = JSON.parse(this.response);
-
-                for(let Reponse of Reponses)
+                if (this.response!="")
                 {
-                    //console.log(Reponse.ID_Activite);
-                    if (Reponse.ID_Activite==2)
+                    // On a une réponse
+                    // On convertit la réponse en objet JS
+                    let Reponses = JSON.parse(this.response);
+
+                    for(let Reponse of Reponses)
                     {
-                        document.getElementById("spandispo").innerHTML="Disponible";
-                        document.getElementById("BoutonDisponible").innerHTML="Devenir Indisponible";
-                    }
-                    else
-                    {
-                        document.getElementById("spandispo").innerHTML="Indisponible";
-                        document.getElementById("BoutonDisponible").innerHTML="Devenir Disponible";
+                        //console.log(Reponse.ID_Activite);
+                        if (Reponse.ID_Activite==2)
+                        {
+                            document.getElementById("spandispo").innerHTML="Disponible";
+                            document.getElementById("BoutonDisponible").innerHTML="Devenir Indisponible";
+                        }
+                        else
+                        {
+                            document.getElementById("spandispo").innerHTML="Indisponible";
+                            document.getElementById("BoutonDisponible").innerHTML="Devenir Disponible";
+                        }
                     }
                 }
             }
