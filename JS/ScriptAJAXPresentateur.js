@@ -64,11 +64,13 @@ window.onload = () =>{
     labelFile.setAttribute("for","spanfile");
     labelFile.setAttribute("id","labelfile");
     imageST3.setAttribute("src","../Contenus/images/STANDS/Stand01_RotateA.png");
+  
     labelFile.innerHTML="Nombre d'utilisateur dans la file : ";
     let spanFile = document.createElement("span");
     spanFile.setAttribute("name","spanfile");
     spanFile.setAttribute("id","spanfile");
     spanFile.innerHTML="0";
+
 
     divFile.appendChild(imageST3);
     divFile.appendChild(labelFile);
@@ -81,10 +83,12 @@ window.onload = () =>{
     divReunion.setAttribute("class","cDivdiso");
     labelFile.setAttribute("for","spanfile");
     imageST4.setAttribute("src","../Contenus/images/STANDS/Stand04_RotateA.png");
+
     boutonReunion.setAttribute("id","boutonreunion");
     boutonReunion.setAttribute("href","COMM/Show_Queue.php");
     boutonReunion.innerHTML="Lancer la Réunion";
     boutonReunion.disabled=true;
+
     
     divReunion.appendChild(imageST4);
     divReunion.appendChild(boutonReunion);
@@ -94,6 +98,7 @@ window.onload = () =>{
     monConteneur.appendChild(divFile);
     monConteneur.appendChild(divReunion);
     //monConteneur.appendChild(boutonReunion);
+
     DIVcontainer.appendChild(monConteneur);
 
     setInterval(nbUtilisateurFile, 1000);
@@ -120,18 +125,23 @@ function nbUtilisateurFile()
                 boolEnAttente=false;
                 // On a une réponse
                 // On convertit la réponse en objet JS
-                let Reponses = JSON.parse(this.response);
 
-                for(let Reponse of Reponses)
+                if (this.response!="")
                 {
-                    document.getElementById('spanfile').innerHTML=Reponse.nbUtilisateur;
-                    if (Reponse.nbUtilisateur>0)
+                    let Reponses = JSON.parse(this.response);
+
+                    for(let Reponse of Reponses)
                     {
-                        document.getElementById('boutonreunion').disabled=false;
-                    }
-                    else
-                    {
-                        document.getElementById('boutonreunion').disabled=true;
+                        document.getElementById('spanfile').innerHTML=Reponse.nbUtilisateur;
+                        if (Reponse.nbUtilisateur>0)
+                        {
+                            document.getElementById('boutonreunion').disabled=false;
+                        }
+                        else
+                        {
+                            document.getElementById('boutonreunion').disabled=true;
+                        }
+
                     }
                 }
             }
@@ -161,22 +171,26 @@ function changeDispo()
             if(this.status == 200)
             {
                 boolEnAttente=false;
-                // On a une réponse
-                // On convertit la réponse en objet JS
-                let Reponses = JSON.parse(this.response);
 
-                for(let Reponse of Reponses)
+                if (this.response!="")
                 {
-                    //console.log(Reponse.ID_Activite);
-                    if (Reponse.ID_Activite==2)
+                    // On a une réponse
+                    // On convertit la réponse en objet JS
+                    let Reponses = JSON.parse(this.response);
+
+                    for(let Reponse of Reponses)
                     {
-                        document.getElementById("spandispo").innerHTML="Disponible";
-                        document.getElementById("BoutonDisponible").innerHTML="Devenir Indisponible";
-                    }
-                    else
-                    {
-                        document.getElementById("spandispo").innerHTML="Indisponible";
-                        document.getElementById("BoutonDisponible").innerHTML="Devenir Disponible";
+                        //console.log(Reponse.ID_Activite);
+                        if (Reponse.ID_Activite==2)
+                        {
+                            document.getElementById("spandispo").innerHTML="Disponible";
+                            document.getElementById("BoutonDisponible").innerHTML="Devenir Indisponible";
+                        }
+                        else
+                        {
+                            document.getElementById("spandispo").innerHTML="Indisponible";
+                            document.getElementById("BoutonDisponible").innerHTML="Devenir Disponible";
+                        }
                     }
                 }
             }

@@ -50,7 +50,7 @@
                 <h2 class="titre2">Administration des roles</h2>
                 
                 <div >
-                    <a href="Accueil.php">Deconnexion</a>
+                    <a href="Accueil.php"><img src="../Contenus/images/logout-rounded.png" alt="Deconnexion" style="height:1.45em; width: 1.45em;"></a>
                 
                     <a href="LiaisonAUnStand.php">Liaison au stand</a>
                     <a href="ChangerEmplacement.php">Changer l'emplacement d'un stand</a>
@@ -60,7 +60,9 @@
         </header>
         <div class="mainForme">
             <div class="formeT1">
-            <h1>Changer un pr�sentateur en utilisateur</h1>
+
+            <h1>Changer un présentateur en utilisateur</h1>
+
 
             <form action="#" method="post" id="PRESENTATEURTOUTILISATEUR" name="PresentateurToUtilisateur" >
 
@@ -79,7 +81,8 @@
             </form><br>
         </div>
               <div class="formeT2">
-            <h1>Changer un utilisateur en pr�sentateur</h1>
+
+            <h1>Changer un utilisateur en présentateur</h1>
 
             <form action="#" method="post" id="UTILISATEURTOPRESENTATEUR" name="UtilisateurToPresentateur" >
 

@@ -351,3 +351,10 @@ select {
     margin-bottom: 2%;
 }
 
+.imgAvatar
+{
+    object-position: left top;
+    object-fit: none;
+    width: 32px;
+    height: 48px;
+}
