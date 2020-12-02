@@ -5,13 +5,15 @@
     require_once("Objets/managerStand.php");
     require_once("Objets/managerRessource.php");
     require_once("Objets/managerEmplacement.php");
-    require_once("Objets/managerUtilisateur.php");
+	require_once("Objets/managerUtilisateur.php");
+	require_once("Objets/managerPresentateur.php");
 	
-    $db = connect_bd();
+	$db = connect_bd();
+	$managerPresentateur = new managerPresentateur($db);
     $managerStand = new managerStand($db);
     $managerRes = new managerRessource($db);
     $managerEmplacement = new managerEmplacement($db);
-    $managerUtilisateur = new managerUtilisateur($db);
+	$managerUtilisateur = new managerUtilisateur($db);
 
     $stands = $managerStand->selectStands();
     $stands->setFetchMode(PDO::FETCH_ASSOC);
@@ -23,7 +25,7 @@
     $dom = new DOMDocument('1.0', 'iso-8859-1');
     echo '<input type="hidden" id="id" value="'.$_SESSION['user_id'].'">';
     echo '<input type="hidden" id="name" value="'.$_SESSION['user_name'].'">';
-    echo '<input type="hidden" id="skin" value="'.$managerUtilisateur->selectSkin($_SESSION['user_name']).'">';
+    echo '<input type="hidden" id="skin" value="'.$managerUtilisateur->selectSkin($_SESSION['user_id']).'">';
 ?>
 <!DOCTYPE html>
 <html>
@@ -90,44 +92,53 @@
     <script>
 			var Stand = [];
 
-		  <?php
-		  foreach ($emplacements as $emplacement): ?>
+		  <?php foreach ($emplacements as $emplacement): ?>
 
 				<?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]); ?>
 				<?php 
+
+					$stmt = $managerRes->selectRessourceByStandId($stand->getId());
+					$stmt->setFetchMode(PDO::FETCH_ASSOC);
+					if($stmt->rowCount() > 0) {
+						$result = $stmt->fetchAll();
+						$img = "";
+						foreach ($result as $row) {
+							$img = $row["Lien_Ressource"];
+						}
+						if ((strpos($img, '.png') !== false)||(strpos($img, '.jpg') !== false) || (strpos($img, '.bmp') !== false)) {
+	
+						} else {
+							$img = "null";
+						}
+					} else {
+						$img = "null";
+					}
+					
+					$presentateur = $managerPresentateur->selectPresentateurByStand($stand->getId());
+					if ($presentateur->getNom() != "") {
+						 $orga = $presentateur->getNom();
+					} else {
+						$orga = "";
+					}
 				
-                $stmt = $managerRes->selectRessourceByStandId($stand->getId());
-                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                if($stmt->rowCount() > 0) {
-                    $result = $stmt->fetchAll();
-                    $img = "";
-                    foreach ($result as $row) {
-                        $img = $row["Lien_Ressource"];
-                    }
-                    if ((strpos($img, '.png') !== false)||(strpos($img, '.jpg') !== false) || (strpos($img, '.bmp') !== false)) {
-                       
-                    } else {
-                        $img = "null";
-                    }
-                } else {
-                    $img = "null";
-                }
+
         		?>
 
-					  Stand.push({
-						  Id:'<?php echo $stand->getId()?>',
-						  nom:'<?php echo $stand->getLibelle()?>',
-						  categorie:'<?php echo $stand->getCategorie() ?>',
-						  Resume:'<?php echo $stand->getInformation() ?>',
-						  InfoActive:false,
-						  Background:"<?php echo $emplacement['Couleur_Element'] ?>",
-						  organisateur:"Organisateur",
-						  nbPersonne:0,
-						  X:<?php echo $emplacement['Position_X_Emplacement'] ?>,
-						  Y:<?php echo $emplacement['Position_Y_Emplacement'] ?>,
-						  image: '<?php echo $img ?>',
-						  cree:<?php echo !empty($stand->getPositionX())? "true" : "false"; ?>
-				  });
+					Stand.push({
+						Id:'<?php echo $stand->getId()?>',
+						nom:"<?php echo $stand->getLibelle()?>",
+						categorie:"<?php echo $stand->getCategorie() ?>",
+						Resume:"<?php echo $stand->getInformation() ?>",
+						InfoActive:false,
+						Background:"<?php echo $emplacement['Couleur_Element'] ?>",
+						organisateur:"<?php echo $orga ?>",
+						nbPersonne:0,
+						X:<?php echo $emplacement['Position_X_Emplacement'] ?>,
+						Y:<?php echo $emplacement['Position_Y_Emplacement'] ?>,
+						image: '<?php echo $img ?>',
+						cree:<?php echo !empty($stand->getPositionX())? "true" : "false"; ?>
+				  	});
+
 			  <?php endforeach ?>
 			  const SCALE = 1;
 			  const WIDTH = 32;
@@ -206,6 +217,9 @@
 			  function loadImage() {
 			  	  path = document.getElementById("skin").value;
 			  	  //console.log("Console.log de path : "+path);
+				  if (path == null) {
+					  path = "Contenus/images/AVATAR/Man.png";
+				  } 
 				  img.src = '../'+path;
 				  img.onload = function() {
 					  window.requestAnimationFrame(gameLoop);
@@ -299,7 +313,7 @@
 		    document.getElementById("Info").appendChild(phrase);
 
 		    var phrase =document.createElement("p");
-		    phrase.innerHTML = stand.organisateur;
+		    phrase.innerHTML = "Organisateur : "+stand.organisateur;
 		    document.getElementById("Info").appendChild(phrase);
 
 		    var phrase =document.createElement("p");
