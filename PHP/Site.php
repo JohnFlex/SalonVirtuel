@@ -52,8 +52,98 @@
 				top:62;
 				left:412;
 			}
+            
+            		body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+/*Button to open waiting line*/
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  left: 28px;
+  width: 280px;
+  z-index: 9;
+  display: none;
+}
+
+/* The popup waiting line - hidden by default */
+.chat-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 50;
+}
+
+/* Add styles to the form container */
+.form-container {
+    width: 300px;
+    max-width: 300px;
+    padding: 10px;
+    background-color: #5d8ab7;
+    text-align: center;
+    margin: 50% auto;
+    
+    
+}
+
+/* Set a style for the Join button */
+/*
+.form-container .btn1 {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.4;
+  border: 3px solid chartreuse;
+}
+*/
+            
+
+            
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+#QuitterFile {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+#gameSnake{
+    position: fixed;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -300px;
+    top: 50%;
+  
+}
+            
 		</style>
     </head>
+        
     <body>
     <header>
     	<div class="navbar">
@@ -327,7 +417,7 @@
 		    var filAttend = document.createElement("button"); //bouton pour rentrer dans la file d'attente
 		    filAttend.id = "Attend";
 		    filAttend.innerHTML = "Entrée dans la file d'attente";
-		    filAttend.addEventListener("click",function(){FileAttente(stand)});
+		    filAttend.addEventListener("click",function(){FileAttentePopUp(stand)});
 		    document.getElementById("Info").appendChild(filAttend);
 
 		    /*
@@ -339,72 +429,103 @@
 		    */
 		    stand.InfoActive = true;
 		}
-		/*function FileAttentePopUp(stand){
-			include 'Content_Game/Fenetre_file_attente.html';
-		}*/
-		function FileAttente (stand)
-		{
-			//rentrerEnFile(,);
-			//console.log(stand);
+
+		/*================================================
+		Partie File Attente + Game
+		================================================*/
+
+//		var seconds = 0;
+//		var min = 0;
+//		var time=0;
+//        var timer;
+//		time = setInterval(function()
+//		{
+//		seconds++;
+//		if (seconds >= 60){
+//
+//		min++;
+//        seconds=0;
+//        //console.log(min+ " "+seconds);
+//		}
+//        timer = document.getElementById("TimeInLine").innerHTML = min + "M" + seconds + "S";
+//		}, 1000);
+		function FileAttentePopUp(stand){
+
 			rentrerEnFile(stand.nom,document.getElementById('name').value);
-		    //console.log("Hola je suis dans la file");
+			
+			var openButton = document.createElement("button");
+			openButton.className = "open-button";
+			openButton.onclick = "openForm()";
+			openButton.innerHTML = "Waiting Line";
 
-		    var fil = document.createElement("div");
-		    var corps = document.getElementById("corps");
-		    fil.id= "CaseFileAttend";
+			var chatPopup = document.createElement("div");
+			chatPopup.className = "chat-popup";
+			chatPopup.id = "myForm";
 
-		    corps.appendChild(fil);
+			var formContainer = document.createElement("div");
+			formContainer.className = "form-container";
+			formContainer.id = "form-container";
+            
 
-		    var PersFil = document.createElement("div");
-		    PersFil.id = "nbPersonne";
-		    PersFil.innerHTML = "Perso/MaxPerso";
-		    document.getElementById("CaseFileAttend").appendChild(PersFil);
+			var waitline = document.createElement("h1");
+		    waitline.id= "TitreFile";
+		    waitline.innerHTML = "File Attente";
+		    formContainer.appendChild(waitline);
 
-		    var PersNomStand = document.createElement("div");
-		    PersNomStand.id = "nomStand";
-		    PersNomStand.innerHTML = "Nom du stand";
-		    document.getElementById("CaseFileAttend").appendChild(PersNomStand);
+			var standName = document.createElement("h1");
+		    standName.id= "stand-Name";
+		    standName.innerHTML = stand.nom;
+		    formContainer.appendChild(standName);
 
-		    var filnom = document.createElement("h4");
-		    filnom.id= "TitreFile";
-		    filnom.innerHTML = "File Attente";
-		    document.getElementById("CaseFileAttend").appendChild(filnom);
+//			var peopleInLine = document.createElement("p");
+//			peopleInLine.innerHTML = "People in waiting line: " + stand.nbPersonne;
+//			formContainer.appendChild(peopleInLine);
 
-		    var filTemps= document.createElement("div");
-		    filTemps.id= "TempsEstime";
-		    filTemps.className="caseFile";
-		    filTemps.innerHTML="Temps estime";
-		    document.getElementById("CaseFileAttend").appendChild(filTemps);
+//			var TimeInLine = document.createElement("p");
+//			TimeInLine.innerHTML = "Time in waiting line: " + timer; //Problem
+//			formContainer.appendChild(TimeInLine);
 
-		    var filplusinfo= document.createElement("div");
-		    filplusinfo.id= "PlusInfo";
-		    filplusinfo.className="caseFile";
-		    filplusinfo.innerHTML = "Plus d'info sur le stand";
-		    document.getElementById("CaseFileAttend").appendChild(filplusinfo);
+			var butPlay = document.createElement("button");
+			butPlay.type = "submit";
+			butPlay.className = "btn";
+			butPlay.onclick = "playGame()";
+			butPlay.innerHTML = "Play";
+			formContainer.appendChild(butPlay);
 
-		    var filQuitter= document.createElement("button"); //creation bouton pour quitter la file d'attente
-		    filQuitter.id= "QuitterFile";
-		    filQuitter.className="ButtonFile";
+//			var butJoin = document.createElement("button");
+//			butJoin.type = "submit";
+//			butJoin.className = "btn1";
+//			butJoin.innerHTML = "Join";
+//			formContainer.appendChild(butJoin);
+
+			var filQuitter= document.createElement("button"); //creation bouton pour quitter la file d'attente
+		    filQuitter.type = "submit";
+			filQuitter.id= "QuitterFile";
+		    filQuitter.className ="btn";
 		    filQuitter.innerHTML = "Quitter la file";
+			formContainer.appendChild(filQuitter);
 
 		    filQuitter.addEventListener("click", QuitterFileAtt);
 
-		    document.getElementById("CaseFileAttend").appendChild(filQuitter);
+		    
 
-		    var filJeu= document.createElement("button"); //creation bouton pour jouer au jeu
-		    filJeu.id= "JouerJeu";
-		    filJeu.className="ButtonFile";
-		    filJeu.innerHTML = "Jouer au jeu";
+			//var butCancel = document.createElement("button");
+//			butJoin.type = "submit";
+//			butJoin.className = "btn cancel";
+//			butJoin.onclick = "closeForm()";
+//			butJoin.innerHTML = "Close";
+			//formContainer.appendChild(butCancel);
+            //document.body.appendChild(formContainer);
+            document.getElementById("test").prepend(formContainer);
 
-		    filJeu.addEventListener("click", function() {
+			butPlay.addEventListener("click", function() {
 				Lejeu(stand.image);
 			});
 
-		    document.getElementById("CaseFileAttend").appendChild(filJeu);
-		    function QuitterFileAtt ()//fonction pour quitter la file d'attente
+			function QuitterFileAtt ()//fonction pour quitter la file d'attente
 		    {
 		        //console.log("normalement j'ai quitté fdp");
-		        effacer = document.getElementById("CaseFileAttend");
+		        effacer = document.getElementById("form-container");
 		        effacer.parentElement.removeChild(effacer);
 
 		        //NOTE R.S. : Appeler la fonction quitter la file.
@@ -412,7 +533,7 @@
 
 		    }
 
-		    function Lejeu(img)
+			function Lejeu(img)
 		    {
 		        console.log("Je joue !");
 				jeu = document.getElementById("jeu");
@@ -422,9 +543,16 @@
 				close.style.display = "block";
 				jeu.focus();
 		    }
+
+			function openForm() {
+			document.getElementById("myForm").style.display = "block";
+			}
+
+			function closeForm() {
+			document.getElementById("myForm").style.display = "none";
+			}
+
 		}
-
-
 		    function fermerfenetre (stand)
 		    {
 		        effacer =document.getElementById("Info");
