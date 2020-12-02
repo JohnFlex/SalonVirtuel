@@ -18,7 +18,7 @@ class managerPresentateur
 	//Le destructeur
 	public function __destruct()
 	{
-		echo "<script>console.log(\"Destruction de l'élement\")</script>";
+		//echo "<script>console.log(\"Destruction de l'élement\")</script>";
 	}
 
 
@@ -326,6 +326,53 @@ class managerPresentateur
 			$stmt->execute();
 
 			return $stmt;
+		}
+		catch(PDOException $error)
+		{
+			echo "<script>console.log('".$error->getMessage()."')</script>";
+			exit();
+		}
+	}
+
+	public function selectPresentateurByStand($idStand)
+	{
+		$req = "SELECT * FROM DB_SALON_Presentateur WHERE ID_Stand = :ID";
+
+		//Envoie de la requête à la base
+		try
+		{
+			$stmt = $this->db->prepare($req);
+
+			$stmt->bindValue(":ID", $idStand, PDO::PARAM_INT);
+
+			$stmt->execute();
+
+			$P = new Presentateur;
+
+			if($stmt->rowCount() > 0)
+			{
+				$valueStmt = $stmt->fetchAll()[0];
+
+				$tab = array(
+					"IdAvatar" => $valueStmt['ID_Avatar'],
+					"Nom" => $valueStmt['Nom_Avatar'],
+					"MDP" => $valueStmt['MDP_Presentateur'],
+					"IdActivite" => $valueStmt['ID_Activite'],
+					"IdStand" => $valueStmt['ID_Stand']
+					);
+			}else{
+				$tab = array(
+					"IdAvatar" => "",
+					"Nom" => "",
+					"MDP" => "",
+					"IdActivite" => "",
+					"IdStand" => ""
+					);
+			}
+
+			$P->hydrate($tab);
+
+			return $P;
 		}
 		catch(PDOException $error)
 		{
