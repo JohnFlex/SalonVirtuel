@@ -16,7 +16,7 @@ class managerUtilisateur
 	//Le destructeur
 	public function __destruct()
 	{
-		echo "<script>console.log(\"Destruction de l'élement\")</script>";
+		//echo "<script>console.log(\"Destruction de l'élement\")</script>";
 	}
 
 
@@ -316,7 +316,7 @@ class managerUtilisateur
 
 	public function selectSkin($name)
 	{
-		$req = "SELECT Lien_Avatar FROM DB_SALON_Element_Avatar EA, DB_SALON_Avatar A WHERE EA.ID_Element_Avatar = A.ID_Element_Avatar AND A.ID_Avatar = (SELECT ID_Avatar FROM DB_SALON_Utilisateur WHERE Nom_Avatar = :NOM)";
+		$req = "SELECT Lien_Avatar FROM DB_SALON_Element_Avatar EA, DB_SALON_Avatar A WHERE EA.ID_Element_Avatar = A.ID_Element_Avatar AND A.ID_Avatar = :NOM";
 
 		//Envoie de la requête à la base
 		try

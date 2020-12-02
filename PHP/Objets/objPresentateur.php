@@ -30,7 +30,7 @@ class Presentateur
 	//Le destructeur
 	public function __destruct()
 	{
-		echo "<script>console.log(\"Destruction de l'élement\")</script>";
+		//echo "<script>console.log(\"Destruction de l'élement\")</script>";
 	}
 
 
