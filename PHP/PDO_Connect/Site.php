@@ -29,87 +29,7 @@
         <title>Ici c'est le site</title>
         <meta charset="utf-8">
         <script type="text/javascript" src="../JS/ScriptAJAXCommunicationUtilisateurPresentateur.js"></script>
-	</head>
-	<style>
-		body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;}
-
-/*Button to open waiting line*/
-.open-button {
-  background-color: #555;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-  position: fixed;
-  bottom: 23px;
-  left: 28px;
-  width: 280px;
-  z-index: 9;
-  display: none;
-}
-
-/* The popup waiting line - hidden by default */
-.chat-popup {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 15px;
-  border: 3px solid #f1f1f1;
-  z-index: 50;
-}
-
-/* Add styles to the form container */
-.form-container {
-    width: 300px;
-  max-width: 300px;
-  padding: 10px;
-  background-color: white;
-}
-
-/* Set a style for the Join button */
-.form-container .btn1 {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom:10px;
-  opacity: 0.4;
-  border: 3px solid chartreuse;
-}
-.form-container .btn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom:10px;
-  opacity: 0.8;
-}
-
-/* Add a red background color to the cancel button */
-.form-container .cancel {
-  background-color: red;
-}
-
-/* Add some hover effects to buttons */
-.form-container .btn:hover, .open-button:hover {
-  opacity: 1;
-}
-
-#gameSnake{
-    position: fixed;
-    left: 50%;
-    margin-left: -300px;
-    margin-top: -300px;
-    top: 50%;
-  
-}
-	</style>
+    </head>
     <body>
     <header>
     	<div class="navbar">
@@ -133,8 +53,9 @@
 		            	echo $dom->saveHTML();
 
 		            	$dom->removeChild($link);
+
 		                //echo "<a href=''>".$_SESSION['user_name']."</a>";
-		            }   
+		            }      
 		        ?>
             </div>
         </div>
@@ -145,11 +66,20 @@
     	<canvas id="salon" width="500" height="500"></canvas>
 	</div>
 
+	<?php 
+	$file_pointer = 'Content_Game/Fenetre_file_attente.html';
+	if (file_exists($file_pointer)) {
+		echo "The file $file_pointer exists";
+	}else {
+		echo "The file $file_pointer does not exists";
+	}
+	
+	?>
+
     <script>
-			var Stand = [];
+				var Stand = [];
 		  
-		  <?php 
-		  foreach ($emplacements as $emplacement): ?>
+		  <?php foreach ($emplacements as $emplacement): ?>
 				  
 			  <?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]) ?>
 					  Stand.push({
@@ -243,9 +173,7 @@
 			  }
   
 			  function loadImage() {
-			  	  path = document.getElementById("skin").value;
-			  	  //console.log("Console.log de path : "+path);
-				  img.src = '../'+path;
+				  img.src = '../Contenus/images/AVATAR/Man.png';
 				  img.onload = function() {
 					  window.requestAnimationFrame(gameLoop);
 				  };
@@ -352,7 +280,7 @@
 		    var filAttend = document.createElement("button"); //bouton pour rentrer dans la file d'attente
 		    filAttend.id = "Attend";
 		    filAttend.innerHTML = "Entrée dans la file d'attente";
-		    filAttend.addEventListener("click",function(){FileAttentePopUp(stand)});
+		    filAttend.addEventListener("click",function(){FileAttentePopUp(stand.nom)});
 		    document.getElementById("Info").appendChild(filAttend);
 
 		    /*
@@ -364,110 +292,14 @@
 		    */
 		    stand.InfoActive = true;
 		}
-
-		/*================================================
-		Partie File Attente + Game
-		================================================*/
-
-		var seconds = 0;
-		var min = 0;
-		var time=0;
-		time = setInterval(function()
-		{
-		seconds++;
-		if (seconds >= 60){
-
-		min++;
-        seconds=0;
-        //console.log(min+ " "+seconds);
-		}
-        var timer = document.getElementById("demo").innerHTML = min + "M" + seconds + "S";
-		}, 1000);
 		function FileAttentePopUp(stand){
-
-			var openButton = document.createElement("button");
-			openButton.class = "open-button";
-			openButton.onclick = "openForm()";
-			openButton.innerHTML = "Waiting Line";
-
-			var chatPopup = document.createElement("div");
-			chatPopup.class = "chat-popup";
-			chatPopup.id = "myForm";
-
-			var formContainer = document.createElement("div");
-			formContainer.class = "form-container";
-
-			var waitline = document.createElement("h1");
-		    waitline.id= "TitreFile";
-		    waitline.innerHTML = "File Attente";
-		    document.getElementById("form-container").appendChild(waitline);
-
-			var standName = document.createElement("h1");
-		    standName.id= "stand-Name";
-		    standName.innerHTML = stand.nom;
-		    document.getElementById("form-container").appendChild(standName);
-
-			var peopleInLine = document.createElement("p");
-			peopleInLine.innerHTML = "People in waiting line: " + stand.nbPersonne;
-			document.getElementById("form-container").appendChild(peopleInLine);
-
-			var TimeInLine = document.createElement("p");
-			TimeInLine.innerHTML = "Time in waiting line: " + timer; //Problem
-			document.getElementById("form-container").appendChild(TimeInLine);
-
-			var butPlay = document.createElement("button");
-			butPlay.type = "submit";
-			butPlay.class = "btn";
-			butPlay.onclick = "playGame()";
-			butPlay.innerHTML = "Play";
-			document.getElementById("form-container").appendChild(butPlay);
-
-			var butJoin = document.createElement("button");
-			butJoin.type = "submit";
-			butJoin.class = "btn1";
-			butJoin.innerHTML = "Join";
-			document.getElementById("form-container").appendChild(butJoin);
-
-			var butCancel = document.createElement("button");
-			butJoin.type = "submit";
-			butJoin.class = "btn cancel";
-			butJoin.onclick = "closeForm()";
-			butJoin.innerHTML = "Close";
-			document.getElementById("form-container").appendChild(butCancel);
+			include 'Content_Game/Fenetre_file_attente.html'; 
 		}
-
-		function openForm() {
-		document.getElementById("myForm").style.display = "block";
-		}
-
-		function closeForm() {
-		document.getElementById("myForm").style.display = "none";
-		}
-		function playGame(){
-		var open = 0;
-		if(open == 0){
-			document.getElementById("gameSnake").style.display = "block";
-			document.body.style.background = "black";
-		
-			
-			open = 1;
-		}else{
-			document.getElementById("gameSnake").style.display = "none";
-			document.body.style.background = "white";
-			
-			
-			open = 0;
-		}
-		
-      
-    	}
-
-
 		function FileAttente (stand)
 		{
 			//rentrerEnFile(,);
 			//console.log(stand);	
-			rentrerEnFile(stand.nom,document.getElementById('name').value);
+			rentrerEnFile(stand,document.getElementById('name').value);
 		    //console.log("Hola je suis dans la file");
 
 		    var fil = document.createElement("div");

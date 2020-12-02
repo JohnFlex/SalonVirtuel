@@ -2,7 +2,7 @@
 
 require 'ConnexionBD.php';
 session_start();
-Rendre_Le_Presentateur_Disponible(2);
+//Rendre_Le_Presentateur_Disponible(2);
 //echo Recuperer_Le_Nombre_Total_De_Personnes_Qui_Attendent_Dans_La_File_D_Attente_Pour_Un_Stand($_SESSION["stand_id"]);
 Demarrer_La_Reunion();
 
@@ -56,9 +56,9 @@ function Recuperer_Le_Premier_Utilisateur_De_La_File_Pour_Un_Stand($numeroStand)
     $connection=Connexion();
     $querry = "SELECT ID_Avatar, MIN(Heure_Arrivee), ID_Avatar_Presentateur FROM DB_SALON_Reunions WHERE DB_SALON_Reunions.ID_Stand = ".$numeroStand.";";
     if($result = mysqli_query($connection,$querry)) {
-        while($rows = mysqli_fetch_assoc($result)){
+        while($rows = mysqli_fetch_assoc($result))
+        {
            return $rows['ID_Avatar'];
-
         }
 
         mysqli_free_result($result);

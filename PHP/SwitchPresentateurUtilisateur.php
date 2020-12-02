@@ -53,13 +53,14 @@
                     <a href="Accueil.php">Deconnexion</a>
                 
                     <a href="LiaisonAUnStand.php">Liaison au stand</a>
+                    <a href="ChangerEmplacement.php">Changer l'emplacement d'un stand</a>
                     
                 </div>
             </div>
         </header>
         <div>
             <div class="formeT1">
-            <h1>Changer un présentateur en utilisateur</h1>
+            <h1>Changer un prï¿½sentateur en utilisateur</h1>
 
             <form action="#" method="post" id="PRESENTATEURTOUTILISATEUR" name="PresentateurToUtilisateur" >
 
@@ -78,7 +79,7 @@
             </form><br>
         </div>
               <div class="formeT2">
-            <h1>Changer un utilisateur en présentateur</h1>
+            <h1>Changer un utilisateur en prï¿½sentateur</h1>
 
             <form action="#" method="post" id="UTILISATEURTOPRESENTATEUR" name="UtilisateurToPresentateur" >
 

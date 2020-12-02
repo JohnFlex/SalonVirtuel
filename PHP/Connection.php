@@ -3,10 +3,39 @@
 	require_once("Objets/managerUtilisateur.php");
 	require_once("Objets/managerPresentateur.php");
 	require_once("Objets/managerAdministrateur.php");
+	
+	if (session_status()!=PHP_SESSION_NONE)
+		session_destroy();
 
 	function Recup_ID_Utilisateur($nomUtilisateur)
 	{
 	    $querry = "SELECT ID_Avatar FROM DB_SALON_Utilisateur WHERE Nom_Avatar = '". $nomUtilisateur."' ; ";
+	    
+	    try
+	    {
+	    	$connexion = connect_bd();
+
+	    	$stmt = $connexion->prepare($querry);
+   			
+   			$stmt->execute();
+
+   			$result = $stmt->fetchAll();
+
+   			foreach ($result as $row)
+   			{
+   				return $row["ID_Avatar"];
+   			}	    	
+	    }
+	    catch(Exception $e)
+	    {
+	    	echo $e->getMessage();
+	    	return -1;
+	    }
+	}
+
+	function Recup_ID_Presentateur($nomUtilisateur)
+	{
+	    $querry = "SELECT ID_Avatar FROM DB_SALON_Presentateur WHERE Nom_Avatar = '". $nomUtilisateur."' ; ";
 	    
 	    try
 	    {
@@ -58,6 +87,7 @@
 			session_start();
 			$_SESSION['user_name']=$_POST["nom"];
 			$_SESSION['user_type']="Presentateur";
+			$_SESSION['user_id']=Recup_ID_Presentateur($_POST["nom"]);
 			header("Location: SitePresentateur.php");
 		}
 		elseif($managerAdministrateur->existAdministrateurByName($_POST["nom"], $_POST["mdp"]))
@@ -91,6 +121,7 @@
             <div>
             	<a href="Accueil.php">Retour accueil</a>
                 <a href="Inscription.php">Inscription</a>
+                <a href="GuestConnect.php">Connexion direct</a>
             </div>
         </div>
 

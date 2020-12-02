@@ -194,8 +194,6 @@ div.navbar
 }
 
 .navbar a:not(.TitreSite)
-
-.navbar a
 {
     float: right;
     color: white;
@@ -221,8 +219,6 @@ div.navbar
 
 
 .navbar a:hover:not(.TitreSite)
-
-.navbar a:hover
 {
     background-color: #00a8ff;
 }
@@ -285,6 +281,7 @@ footer
     width: 90%;
 }
 
+/*
 #container
 {
    width: 10%;
@@ -295,9 +292,33 @@ footer
 {
     margin: 1%;
     text-align: center;
+    display: flex;
+    
 }
+
+
 
 #container img
 {
    width: 100%;
 }
+
+.DivStand1
+{
+    margin-right: 5em;
+}
+
+.DiffStand
+{
+    display: flex;
+}
+*/
+
+.DivStand {
+    display: flex;
+}
+
+div#container {
+    display: inline-flex;
+}
+

@@ -15,6 +15,7 @@
             <div>
                 <a href="Accueil.php">Retour accueil</a>
                 <a href="Connection.php">Connexion</a>
+                <a href="GuestConnect.php">Connexion direct</a>
             </div>
         </div>
     
