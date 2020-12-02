@@ -58,7 +58,8 @@
             <h1>Titre du site</h1>
             <h2 class="titre2">Salon</h2>
             <div>
-            	<a href="Accueil.php">Deconnexion</a>
+            	<a href="Accueil.php"><img src="../Contenus/images/logout-rounded.png" alt="Deconnexion" style="height:1.45em; width: 1.45em;"></a>
+            	<a href="compteUtilisateur.php"><img src="../Contenus/images/Rouage.png" alt="Paramètres" style="height:1.45em; width: 1.45em;"></a>
                 <?php
 		            if(isset($_SESSION['user_name']))
 		            {
@@ -67,8 +68,6 @@
 		            	$noeudTexteLink = $dom->createTextNode("Compte : ".$_SESSION['user_name']);
 
 		            	$link->appendChild($noeudTexteLink);
-
-		            	$link->setAttribute("href", "compteUtilisateur.php");
 
 		            	$dom->appendChild($link);
 
