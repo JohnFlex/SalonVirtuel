@@ -58,9 +58,11 @@
                 </div>
             </div>
         </header>
-        <div>
+        <div class="mainForme">
             <div class="formeT1">
+
             <h1>Changer un présentateur en utilisateur</h1>
+
 
             <form action="#" method="post" id="PRESENTATEURTOUTILISATEUR" name="PresentateurToUtilisateur" >
 
@@ -79,6 +81,7 @@
             </form><br>
         </div>
               <div class="formeT2">
+
             <h1>Changer un utilisateur en présentateur</h1>
 
             <form action="#" method="post" id="UTILISATEURTOPRESENTATEUR" name="UtilisateurToPresentateur" >

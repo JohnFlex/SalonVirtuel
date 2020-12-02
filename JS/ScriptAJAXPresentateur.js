@@ -17,55 +17,88 @@ window.onload = () =>{
     DIVcontainer = document.getElementById('container');
 
     monConteneur = document.createElement("div");
+    monConteneur.setAttribute("class","DivStand")
 
     divDisponible = document.createElement("div");
-    divDisponible.setAttribute("id","divdispo");
+   // divDisponible.setAttribute("id","divdispo");
+    divDisponible.setAttribute("class","cDivdiso");
 
     let labelDisponible = document.createElement("label");
+    let imageST2 = document.createElement("img");
     labelDisponible.setAttribute("for","spandispo");
     labelDisponible.setAttribute("id","labeldispo");
+    imageST2.setAttribute("src","../Contenus/images/STANDS/Stand03_RotateA.png");
     labelDisponible.innerHTML="Vous êtes actuellement : ";
     let spanDisponible = document.createElement("span");
     spanDisponible.setAttribute("name","spandispo");
     spanDisponible.setAttribute("id","spandispo");
     spanDisponible.innerHTML="Indisponible";
 
+    divDisponible.appendChild(imageST2);
     divDisponible.appendChild(labelDisponible);
     divDisponible.appendChild(spanDisponible);
 
-    let divBoutonDisponible = document.createElement("div");
+//    let divBoutonDisponible = document.createElement("div");
+//    divBoutonDisponible.setAttribute("classe","dkgJDGFSHYDFC");
     let BoutonDisponible = document.createElement("button");
+    
     BoutonDisponible.setAttribute("id","BoutonDisponible");
+    BoutonDisponible.setAttribute("class","cDivdiso");
     BoutonDisponible.setAttribute("onclick","changeDispo();");
     BoutonDisponible.innerHTML="Devenir Disponible";
-    divBoutonDisponible.appendChild(BoutonDisponible);
-    divDisponible.appendChild(divBoutonDisponible);
+    let brButton =document.createElement("br");
+    divDisponible.appendChild(brButton);
+    divDisponible.appendChild(BoutonDisponible);
+    //document.getElementsByClassName("cDivdiso")[0].appendChild(divDisponible);
+    //console.log(document.getElementsByClassName("cDivdiso"));
+    //divBoutonDisponible.appendChild(BoutonDisponible);
+    
 
     divFile = document.createElement("div");
-    divFile.setAttribute("id","divfile");
+    //divFile.setttribute("id","divfile");
+    divFile.setAttribute("class","cDivdiso");
+    
 
     let labelFile = document.createElement("label");
+    let imageST3 = document.createElement("img");
     labelFile.setAttribute("for","spanfile");
     labelFile.setAttribute("id","labelfile");
+    imageST3.setAttribute("src","../Contenus/images/STANDS/Stand01_RotateA.png");
+  
     labelFile.innerHTML="Nombre d'utilisateur dans la file : ";
     let spanFile = document.createElement("span");
     spanFile.setAttribute("name","spanfile");
     spanFile.setAttribute("id","spanfile");
     spanFile.innerHTML="0";
 
+
+    divFile.appendChild(imageST3);
     divFile.appendChild(labelFile);
     divFile.appendChild(spanFile);
-
+    
+    let divReunion = document.createElement("div");
     boutonReunion = document.createElement("a");
+    let imageST4 = document.createElement("img");
+    //divReunion.setAttribute("class","DivReu");
+    divReunion.setAttribute("class","cDivdiso");
+    labelFile.setAttribute("for","spanfile");
+    imageST4.setAttribute("src","../Contenus/images/STANDS/Stand04_RotateA.png");
+
     boutonReunion.setAttribute("id","boutonreunion");
     boutonReunion.setAttribute("href","COMM/Show_Queue.php");
     boutonReunion.innerHTML="Lancer la Réunion";
     boutonReunion.disabled=true;
 
+    
+    divReunion.appendChild(imageST4);
+    divReunion.appendChild(boutonReunion);
+
     monConteneur.appendChild(divDisponible);
-    monConteneur.appendChild(BoutonDisponible);
+    //monConteneur.appendChild(BoutonDisponible);
     monConteneur.appendChild(divFile);
-    monConteneur.appendChild(boutonReunion);
+    monConteneur.appendChild(divReunion);
+    //monConteneur.appendChild(boutonReunion);
+
     DIVcontainer.appendChild(monConteneur);
 
     setInterval(nbUtilisateurFile, 1000);
@@ -92,6 +125,7 @@ function nbUtilisateurFile()
                 boolEnAttente=false;
                 // On a une réponse
                 // On convertit la réponse en objet JS
+
                 if (this.response!="")
                 {
                     let Reponses = JSON.parse(this.response);
@@ -107,6 +141,7 @@ function nbUtilisateurFile()
                         {
                             document.getElementById('boutonreunion').disabled=true;
                         }
+
                     }
                 }
             }
@@ -136,6 +171,7 @@ function changeDispo()
             if(this.status == 200)
             {
                 boolEnAttente=false;
+
                 if (this.response!="")
                 {
                     // On a une réponse

@@ -35,27 +35,29 @@ form
 {
     width: 300px;
     padding: 40px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
     background-color: #2f3640;
     text-align: center;
-}
-.formeT1
-{
-    text-align: center;
-    float: left;
-/*    transform: translate(40%,50%);*/
-    margin: 10em 1em 1em 10em;
+
 }
 
-.formeT2
-{
-    float: right;
-/*    transform: translate(-40%,43%);*/
-    margin: 10em 10em 1em 1em;
+form#UTILISATEURTOPRESENTATEUR {
+    height: 120px;
+}
+
+form#PRESENTATEURTOUTILISATEUR {
+    height: 120px;
+}
+
+.formeT1 {
     text-align: center;
+    MARGIN: auto;
+}
+
+.formeT2 {
+    /* float: right; */
+    /* transform: translate(-40%,43%); */
+    text-align: center;
+    MARGIN: auto;
 }
 
 .Connexion
@@ -231,7 +233,7 @@ div.navbar
 .navbar h2.titre1
 {
    
-    margin-left: 7.5em;
+    margin-left: 14em;
 }
 
 .navbar h2.titre2
@@ -281,6 +283,7 @@ footer
     width: 90%;
 }
 
+/*
 #container
 {
    width: 10%;
@@ -291,11 +294,61 @@ footer
 {
     margin: 1%;
     text-align: center;
+    display: flex;
+    
 }
+
+
 
 #container img
 {
    width: 100%;
+}
+
+.DivStand1
+{
+    margin-right: 5em;
+}
+
+.DiffStand
+{
+    display: flex;
+}
+*/
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2%;
+    margin: 0 auto;
+}
+
+.DivStand {
+    display: flex;
+    TEXT-ALIGN: center;
+}
+
+
+.container img {
+    display: block;
+    margin: 0 auto;
+    padding: 47px;
+}
+
+button#BoutonDisponible {
+    background-color: #2f3640;
+    color: white;
+}
+
+.mainForme {
+    display: flex;
+    margin: 11% auto;
+    height: 400px;
+    width: 800px;
+}
+
+select {
+    margin-bottom: 2%;
 }
 
 .imgAvatar

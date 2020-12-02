@@ -25,7 +25,9 @@
                 <h1>Titre du site</h1>
                 <h2 class="titre3">Site présentateur</h2>
                 <div class="cssAdmin">
+
                     <a href="Accueil.php"><img src="../Contenus/images/logout-rounded.png" alt="Deconnexion" style="height:1.45em; width: 1.45em;"></a>
+
                     <?php
                         if(isset($_SESSION['user_name']))
                         {
@@ -54,14 +56,19 @@
                 if($X < 1)
                 {
                     echo"<a href='creerStand.php'><img src='../Contenus/images/STANDS/Stand02_RotateA.png' alt='Image de Stand'>Création d'un Stand</a>";
+                    
                 }
                 else
                 {
-                    echo"<a href='modifierStand.php'><img src='../Contenus/images/STANDS/Stand02_RotateA.png' alt='Image de Stand'>Gestion d'un Stand</a>";
+                
+                    echo"<div class='DivStand'><a href='modifierStand.php'><img src='../Contenus/images/STANDS/Stand02_RotateA.png' alt='Image de Stand'>Gestion d'un Stand</a></div>";
+//                    echo "<img src='../Contenus/images/STANDS/Stand03_RotateA.png' alt='Image de Stand'>";
+
 
                     $_SESSION['stand_id']=$X;
 
                     echo '<script type="text/javascript" src="../JS/ScriptAJAXPresentateur.js"></script>';
+
                 }
 
                 /*var_dump($_SESSION['user_name']);

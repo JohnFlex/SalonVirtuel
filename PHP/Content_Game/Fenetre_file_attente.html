@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+/*Button to open waiting line*/
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  left: 28px;
+  width: 280px;
+  z-index: 9;
+}
+
+/* The popup waiting line - hidden by default */
+.chat-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 50;
+}
+
+/* Add styles to the form container */
+.form-container {
+    width: 300px;
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Set a style for the Join button */
+.form-container .btn1 {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.4;
+  border: 3px solid chartreuse;
+}
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+#gameSnake{
+    position: fixed;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -300px;
+    top: 50%;
+  
+}
+
+</style>
+</head>
+<body>
+
+<iframe id="gameSnake" src="GameSnake.html" height=500 width=500 style="display: none;"></iframe>
+<button class="open-button" onclick="openForm()">Waiting Line</button>
+
+<div class="chat-popup" id="myForm">
+  <div  class="form-container">
+    <h1>Waiting Line</h1>
+    <h2 id="standName">Stand Name</h1>
+
+    <p> People in waiting line: 645</p>
+    <p> Time in waiting line : 2 years 4 months 3 days 12h 32min 29sec</p>
+
+    
+
+    <button type="submit" class="btn" onclick="playGame()">Play</button>
+    <button type="submit" class="btn1">Join</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </div>
+</div>
+
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+
+var test = 0;
+
+function playGame(){
+    //coté server on peut juste include un file html file
+    //<!--#include virtual="GameSnake.html" --> 
+    if(test == 0){
+        document.getElementById("gameSnake").style.display = "block";
+        document.body.style.background = "black";
+       
+        
+        test = 1;
+    }else{
+        document.getElementById("gameSnake").style.display = "none";
+        document.body.style.background = "white";
+        
+        
+        test = 0;
+    }
+    
+      
+    }
+
+</script>
+
+</body>
+</html>
