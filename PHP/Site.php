@@ -438,7 +438,7 @@
         seconds=0;
         //console.log(min+ " "+seconds);
 		}
-        var timer = document.getElementById("demo").innerHTML = min + "M" + seconds + "S";
+        var timer = document.getElementById("TimeInLine").innerHTML = min + "M" + seconds + "S";
 		}, 1000);
 		function FileAttentePopUp(stand){
 
@@ -455,6 +455,7 @@
 
 			var formContainer = document.createElement("div");
 			formContainer.class = "form-container";
+			formContainer.id = "form-container";
 
 			var waitline = document.createElement("h1");
 		    waitline.id= "TitreFile";
@@ -488,13 +489,15 @@
 			document.getElementById("form-container").appendChild(butJoin);
 
 			var filQuitter= document.createElement("button"); //creation bouton pour quitter la file d'attente
-		    filQuitter.id= "QuitterFile";
+		    filQuitter.type = "submit";
+			filQuitter.id= "QuitterFile";
 		    filQuitter.class ="btn";
 		    filQuitter.innerHTML = "Quitter la file";
+			document.getElementById("form-container").appendChild(filQuitter);
 
 		    filQuitter.addEventListener("click", QuitterFileAtt);
 
-		    document.getElementById("form-container").appendChild(filQuitter);
+		    
 
 			var butCancel = document.createElement("button");
 			butJoin.type = "submit";
