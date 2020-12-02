@@ -487,103 +487,30 @@
 			butJoin.innerHTML = "Join";
 			document.getElementById("form-container").appendChild(butJoin);
 
-			var butCancel = document.createElement("button");
-			butJoin.type = "submit";
-			butJoin.class = "btn cancel";
-			butJoin.onclick = "closeForm()";
-			butJoin.innerHTML = "Close";
-			document.getElementById("form-container").appendChild(butCancel);
-		}
-
-		function openForm() {
-		document.getElementById("myForm").style.display = "block";
-		}
-
-		function closeForm() {
-		document.getElementById("myForm").style.display = "none";
-		}
-		function playGame(){
-		var open = 0;
-		if(open == 0){
-			document.getElementById("gameSnake").style.display = "block";
-			document.body.style.background = "black";
-		
-			
-			open = 1;
-		}else{
-			document.getElementById("gameSnake").style.display = "none";
-			document.body.style.background = "white";
-			
-			
-			open = 0;
-		}
-		
-      
-    	}
-
-		function FileAttente (stand)
-		{
-			//rentrerEnFile(,);
-			//console.log(stand);
-			rentrerEnFile(stand.nom,document.getElementById('name').value);
-		    //console.log("Hola je suis dans la file");
-
-		    var fil = document.createElement("div");
-		    var corps = document.getElementById("corps");
-		    fil.id= "CaseFileAttend";
-
-		    corps.appendChild(fil);
-
-		    var PersFil = document.createElement("div");
-		    PersFil.id = "nbPersonne";
-		    PersFil.innerHTML = "Perso/MaxPerso";
-		    document.getElementById("CaseFileAttend").appendChild(PersFil);
-
-		    var PersNomStand = document.createElement("div");
-		    PersNomStand.id = "nomStand";
-		    PersNomStand.innerHTML = "Nom du stand";
-		    document.getElementById("CaseFileAttend").appendChild(PersNomStand);
-
-		    var filnom = document.createElement("h4");
-		    filnom.id= "TitreFile";
-		    filnom.innerHTML = "File Attente";
-		    document.getElementById("CaseFileAttend").appendChild(filnom);
-
-		    var filTemps= document.createElement("div");
-		    filTemps.id= "TempsEstime";
-		    filTemps.className="caseFile";
-		    filTemps.innerHTML="Temps estime";
-		    document.getElementById("CaseFileAttend").appendChild(filTemps);
-
-		    var filplusinfo= document.createElement("div");
-		    filplusinfo.id= "PlusInfo";
-		    filplusinfo.className="caseFile";
-		    filplusinfo.innerHTML = "Plus d'info sur le stand";
-		    document.getElementById("CaseFileAttend").appendChild(filplusinfo);
-
-		    var filQuitter= document.createElement("button"); //creation bouton pour quitter la file d'attente
+			var filQuitter= document.createElement("button"); //creation bouton pour quitter la file d'attente
 		    filQuitter.id= "QuitterFile";
 		    filQuitter.className="ButtonFile";
 		    filQuitter.innerHTML = "Quitter la file";
 
 		    filQuitter.addEventListener("click", QuitterFileAtt);
 
-		    document.getElementById("CaseFileAttend").appendChild(filQuitter);
+		    document.getElementById("form-container").appendChild(filQuitter);
 
-		    var filJeu= document.createElement("button"); //creation bouton pour jouer au jeu
-		    filJeu.id= "JouerJeu";
-		    filJeu.className="ButtonFile";
-		    filJeu.innerHTML = "Jouer au jeu";
+			var butCancel = document.createElement("button");
+			butJoin.type = "submit";
+			butJoin.class = "btn cancel";
+			butJoin.onclick = "closeForm()";
+			butJoin.innerHTML = "Close";
+			document.getElementById("form-container").appendChild(butCancel);
 
-		    filJeu.addEventListener("click", function() {
+			butPlay.addEventListener("click", function() {
 				Lejeu(stand.image);
 			});
 
-		    document.getElementById("CaseFileAttend").appendChild(filJeu);
-		    function QuitterFileAtt ()//fonction pour quitter la file d'attente
+			function QuitterFileAtt ()//fonction pour quitter la file d'attente
 		    {
 		        //console.log("normalement j'ai quitté fdp");
-		        effacer = document.getElementById("CaseFileAttend");
+		        effacer = document.getElementById("form-container");
 		        effacer.parentElement.removeChild(effacer);
 
 		        //NOTE R.S. : Appeler la fonction quitter la file.
@@ -591,7 +518,7 @@
 
 		    }
 
-		    function Lejeu(img)
+			function Lejeu(img)
 		    {
 		        console.log("Je joue !");
 				jeu = document.getElementById("jeu");
@@ -601,9 +528,16 @@
 				close.style.display = "block";
 				jeu.focus();
 		    }
+
+			function openForm() {
+			document.getElementById("myForm").style.display = "block";
+			}
+
+			function closeForm() {
+			document.getElementById("myForm").style.display = "none";
+			}
+
 		}
-
-
 		    function fermerfenetre (stand)
 		    {
 		        effacer =document.getElementById("Info");
