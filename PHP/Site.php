@@ -489,7 +489,7 @@
 
 			var filQuitter= document.createElement("button"); //creation bouton pour quitter la file d'attente
 		    filQuitter.id= "QuitterFile";
-		    filQuitter.className="ButtonFile";
+		    filQuitter.class ="btn";
 		    filQuitter.innerHTML = "Quitter la file";
 
 		    filQuitter.addEventListener("click", QuitterFileAtt);
