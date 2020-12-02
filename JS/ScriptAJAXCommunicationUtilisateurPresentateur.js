@@ -35,7 +35,7 @@ function chargeReunion()
                     if (this.response!="")
                     {
                         let Reponses = JSON.parse(this.response);
-
+                        //console.log(Reponses);
                         //Reponse.reverse();7
 
                         for(let Reponse of Reponses)
@@ -98,6 +98,7 @@ function rentrerEnFile(stand_name,user_name)
 
 function verifPresentateur()
 {
+    //console.log(boolEnAttente);
     if (boolEnAttente)
     {
         // On instancie XMLHttpRequest
@@ -110,17 +111,21 @@ function verifPresentateur()
             // On vérifie si la requête est terminée
             if(this.readyState == 4)
             {
+                    
+                //console.log (this.status);
                 if(this.status == 200)
                 {
+                    //console.log (this.response);
                     if (this.response!="")
                     {
                         let Reponses = JSON.parse(this.response);
-
+                        //console.log(Reponses.ID_Avatar_Presentateur);
                         for(let Reponse of Reponses)
                         {
                            if (Reponse.ID_Avatar_Presentateur!=null)
                            {
-                                if (Confirm("La réunion est prête, souhaitez-vous la rejoindre ?"))
+                                boolEnAttente=false;
+                                if (window.confirm("La réunion est prête, souhaitez-vous la rejoindre ?"))
                                 {
                                     chargeReunion();
                                 }
@@ -130,7 +135,7 @@ function verifPresentateur()
                                 }
                            }
                         }
-                    }
+                   }
                 }
                 else
                 {

@@ -3,14 +3,14 @@
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // On est en GET
     // On vérifie si on a reçu un id
-    if(isset($_GET['User_Id']))
+    if(isset($_GET['UserId']))
     {
         // On se connecte à la base
         require_once('ConnexionALaBDD.php');
         $db = ConnexionBDD();
 
         // On écrit la requête
-        $sql = 'SELECT ID_Avatar_Presentateur FROM DB_SALON_Reunions WHERE ID_Avatar = '.$_GET["User_Id"].';';
+        $sql = 'SELECT ID_Avatar_Presentateur FROM DB_SALON_Reunions WHERE ID_Avatar = '.$_GET["UserId"].';';
 
         // On exécute la requête
         $query = $db->query($sql);
