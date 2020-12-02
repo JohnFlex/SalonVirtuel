@@ -67,7 +67,7 @@
                 <h2 class="titre2">Liaison au stand</h2>
                 
                 <div>
-                    <a href="Accueil.php">Deconnexion</a>
+                    <a href="Accueil.php"><img src="../Contenus/images/logout-rounded.png" alt="Deconnexion" style="height:1.45em; width: 1.45em;"></a>
                 
                     <a href="SwitchPresentateurUtilisateur.php"> Administration des roles</a>
                     <a href="ChangerEmplacement.php">Changer l'emplacement d'un stand</a>

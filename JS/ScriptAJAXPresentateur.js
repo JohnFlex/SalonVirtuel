@@ -38,18 +38,25 @@ window.onload = () =>{
     divDisponible.appendChild(labelDisponible);
     divDisponible.appendChild(spanDisponible);
 
-    let divBoutonDisponible = document.createElement("div");
+//    let divBoutonDisponible = document.createElement("div");
+//    divBoutonDisponible.setAttribute("classe","dkgJDGFSHYDFC");
     let BoutonDisponible = document.createElement("button");
     
     BoutonDisponible.setAttribute("id","BoutonDisponible");
     BoutonDisponible.setAttribute("class","cDivdiso");
     BoutonDisponible.setAttribute("onclick","changeDispo();");
     BoutonDisponible.innerHTML="Devenir Disponible";
-    divBoutonDisponible.appendChild(BoutonDisponible);
-    divDisponible.appendChild(divBoutonDisponible);
+    let brButton =document.createElement("br");
+    divDisponible.appendChild(brButton);
+    divDisponible.appendChild(BoutonDisponible);
+    //document.getElementsByClassName("cDivdiso")[0].appendChild(divDisponible);
+    //console.log(document.getElementsByClassName("cDivdiso"));
+    //divBoutonDisponible.appendChild(BoutonDisponible);
+    
 
     divFile = document.createElement("div");
     //divFile.setttribute("id","divfile");
+    divFile.setAttribute("class","cDivdiso");
     
 
     let labelFile = document.createElement("label");
@@ -83,7 +90,7 @@ window.onload = () =>{
     divReunion.appendChild(boutonReunion);
 
     monConteneur.appendChild(divDisponible);
-    monConteneur.appendChild(BoutonDisponible);
+    //monConteneur.appendChild(BoutonDisponible);
     monConteneur.appendChild(divFile);
     monConteneur.appendChild(divReunion);
     //monConteneur.appendChild(boutonReunion);

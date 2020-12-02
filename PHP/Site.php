@@ -1,13 +1,19 @@
 <?php 
+    session_start();
+    
     require_once("PDO_Connect/PDO_Connect.php");
     require_once("Objets/managerStand.php");
     require_once("Objets/managerRessource.php");
     require_once("Objets/managerEmplacement.php");
-
-    $db = connect_bd();
+	require_once("Objets/managerUtilisateur.php");
+	require_once("Objets/managerPresentateur.php");
+	
+	$db = connect_bd();
+	$managerPresentateur = new managerPresentateur($db);
     $managerStand = new managerStand($db);
     $managerRes = new managerRessource($db);
     $managerEmplacement = new managerEmplacement($db);
+	$managerUtilisateur = new managerUtilisateur($db);
 
     $stands = $managerStand->selectStands();
     $stands->setFetchMode(PDO::FETCH_ASSOC);
@@ -16,10 +22,10 @@
     $emplacements->setFetchMode(PDO::FETCH_ASSOC);
     $emplacements = $emplacements->fetchAll();
 
-    session_start();
     $dom = new DOMDocument('1.0', 'iso-8859-1');
     echo '<input type="hidden" id="id" value="'.$_SESSION['user_id'].'">';
     echo '<input type="hidden" id="name" value="'.$_SESSION['user_name'].'">';
+    echo '<input type="hidden" id="skin" value="'.$managerUtilisateur->selectSkin($_SESSION['user_id']).'">';
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,95 +34,34 @@
     	<link href="../CSS/style_salon.css" rel="stylesheet">
         <title>Ici c'est le site</title>
         <meta charset="utf-8">
-        <script type="text/javascript" src="../JS/ScriptAJAXCommunicationUtilisateurPresentateur.js"></script>
-	</head>
-	<style>
-		body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;}
+		<script type="text/javascript" src="../JS/ScriptAJAXCommunicationUtilisateurPresentateur.js"></script>
 
-/*Button to open waiting line*/
-.open-button {
-  background-color: #555;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-  position: fixed;
-  bottom: 23px;
-  left: 28px;
-  width: 280px;
-  z-index: 9;
-  display: none;
-}
+		<style>
+			* {
+				z-index:0;
+			}
+			iframe {
+				z-index:1;
+				position: absolute;
+				margin : 1%;
+			}
 
-/* The popup waiting line - hidden by default */
-.chat-popup {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 15px;
-  border: 3px solid #f1f1f1;
-  z-index: 50;
-}
-
-/* Add styles to the form container */
-.form-container {
-    width: 300px;
-  max-width: 300px;
-  padding: 10px;
-  background-color: white;
-}
-
-/* Set a style for the Join button */
-.form-container .btn1 {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom:10px;
-  opacity: 0.4;
-  border: 3px solid chartreuse;
-}
-.form-container .btn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom:10px;
-  opacity: 0.8;
-}
-
-/* Add a red background color to the cancel button */
-.form-container .cancel {
-  background-color: red;
-}
-
-/* Add some hover effects to buttons */
-.form-container .btn:hover, .open-button:hover {
-  opacity: 1;
-}
-
-#gameSnake{
-    position: fixed;
-    left: 50%;
-    margin-left: -300px;
-    margin-top: -300px;
-    top: 50%;
-  
-}
-	</style>
+			#closebutton {
+				z-index:2;
+				position:absolute;
+				top:62;
+				left:412;
+			}
+		</style>
+    </head>
     <body>
     <header>
     	<div class="navbar">
             <h1>Titre du site</h1>
             <h2 class="titre2">Salon</h2>
             <div>
-            	<a href="Accueil.php">Deconnexion</a>
+            	<a href="Accueil.php"><img src="../Contenus/images/logout-rounded.png" alt="Deconnexion" style="height:1.45em; width: 1.45em;"></a>
+            	<a href="compteUtilisateur.php"><img src="../Contenus/images/Rouage.png" alt="Paramètres" style="height:1.45em; width: 1.45em;"></a>
                 <?php
 		            if(isset($_SESSION['user_name']))
 		            {
@@ -126,48 +71,75 @@
 
 		            	$link->appendChild($noeudTexteLink);
 
-		            	$link->setAttribute("href", "compteUtilisateur.php");
-
 		            	$dom->appendChild($link);
 
 		            	echo $dom->saveHTML();
 
 		            	$dom->removeChild($link);
 		                //echo "<a href=''>".$_SESSION['user_name']."</a>";
-		            }   
+		            }
 		        ?>
             </div>
         </div>
     </header>
-
     <div class="corps" id="corps">
-    	<div id="test"></div>
-    	<canvas id="salon" width="500" height="500"></canvas>
+		<div id="test"></div>
+		<iframe id="jeu" width="500" height="500" style="display:none"></iframe>
+		<button id="closebutton" style="display:none" onclick="fermerJeu();">Fermer le jeu</button>
+		<canvas id="salon" width="500" height="500"></canvas>
 	</div>
 
     <script>
 			var Stand = [];
-		  
-		  <?php 
-		  foreach ($emplacements as $emplacement): ?>
-				  
-			  <?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]) ?>
-					  Stand.push({
-						  Id:'<?php echo $stand->getId()?>',
-						  nom:'<?php echo $stand->getLibelle()?>',
-						  categorie:'<?php echo $stand->getCategorie() ?>',
-						  Resume:'<?php echo $stand->getInformation() ?>',
-						  InfoActive:false,
-						  Background:"<?php echo $emplacement['Couleur_Element'] ?>",
-						  organisateur:"Organisateur",
-						  nbPersonne:0,
-						  X:<?php echo $emplacement['Position_X_Emplacement'] ?>,
-						  Y:<?php echo $emplacement['Position_Y_Emplacement'] ?>,
-					  
-						  cree:<?php echo !empty($stand->getPositionX())? "true" : "false"; ?>
-				  });
+
+		  <?php foreach ($emplacements as $emplacement): ?>
+
+				<?php $stand = $managerStand->selectStandByPos($emplacement["Position_X_Emplacement"],$emplacement["Position_Y_Emplacement"]); ?>
+				<?php 
+
+					$stmt = $managerRes->selectRessourceByStandId($stand->getId());
+					$stmt->setFetchMode(PDO::FETCH_ASSOC);
+					if($stmt->rowCount() > 0) {
+						$result = $stmt->fetchAll();
+						$img = "";
+						foreach ($result as $row) {
+							$img = $row["Lien_Ressource"];
+						}
+						if ((strpos($img, '.png') !== false)||(strpos($img, '.jpg') !== false) || (strpos($img, '.bmp') !== false)) {
+	
+						} else {
+							$img = "null";
+						}
+					} else {
+						$img = "null";
+					}
+					
+					$presentateur = $managerPresentateur->selectPresentateurByStand($stand->getId());
+					if ($presentateur->getNom() != "") {
+						 $orga = $presentateur->getNom();
+					} else {
+						$orga = "";
+					}
+				
+
+        		?>
+
+					Stand.push({
+						Id:'<?php echo $stand->getId()?>',
+						nom:"<?php echo $stand->getLibelle()?>",
+						categorie:"<?php echo $stand->getCategorie() ?>",
+						Resume:"<?php echo $stand->getInformation() ?>",
+						InfoActive:false,
+						Background:"<?php echo $emplacement['Couleur_Element'] ?>",
+						organisateur:"<?php echo $orga ?>",
+						nbPersonne:0,
+						X:<?php echo $emplacement['Position_X_Emplacement'] ?>,
+						Y:<?php echo $emplacement['Position_Y_Emplacement'] ?>,
+						image: '<?php echo $img ?>',
+						cree:<?php echo !empty($stand->getPositionX())? "true" : "false"; ?>
+				  	});
+
 			  <?php endforeach ?>
-			  
 			  const SCALE = 1;
 			  const WIDTH = 32;
 			  const HEIGHT = 48;
@@ -181,42 +153,42 @@
 			  const FRAME_LIMIT = 12;
 			  const MOVEMENT_SPEED = 1;
 			  const COLLISION_OFFSET = 10
-  
+
 			  var keyPresses = {};
 			  var currentDirection = FACING_DOWN;
 			  var currentLoopIndex = 0;
 			  var frameCount = 0;
 			  var img = new Image();
-  
-  
+
+
 			  var canvas = document.getElementById("salon");
 			  var Clicker = false;
-  
+
 			  var ctx2d = canvas.getContext("2d");
 			  var player = document.getElementById("player");
-  
+
 			  var size = 4;
-  
+
 			  var standWidth = canvas.width/size;
 			  var standHeight = canvas.height/size;
-  
+
 			  var standCoordGridX = canvas.width/(size/1.5);
 			  var standCoordGridY = canvas.height/(size/1.5);
-  
+
 			  var visiteur = {x:140,y:140,w:WIDTH,h:HEIGHT};
-  
+
 			  var currentColor = "red";
 			  var inter;
-  
+
 		  function renderStand(stand) {
 			  ctx2d.fillStyle = stand.Background;
 			  ctx2d.fillRect((stand.X-1)*standCoordGridX,(stand.Y-1)*standCoordGridY,standWidth,standHeight);
-  
+
 			  ctx2d.font = '12px serif';
 			  ctx2d.fillStyle = "white";
 			  ctx2d.fillText(stand.nom, (stand.X-1)*standCoordGridX+5, (stand.Y-1)*standCoordGridY+15,100);
 		  }
-  
+
 		  function collisionStand(stand) {
 			  if (Clicker == false) {
 				  if((visiteur.x+visiteur.w-COLLISION_OFFSET >= (stand.X-1)*standCoordGridX) && (visiteur.x+COLLISION_OFFSET <= (stand.X-1)*standCoordGridX+standWidth) && (visiteur.y+visiteur.h-COLLISION_OFFSET >= (stand.Y-1)*standCoordGridY) && (visiteur.y+COLLISION_OFFSET <= (stand.Y-1)*standCoordGridY+standHeight)) {
@@ -231,46 +203,49 @@
 				  }
 			  }
 		  }
-  
+
 		  window.addEventListener('keydown', keyDownListener);
 			  function keyDownListener(event) {
 				  keyPresses[event.key] = true;
 			  }
-  
+
 			  window.addEventListener('keyup', keyUpListener);
 			  function keyUpListener(event) {
 				  keyPresses[event.key] = false;
 			  }
-  
+
 			  function loadImage() {
 			  	  path = document.getElementById("skin").value;
 			  	  //console.log("Console.log de path : "+path);
+				  if (path == null) {
+					  path = "Contenus/images/AVATAR/Man.png";
+				  } 
 				  img.src = '../'+path;
 				  img.onload = function() {
 					  window.requestAnimationFrame(gameLoop);
 				  };
 			  }
-  
+
 			  function drawFrame(frameX, frameY, canvasX, canvasY) {
 				  ctx2d.drawImage(img,
 								  frameX * WIDTH, frameY * HEIGHT, WIDTH, HEIGHT,
 								  canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
 			  }
-  
+
 			  loadImage();
-  
+
 			  function gameLoop() {
 				  ctx2d.clearRect(0, 0, canvas.width, canvas.height);
 				  ctx2d.fillStyle =  "rgb(255,255,255)";
 				  ctx2d.fillRect(0,0,canvas.width,canvas.height);
-  
+
 				  Stand.forEach(stand => {
 					  renderStand(stand);
-					  
-				  }); 
-  
+
+				  });
+
 				  var hasMoved = false;
-  
+
 				  if (keyPresses.z || keyPresses.ArrowUp) {
 					  moveCharacter(0, -MOVEMENT_SPEED, FACING_UP);
 					  hasMoved = true;
@@ -278,7 +253,7 @@
 					  moveCharacter(0, MOVEMENT_SPEED, FACING_DOWN);
 					  hasMoved = true;
 				  }
-  
+
 				  if (keyPresses.q || keyPresses.ArrowLeft) {
 					  moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT);
 					  hasMoved = true;
@@ -286,7 +261,7 @@
 					  moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT);
 					  hasMoved = true;
 				  }
-  
+
 				  if (hasMoved) {
 					  frameCount++;
 					  if (frameCount >= FRAME_LIMIT) {
@@ -300,16 +275,16 @@
 						  collisionStand(stand);
 					  })
 				  }
-				  
+
 				  if (!hasMoved) {
 					  currentLoopIndex = 0;
 				  }
-  
+
 				  drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, visiteur.x, visiteur.y);
-  
+
 				  window.requestAnimationFrame(gameLoop);
 			  }
-  
+
 			  function moveCharacter(deltaX, deltaY, direction) {
 				  if (visiteur.x + deltaX > 0 && visiteur.x + SCALED_WIDTH + deltaX < canvas.width) {
 					  visiteur.x += deltaX;
@@ -319,7 +294,7 @@
 				  }
 				  currentDirection = direction;
 			  }
-			  
+
 		function Information (stand)
 		{
 		    var info = document.createElement("div");
@@ -338,7 +313,7 @@
 		    document.getElementById("Info").appendChild(phrase);
 
 		    var phrase =document.createElement("p");
-		    phrase.innerHTML = stand.organisateur;
+		    phrase.innerHTML = "Organisateur : "+stand.organisateur;
 		    document.getElementById("Info").appendChild(phrase);
 
 		    var phrase =document.createElement("p");
@@ -352,7 +327,7 @@
 		    var filAttend = document.createElement("button"); //bouton pour rentrer dans la file d'attente
 		    filAttend.id = "Attend";
 		    filAttend.innerHTML = "Entrée dans la file d'attente";
-		    filAttend.addEventListener("click",function(){FileAttentePopUp(stand)});
+		    filAttend.addEventListener("click",function(){FileAttente(stand)});
 		    document.getElementById("Info").appendChild(filAttend);
 
 		    /*
@@ -364,116 +339,20 @@
 		    */
 		    stand.InfoActive = true;
 		}
-
-		/*================================================
-		Partie File Attente + Game
-		================================================*/
-
-		var seconds = 0;
-		var min = 0;
-		var time=0;
-		time = setInterval(function()
-		{
-		seconds++;
-		if (seconds >= 60){
-
-		min++;
-        seconds=0;
-        //console.log(min+ " "+seconds);
-		}
-        var timer = document.getElementById("demo").innerHTML = min + "M" + seconds + "S";
-		}, 1000);
-		function FileAttentePopUp(stand){
-
-			var openButton = document.createElement("button");
-			openButton.class = "open-button";
-			openButton.onclick = "openForm()";
-			openButton.innerHTML = "Waiting Line";
-
-			var chatPopup = document.createElement("div");
-			chatPopup.class = "chat-popup";
-			chatPopup.id = "myForm";
-
-			var formContainer = document.createElement("div");
-			formContainer.class = "form-container";
-
-			var waitline = document.createElement("h1");
-		    waitline.id= "TitreFile";
-		    waitline.innerHTML = "File Attente";
-		    document.getElementById("form-container").appendChild(waitline);
-
-			var standName = document.createElement("h1");
-		    standName.id= "stand-Name";
-		    standName.innerHTML = stand.nom;
-		    document.getElementById("form-container").appendChild(standName);
-
-			var peopleInLine = document.createElement("p");
-			peopleInLine.innerHTML = "People in waiting line: " + stand.nbPersonne;
-			document.getElementById("form-container").appendChild(peopleInLine);
-
-			var TimeInLine = document.createElement("p");
-			TimeInLine.innerHTML = "Time in waiting line: " + timer; //Problem
-			document.getElementById("form-container").appendChild(TimeInLine);
-
-			var butPlay = document.createElement("button");
-			butPlay.type = "submit";
-			butPlay.class = "btn";
-			butPlay.onclick = "playGame()";
-			butPlay.innerHTML = "Play";
-			document.getElementById("form-container").appendChild(butPlay);
-
-			var butJoin = document.createElement("button");
-			butJoin.type = "submit";
-			butJoin.class = "btn1";
-			butJoin.innerHTML = "Join";
-			document.getElementById("form-container").appendChild(butJoin);
-
-			var butCancel = document.createElement("button");
-			butJoin.type = "submit";
-			butJoin.class = "btn cancel";
-			butJoin.onclick = "closeForm()";
-			butJoin.innerHTML = "Close";
-			document.getElementById("form-container").appendChild(butCancel);
-		}
-
-		function openForm() {
-		document.getElementById("myForm").style.display = "block";
-		}
-
-		function closeForm() {
-		document.getElementById("myForm").style.display = "none";
-		}
-		function playGame(){
-		var open = 0;
-		if(open == 0){
-			document.getElementById("gameSnake").style.display = "block";
-			document.body.style.background = "black";
-		
-			
-			open = 1;
-		}else{
-			document.getElementById("gameSnake").style.display = "none";
-			document.body.style.background = "white";
-			
-			
-			open = 0;
-		}
-		
-      
-    	}
-
-
+		/*function FileAttentePopUp(stand){
+			include 'Content_Game/Fenetre_file_attente.html';
+		}*/
 		function FileAttente (stand)
 		{
 			//rentrerEnFile(,);
-			//console.log(stand);	
+			//console.log(stand);
 			rentrerEnFile(stand.nom,document.getElementById('name').value);
 		    //console.log("Hola je suis dans la file");
 
 		    var fil = document.createElement("div");
 		    var corps = document.getElementById("corps");
 		    fil.id= "CaseFileAttend";
-		    
+
 		    corps.appendChild(fil);
 
 		    var PersFil = document.createElement("div");
@@ -506,19 +385,21 @@
 		    var filQuitter= document.createElement("button"); //creation bouton pour quitter la file d'attente
 		    filQuitter.id= "QuitterFile";
 		    filQuitter.className="ButtonFile";
-		    filQuitter.innerHTML = "Quitter la file"; 
-		    
+		    filQuitter.innerHTML = "Quitter la file";
+
 		    filQuitter.addEventListener("click", QuitterFileAtt);
-		    
+
 		    document.getElementById("CaseFileAttend").appendChild(filQuitter);
 
 		    var filJeu= document.createElement("button"); //creation bouton pour jouer au jeu
 		    filJeu.id= "JouerJeu";
 		    filJeu.className="ButtonFile";
-		    filJeu.innerHTML = "Jouer au jeu"; 
-		    
-		    filJeu.addEventListener("click", Lejeu);
-		    
+		    filJeu.innerHTML = "Jouer au jeu";
+
+		    filJeu.addEventListener("click", function() {
+				Lejeu(stand.image);
+			});
+
 		    document.getElementById("CaseFileAttend").appendChild(filJeu);
 		    function QuitterFileAtt ()//fonction pour quitter la file d'attente
 		    {
@@ -530,12 +411,17 @@
 		        quitterFile();
 
 		    }
-		    
-		    function Lejeu()
+
+		    function Lejeu(img)
 		    {
-		        //console.log("Je joue !");
+		        console.log("Je joue !");
+				jeu = document.getElementById("jeu");
+				jeu.style.display = "block";
+				jeu.setAttribute("src","../HTML/GameSnake.html?"+img);
+				close = document.getElementById("closebutton");
+				close.style.display = "block";
+				jeu.focus();
 		    }
-		    
 		}
 
 
@@ -547,8 +433,16 @@
 		        stand.InfoActive = false;
 		        Clicker = false;
 		    }
-	</script>
 
+			function fermerJeu()
+			{
+				jeu = document.getElementById("jeu");
+				jeu.style.display = "none";
+				jeu.setAttribute("src","");
+				close = document.getElementById("closebutton");
+				close.style.display = "none";
+			}
+	</script>
     <footer>
     </footer>
     </body>

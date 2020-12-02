@@ -1,8 +1,6 @@
 <?php 
     require_once("PDO_Connect/PDO_Connect.php");
-    require_once("Objets/managerStand.php");
-    require_once("Objets/managerRessource.php");
-    require_once("Objets/managerEmplacement.php");
+    require_once("Objets/managerUtilisateur.php");
 
     $db = connect_bd();
 
@@ -10,7 +8,17 @@
     $dom = new DOMDocument('1.0', 'iso-8859-1');
     echo '<input type="hidden" id="id" value="'.$_SESSION['user_id'].'">';
     echo '<input type="hidden" id="name" value="'.$_SESSION['user_name'].'">';
+
+	if(isset($_GET["ID"]))
+	{
+		$managerUtilisateur = new managerUtilisateur($db);
+
+		$B = $managerUtilisateur->changeSkin($_SESSION['user_name'], $_GET["ID"]);
+
+		header("Location: Site.php");
+	}
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,7 +34,7 @@
             <h1>Titre du site</h1>
             <h2 class="titre2">Gestion du compte</h2>
             <div>
-            	<a href="Accueil.php">Deconnexion</a>
+            	<a href="Accueil.php"><img src="../Contenus/images/logout-rounded.png" alt="Deconnexion" style="height:1.45em; width: 1.45em;"></a>
                 <?php
 		            if(isset($_SESSION['user_name']))
 		            {
@@ -51,7 +59,19 @@
         </div>
     </header>
 
-	   
+    <form method="GET" action="#" class="Connexion">
+
+		<label for="ID">Skin : </label>
+		<div>
+			<label>HOMME 1 : </label><input type="radio" name="ID" value="1"> <img src="../Contenus/images/AVATAR/Man.png" class="imgAvatar">
+			<label>HOMME 2 : </label><input type="radio" name="ID" value="2"> <img src="../Contenus/images/AVATAR/Man2.png" class="imgAvatar">
+			<label>HOMME 3 : </label><input type="radio" name="ID" value="3"> <img src="../Contenus/images/AVATAR/Man3.png" class="imgAvatar">
+			<label>FEMME 1 : </label><input type="radio" name="ID" value="4"> <img src="../Contenus/images/AVATAR/Woman.png" class="imgAvatar">
+			<label>FEMME 2 : </label><input type="radio" name="ID" value="5"> <img src="../Contenus/images/AVATAR/Woman2.png" class="imgAvatar">
+			<label>FEMME 3 : </label><input type="radio" name="ID" value="6"> <img src="../Contenus/images/AVATAR/Woman3.png" class="imgAvatar">
+		</div>
+		<input type="submit" name="sub" id="sup" value="Valider">
+	</form>
 
     <footer>
     </footer>

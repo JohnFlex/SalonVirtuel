@@ -17,7 +17,7 @@
                 <h2 class="titre3">Site administrateur</h2>
                 
                 <div class="cssAdmin">
-                    <a href="Accueil.php">Deconnexion</a>
+                    <a href="Accueil.php"><img src="../Contenus/images/logout-rounded.png" alt="Deconnexion" style="height:1.45em; width: 1.45em;"></a>
                 
                     <a href="SwitchPresentateurUtilisateur.php"> Administration des roles</a>
                     <a href="LiaisonAUnStand.php">Liaison au stand</a>
@@ -29,7 +29,7 @@
 		  <?php
                 //session_start();
 			 if(isset($_SESSION['user_name'])){
-				    echo "vous �tes : ".$_SESSION['user_name'];
+				    echo "vous êtes : ".$_SESSION['user_name'];
 			 }
 				
 		  ?>

@@ -22,7 +22,7 @@
 			}
 				
 		?>
-        <a href="Accueil.php">Deconnexion</a>
+        <a href="Accueil.php"><img src="../Contenus/images/logout-rounded.png" alt="Deconnexion" style="height:1.45em; width: 1.45em;"></a>
         <a href="COMM/Show_Queue.php">Menu de réunion</a>
         <a href="modifierStand.php">Modifier Stand</a>
     </footer>

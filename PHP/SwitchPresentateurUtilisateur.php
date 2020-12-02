@@ -58,7 +58,7 @@
                 </div>
             </div>
         </header>
-        <div>
+        <div class="mainForme">
             <div class="formeT1">
             <h1>Changer un pr�sentateur en utilisateur</h1>
 
